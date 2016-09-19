@@ -1,0 +1,107 @@
+<resources>
+    <string name="app_name">Blink</string>
+    <string name="title_activity_home">home</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="welcome">Bem vindo, <b>João de Almeida</b></string>
+    <string name="user_name">João de Almeida</string>
+
+    <string name="btnRecarga">Recarga para\ncelular</string>
+    <string name="btnTrans">Transferência</string>
+
+    <string name="saldoHome">Saldo atual da conta corrente</string>
+    <string name="saldoDisponivelHome">Disponível para saque</string>
+    <string name="lisHome">LIS (Sujeito a encargo)</string>
+    <string name="valorSaldoHome"><b>R$ 10.876,34</b></string>
+    <string name="valorLisHome"><b>R$ 20.000,00</b></string>
+
+    <string name="creditoHome">Cartão de crédito</string>
+    <string name="creditoBandeiraHome">Bandeira <b>MasterCard</b> final <b>3413</b></string>
+    <string name="creditoDiaHome">Dia ideal para compra</string>
+    <string name="creditoLimiteHome">Limite</string>
+    <string name="creditoDisponivelHome">Disponível</string>
+    <string name="creditoVencimentoHome">Vencimento</string>
+    <string name="creditoDataHome"><b>21/06/2015</b></string>
+    <string name="creditoLimiteValorHome"><b>R$ 15.000,00</b></string>
+    <string name="creditoLimiteDispHome"><b>R$ 9.830,52</b></string>
+    <string name="creditoVencimentoDataHome"><b>20/06/2015</b></string>
+
+    <string-array name="spinner_array">
+        <item><b>Filtrar por período</b></item>
+        <item><b>7 dias atrás</b></item>
+        <item><b>15 dias atrás</b></item>
+        <item><b>30 dias atrás</b></item>
+    </string-array>
+
+    <string-array name="spinner_recarga">
+        <item><b>Selecione a operadora</b></item>
+        <item><b>VIVO</b></item>
+        <item><b>OI</b></item>
+        <item><b>CLARO</b></item>
+        <item><b>TIM</b></item>
+        <item><b>CLARO</b></item>
+    </string-array>
+
+    <string-array name="spinner_valor_recarga">
+        <item><b>Selecione o valor</b></item>
+        <item><b>R$ 15,00</b></item>
+        <item><b>R$ 20,00</b></item>
+        <item><b>R$ 25,00</b></item>
+        <item><b>R$ 35,00</b></item>
+        <item><b>R$ 60,00</b></item>
+        <item><b>R$ 100,00</b></item>
+        <item><b>R$ 200,00</b></item>
+        <item><b>R$ 300,00</b></item>
+    </string-array>
+
+    <string-array name="faturas_array">
+        <item><b>06/2015</b></item>
+        <item><b>05/2015</b></item>
+        <item><b>04/2015</b></item>
+        <item><b>03/2015</b></item>
+        <item><b>02/2015</b></item>
+        <item><b>01/2015</b></item>
+        <item><b>12/2014</b></item>
+        <item><b>11/2014</b></item>
+        <item><b>10/2014</b></item>
+        <item><b>09/2014</b></item>
+        <item><b>08/2014</b></item>
+        <item><b>07/2014</b></item>
+        <item><b>06/2014</b></item>
+    </string-array>
+
+    <string-array name="spinner_bancos">
+        <item><b>Selecione o Banco</b></item>
+        <item><b>Star Wayne Bank</b></item>
+        <item><b>Santander</b></item>
+        <item><b>Itaú</b></item>
+        <item><b>Banco do Brasil</b></item>
+        <item><b>HSBC</b></item>
+        <item><b>Bradesco</b></item>
+    </string-array>
+
+    <string name='extrato'>Extrato</string>
+    <string name='transferencia'>Transferência</string>
+    <string name='pagamentos'>Pagamentos</string>
+    <string name='cartoes'>Cartões</string>
+    <string name='recarga'>Recarga para celular</string>
+    <string name='lancamentos'>Lançamentos</string>
+    <string name='emprestimos'>Empréstimos</string>
+    <string name='home'>Home</string>
+
+    <string name='navigation_drawer_open'>Drawer Open</string>
+    <string name='navigation_drawer_close'>Drawer Close</string>
+    <string name="title_activity_extrato">Extrato</string>
+
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+
+    <string name="action_example">Example action</string>
+    <string name="title_activity_drawer">Drawer</string>
+
+
+
+</resources>

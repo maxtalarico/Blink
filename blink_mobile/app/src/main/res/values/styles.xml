@@ -1,0 +1,25 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <!--parent="Theme.AppCompat.Light.DarkActionBar"-->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+
+        <!-- Support library compatibility -->
+        <item name="actionBarStyle">@style/MyActionBar</item>
+    </style>
+
+    <!-- ActionBar styles -->
+    <style name="MyActionBar"
+        parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@color/DefaultBlue</item>
+
+        <!-- Support library compatibility -->
+        <item name="background">@color/DefaultBlue</item>
+    </style>
+
+    <style name="blueDefaultFont">
+        <item name="android:textColor">@color/DefaultBlue</item>
+    </style>
+</resources>
