@@ -11,13 +11,18 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.AdapterView;
 
-public class Home extends Fragment implements OnClickListener{
+public class ClienteHome extends Fragment implements OnClickListener{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+
+        Fragment historyFragment = new History();
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        transaction.add(R.id.fragment_history, historyFragment).commit();
+
         /*
         Button transButton = (Button)rootView.findViewById(R.id.button);
         transButton.setOnClickListener(this);

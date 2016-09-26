@@ -8,6 +8,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 public class Main extends ActionBarActivity {
 
@@ -19,8 +21,12 @@ public class Main extends ActionBarActivity {
         OnClickListener listener = new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Main.this, Drawer.class);
-                startActivity(i);
+                if(login()) {
+                    Intent i = new Intent(Main.this, Drawer.class);
+                    startActivity(i);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Login e/ou senha incorreto(s)",Toast.LENGTH_SHORT).show();
+                }
             }
         };
 
@@ -48,6 +54,19 @@ public class Main extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public boolean login() {
+        EditText user;
+        EditText pass;
+
+        user = (EditText)findViewById(R.id.txt_main_login);
+        pass = (EditText)findViewById(R.id.txt_main_senha);
+
+        if(user.getText().toString().equals( "123") && pass.getText().toString().equals( "123"))
+            return true;
+        else
+            return false;
     }
 }
 

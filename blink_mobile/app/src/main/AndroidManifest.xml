@@ -17,7 +17,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Home"
+            android:name=".ClienteHome"
             android:label="@string/app_name" >
         </activity>
         <activity

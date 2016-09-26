@@ -51,7 +51,7 @@ public class Drawer extends ActionBarActivity
         switch (position){
             case 0:
                 mTitle = getString(R.string.home);
-                fragment = new Home();
+                fragment = new ClienteHome();
                 break;
             default:
                 break;
