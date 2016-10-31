@@ -1,17 +1,21 @@
 package com.example.marcel.blink_mobile;
 
-import android.support.v4.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.AdapterView;
+
+import static android.app.Activity.RESULT_OK;
 
 public class ClienteHome extends Fragment implements OnClickListener{
+    public static final int REQUEST_CODE = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -23,13 +27,9 @@ public class ClienteHome extends Fragment implements OnClickListener{
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.add(R.id.fragment_history, historyFragment).commit();
 
-        /*
-        Button transButton = (Button)rootView.findViewById(R.id.button);
-        transButton.setOnClickListener(this);
 
-        Button recButton = (Button)rootView.findViewById(R.id.button2);
-        recButton.setOnClickListener(this);
-        */
+        Button btnPagamento = (Button)rootView.findViewById(R.id.btn_home_pagamento);
+        btnPagamento.setOnClickListener(this);
 
         return rootView;
     }
@@ -40,15 +40,31 @@ public class ClienteHome extends Fragment implements OnClickListener{
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         //do what you want to do when button is clicked
        switch (v.getId()) {
-           case R.id.btnContinuar:
+           case R.id.btn_home_pagamento:
+               callZXing(v);
                break;
 
            default:
                break;
         }
 
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, fragment)
-                .commit();
+        if(fragment != null) {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, fragment)
+                    .commit();
+        }
+    }
+
+    public void callZXing(View view){
+        Intent it = new Intent(getActivity(), com.google.zxing.client.android.CaptureActivity.class);
+        startActivityForResult(it, REQUEST_CODE);
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(REQUEST_CODE == requestCode && RESULT_OK == resultCode){
+            Log.d("QR Code", "RESULTADO: "+data.getStringExtra("SCAN_RESULT")+" ("+data.getStringExtra("SCAN_FORMAT")+")");
+        }
     }
 }

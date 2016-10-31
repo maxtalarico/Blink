@@ -53,6 +53,10 @@ public class Drawer extends ActionBarActivity
                 mTitle = getString(R.string.home);
                 fragment = new ClienteHome();
                 break;
+            case 1:
+                mTitle = getString(R.string.teste);
+                fragment = new Teste();
+                break;
             default:
                 break;
         }

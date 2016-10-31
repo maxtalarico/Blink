@@ -35,7 +35,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="25dp"
-            android:inputType="number"
+            android:inputType="text"
             android:ems="10"
             android:id="@+id/txt_main_login"
             android:autoText="false"
@@ -64,7 +64,7 @@
     <Button
         android:layout_width="150dp"
         android:layout_height="35dp"
-        android:text="Continuar"
+        android:text="Entrar"
         android:id="@+id/btnContinuar"
         android:textColor="@color/DefaultBlue"
         android:textStyle="bold"
@@ -74,5 +74,35 @@
         android:layout_centerHorizontal="true"
         android:clickable="true"
         android:nestedScrollingEnabled="false" />
+
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="35dp"
+        android:text="Cadastre-se para vender"
+        android:id="@+id/btnCadastrarVendedor"
+        android:textColor="@color/DefaultBlue"
+        android:textStyle="bold"
+        android:background="@color/White"
+        android:clickable="true"
+        android:nestedScrollingEnabled="false"
+        android:onClick="CreateNovoVendedor"
+        android:layout_marginBottom="65dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/btnCadastrarCliente" />
+
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="35dp"
+        android:text="Cadastrar-se para comprar"
+        android:id="@+id/btnCadastrarCliente"
+        android:textColor="@color/DefaultBlue"
+        android:textStyle="bold"
+        android:background="@color/White"
+        android:clickable="true"
+        android:nestedScrollingEnabled="false"
+        android:onClick="CreateNovoCliente"
+        android:layout_below="@+id/llv_main_login"
+        android:layout_alignStart="@+id/btnContinuar"
+        android:layout_marginTop="44dp" />
 
 </RelativeLayout>

@@ -47,8 +47,7 @@ public class History extends Fragment implements OnClickListener{
                             "History Test 20"};
 
         // Create The Adapter with passing ArrayList as 3rd parameter
-        ArrayAdapter<String> arrayAdapter =
-                new ArrayAdapter<String>(getActivity() ,android.R.layout.simple_list_item_1, history);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity() ,android.R.layout.simple_list_item_1, history);
         // Set The Adapter
         historyList.setAdapter(arrayAdapter);
 

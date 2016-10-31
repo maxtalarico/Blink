@@ -70,17 +70,12 @@ public class NavigationDrawerFragment extends Fragment {
         // drawer. See PREF_USER_LEARNED_DRAWER for details.
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
         mUserLearnedDrawer = sp.getBoolean(PREF_USER_LEARNED_DRAWER, false);
-        Log.d("STATE", "1");
         if (savedInstanceState != null) {
             mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
             mFromSavedInstanceState = true;
         }
-        Log.d("STATE", "2");
-        Log.d("STATE", Integer.toString(mCurrentSelectedPosition));
         // Select either the default item (0) or the last selected item.
         selectItem(mCurrentSelectedPosition);
-        Log.d("STATE", "3");
-
     }
 
     @Override
@@ -107,13 +102,7 @@ public class NavigationDrawerFragment extends Fragment {
                 android.R.id.text1,
                 new String[]{
                         getString(R.string.home),
-                        getString(R.string.extrato),
-                        getString(R.string.transferencia),
-                        getString(R.string.pagamentos),
-                        getString(R.string.cartoes),
-                        getString(R.string.recarga),
-                        getString(R.string.lancamentos),
-                        getString(R.string.emprestimos)
+                        getString(R.string.teste),
                 }));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerListView;
