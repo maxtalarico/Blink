@@ -33,7 +33,7 @@
             <Button
                 android:layout_width="178dp"
                 android:layout_height="wrap_content"
-                android:text="Realizar pagamento"
+                android:text="Realizar Pagamento"
                 android:id="@+id/btn_home_pagamento"
                 android:layout_gravity="center_horizontal|bottom"
                 android:textColor="@color/DefaultBlue"
@@ -41,11 +41,11 @@
 
         </LinearLayout>
 
-        <fragment class="com.example.marcel.blink_mobile.History"
-            android:id="@+id/fragment_history"
+        <fragment class="com.example.marcel.blink_mobile.HistoryVendedor"
+            android:id="@+id/fragment_history_cliente"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:layout="@layout/fragment_history" />
+            tools:layout="@layout/fragment_history_cliente" />
 
     </LinearLayout>
 

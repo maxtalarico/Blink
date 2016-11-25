@@ -3,16 +3,17 @@ package com.example.marcel.blink_mobile.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
 
 /**
  * Created by Marcel on 26/09/2016.
  */
-public class Vendedor {
+public class Vendedor implements Serializable {
     @SerializedName("id")
     @Expose
-    protected int id;
+    protected Integer id;
     @SerializedName("dataNascimento")
     @Expose
     protected Date dataNascimento;
@@ -33,7 +34,17 @@ public class Vendedor {
     protected String telefoneCom;
     @SerializedName("estabelecimentos")
     @Expose
-    protected Estabelecimento[] estabelecimentos;
+    protected EstabelecimentoComercial[] estabelecimentoComercials;
+
+    public Vendedor(Integer id, String celular, String cpf, Date dataNascimento, String nome, String telefoneCom, String telefoneRes) {
+        this.id = id;
+        this.celular = celular;
+        this.cpf = cpf;
+        this.dataNascimento = dataNascimento;
+        this.nome = nome;
+        this.telefoneCom = telefoneCom;
+        this.telefoneRes = telefoneRes;
+    }
 
     public void setTelefoneCom(String telefoneCom) {
         this.telefoneCom = telefoneCom;
@@ -44,8 +55,8 @@ public class Vendedor {
         return contasBancarias;
     }
 
-    public Estabelecimento[] getEstabelecimentos() {
-        return estabelecimentos;
+    public EstabelecimentoComercial[] getEstabelecimentoComercials() {
+        return estabelecimentoComercials;
     }
 
     public String getTelefoneCom() {
@@ -90,8 +101,8 @@ public class Vendedor {
         this.dataNascimento = dataNascimento;
     }
 
-    public void setEstabelecimentos(Estabelecimento[] estabelecimentos) {
-        this.estabelecimentos = estabelecimentos;
+    public void setEstabelecimentoComercials(EstabelecimentoComercial[] estabelecimentoComercials) {
+        this.estabelecimentoComercials = estabelecimentoComercials;
     }
 
     public String getNome() {
@@ -120,7 +131,7 @@ public class Vendedor {
                 ", cpf='" + cpf + '\'' +
                 ", telefoneRes='" + telefoneRes + '\'' +
                 ", telefoneCom='" + telefoneCom + '\'' +
-                ", estabelecimentos=" + Arrays.toString(estabelecimentos) +
+                ", estabelecimentos=" + Arrays.toString(estabelecimentoComercials) +
                 ", contasBancarias=" + Arrays.toString(contasBancarias) +
                 '}';
     }

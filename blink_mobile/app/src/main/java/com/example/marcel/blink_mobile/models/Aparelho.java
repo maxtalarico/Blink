@@ -3,13 +3,14 @@ package com.example.marcel.blink_mobile.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by Marcel on 26/09/2016.
  */
 
-public class Aparelho {
+public class Aparelho implements Serializable {
     @SerializedName("id")
     @Expose
     protected int id;

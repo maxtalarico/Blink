@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <EditText
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="8"
+        android:layout_alignTop="@+id/spn_tipo_de_conta"
+        android:id="@+id/txt_digito_agencia"
+        android:layout_alignParentEnd="true"
+        android:hint="Dígito"
+        android:layout_toEndOf="@+id/txt_agencia" />
+
+    <EditText
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/txt_agencia"
+        android:hint="Agência"
+        android:layout_alignBaseline="@+id/txt_digito_agencia"
+        android:layout_alignBottom="@+id/txt_digito_agencia"
+        android:layout_toEndOf="@+id/spn_tipo_de_conta" />
+
+    <EditText
+        android:layout_width="95dp"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/txt_digito_conta"
+        android:layout_alignBottom="@+id/txt_conta"
+        android:layout_toEndOf="@+id/txt_conta"
+        android:layout_alignTop="@+id/txt_conta"
+        android:hint="Digito"
+        android:textStyle="normal|bold" />
+
+    <TextView
+        android:text="Dados Bancários"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView3"
+        android:layout_marginTop="16dp"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"
+        android:textColorHighlight="@color/Black"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="8"
+        android:id="@+id/txt_conta"
+        android:hint="Conta"
+        android:layout_below="@+id/txt_agencia"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="27dp" />
+
+    <Spinner
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:id="@+id/spn_tipo_de_conta"
+        android:layout_below="@+id/textView3"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="23dp" />
+
+    <Button
+        android:text="Cancelar"
+        android:layout_width="90dp"
+        android:layout_height="40dp"
+        android:id="@+id/btn_cancelar"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="21dp"
+        android:background="@color/DefaultBlue"
+        android:textColor="@android:color/white"
+        android:textStyle="normal|bold"
+        android:onClick="cancelar (CadastroContasBancarias)" />
+
+    <Button
+        android:text="Cadastrar"
+        android:layout_width="90dp"
+        android:layout_height="40dp"
+        android:id="@+id/btn_cadastrar_conta"
+        android:background="@color/DefaultBlue"
+        android:textColor="@android:color/white"
+        android:textStyle="normal|bold"
+        android:layout_alignBaseline="@+id/btn_cancelar"
+        android:layout_alignBottom="@+id/btn_cancelar"
+        android:layout_alignParentEnd="true" />
+
+
+</RelativeLayout>
+

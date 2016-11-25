@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:android2="http://schemas.android.com/apk/red/android"
+    android:id="@+id/sv_cadastro_vendedor"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android2:layout_width="fill_parent"
+    android2:layout_height="fill_parent">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:onClick="cancelar (EdicaoVendedor)">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:text="Dados Pessoais"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/teste"
+                android:textSize="18sp"
+                android:layout_alignParentStart="true"
+                android:textColor="@android:color/black"
+                android:layout_alignParentTop="true"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:text="Cancelar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_cancelar" />
+
+            <Button
+                android:text="Alterar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_alterar" />
+
+        </LinearLayout>
+
+
+        <!--<TextView
+             android:text="Dados Pessoais"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:id="@+id/textView"
+             android:textSize="18sp"
+             android:layout_alignParentTop="true"
+             android:layout_alignParentStart="true"
+             android:textColor="@android:color/black" />
+
+         <EditText
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:inputType="textPassword"
+             android:ems="8"
+             android:id="@+id/txt_confirmar_senha"
+             android:hint="Confirme sua senha"
+             android:layout_alignBaseline="@+id/txt_senha"
+             android:layout_alignBottom="@+id/txt_senha"
+             android:layout_alignParentEnd="true"
+             android:layout_toEndOf="@+id/txt_senha" />
+
+         <EditText
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:inputType="textPersonName"
+             android:ems="10"
+             android:id="@+id/txt_nome"
+             android:layout_below="@+id/txt_senha"
+             android:hint="Nome Completo"
+             android:layout_alignParentEnd="true"
+             android:layout_alignParentStart="true" />
+
+         <TextView
+             android:text="Data de Nascimento"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:id="@+id/textView2"
+             android:ems="10"
+             android:textSize="18sp"
+             android:layout_alignBaseline="@+id/txt_data_nascimento"
+             android:layout_alignBottom="@+id/txt_data_nascimento"
+             android:layout_alignParentStart="true"
+             android:layout_toStartOf="@+id/txt_data_nascimento"
+             android:textColor="@color/Black" />
+
+         <EditText
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:inputType="phone"
+             android:ems="10"
+             android:id="@+id/txt_telefone_celular"
+             android:hint="Telefone Comercial"
+             android:layout_below="@+id/txt_telefone_residencial"
+             android:layout_alignParentEnd="true"
+             android:layout_toEndOf="@+id/txt_teefone_comercial" />
+
+         <EditText
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:inputType="numberSigned"
+             android:ems="8"
+             android:id="@+id/txt_cpf"
+             android:hint="CPF"
+             android:layout_alignBaseline="@+id/txt_telefone_residencial"
+             android:layout_alignBottom="@+id/txt_telefone_residencial"
+             android:layout_alignParentStart="true"
+             android:layout_toStartOf="@+id/txt_telefone_celular" />
+
+         <EditText
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:inputType="date"
+             android:ems="8"
+             android:id="@+id/txt_data_nascimento"
+             android:hint="dd/mm/yyyy"
+             android:layout_below="@+id/txt_nome"
+             android:layout_alignParentEnd="true"
+             android:layout_alignStart="@+id/txt_telefone_residencial" />
+
+         <EditText
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:inputType="phone"
+             android:ems="10"
+             android:id="@+id/txt_telefone_residencial"
+             android:hint="Telefone Residencial"
+             android:elevation="0dp"
+             android:layout_below="@+id/txt_data_nascimento"
+             android:layout_alignParentEnd="true"
+             android:layout_toEndOf="@+id/txt_cpf" />
+
+         <EditText
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:inputType="number"
+             android:ems="10"
+             android:id="@+id/txt_cep"
+             android:layout_below="@+id/txt_telefone_celular"
+             android:layout_alignParentStart="true"
+             android:hint="CEP"
+             android:layout_toStartOf="@+id/txt_telefone_celular" />
+
+         <Spinner
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:id="@+id/spn_estado"
+             android:layout_toEndOf="@+id/txt_cep"
+             android:layout_below="@+id/txt_telefone_celular"
+             android:layout_above="@+id/spn_cidade" />
+
+         <Spinner
+             android:layout_width="match_parent"
+             android:layout_height="@dimen/abc_action_bar_progress_bar_size"
+             android:layout_below="@+id/txt_cep"
+             android:id="@+id/spn_cidade"
+             android:layout_toStartOf="@+id/spn_estado"
+             android:layout_alignBottom="@+id/txt_logradouro" />
+
+         <EditText
+             android:layout_height="wrap_content"
+             android:inputType="textPersonName"
+             android:ems="13"
+             android:id="@+id/txt_bairro"
+             android:hint="Bairro"
+             android:layout_width="210dp"
+             android:layout_below="@+id/txt_cep"
+             android:layout_toEndOf="@+id/txt_cep" />
+
+         <EditText
+             android:layout_width="300dp"
+             android:layout_height="wrap_content"
+             android:inputType="textPersonName"
+             android:ems="10"
+             android:layout_below="@+id/spn_cidade"
+             android:id="@+id/txt_endereco"
+             android:hint="Endereco"
+             android:layout_alignParentStart="true" />
+
+         <EditText
+             android:layout_width="35dp"
+             android:layout_height="wrap_content"
+             android:inputType="textPersonName"
+             android:ems="5"
+             android:id="@+id/txt_numero"
+             android:hint="Nº"
+             android:layout_alignParentEnd="true"
+             android:layout_toEndOf="@+id/txt_endereco"
+             android:layout_below="@+id/txt_bairro"
+             android:layout_alignBottom="@+id/txt_endereco" />
+
+
+         <Button
+             android:text="Cadastrar"
+             android:layout_width="90dp"
+             android:layout_height="40dp"
+             android:layout_alignTop="@+id/btn_cancelar"
+             android:layout_alignParentEnd="true"
+             android:layout_below="@+id/txt_numero"
+             android:id="@+id/btn_cadastrar"
+             android:textStyle="normal|bold"
+             android:textColor="@android:color/white"
+             android:background="@color/DefaultBlue" />
+
+         <EditText
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:inputType="phone"
+             android:ems="9"
+             android:id="@+id/txt_teefone_comercial"
+             android:hint="Telefone Comercial"
+             android:layout_below="@+id/txt_cpf"
+             android:layout_alignParentStart="true" />
+
+         <EditText
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:inputType="textEmailAddress"
+             android:ems="10"
+             android:id="@+id/txt_email"
+             android:hint="E-mail"
+             android:layout_below="@+id/textView"
+             android:layout_alignEnd="@+id/txt_bairro"
+             android:layout_marginTop="24dp"
+             android:layout_alignParentStart="true" />
+
+         <EditText
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:inputType="textEmailAddress"
+             android:ems="10"
+             android:id="@+id/txt_confirmar_email"
+             android:hint="Confirme seu e-mail"
+             android:layout_below="@+id/txt_email"
+             android:layout_alignParentStart="true"
+             android:layout_alignParentEnd="true" />
+
+         <Button
+             android:layout_width="90dp"
+             android:layout_height="40dp"
+             android:ems="10"
+             android:id="@+id/btn_cancelar"
+             android:name="Cancelar"
+             android:layout_marginTop="26dp"
+             android:background="@color/DefaultBlue"
+             android:onClick="cancelar"
+             android:text="Cancelar"
+             android:textStyle="normal|bold"
+             android:textColor="@android:color/white"
+             android:layout_below="@+id/txt_endereco"
+             android:layout_alignParentStart="true" />
+
+         <EditText
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:inputType="textPassword"
+             android:ems="8"
+             android:id="@+id/txt_senha"
+             android:hint="Senha"
+             android:layout_below="@+id/txt_confirmar_email"
+             android:layout_alignParentStart="true" />-->
+
+
+  </RelativeLayout>
+</ScrollView>

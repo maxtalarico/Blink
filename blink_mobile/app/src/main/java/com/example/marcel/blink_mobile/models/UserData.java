@@ -6,16 +6,19 @@ package com.example.marcel.blink_mobile.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+
 import javax.annotation.Generated;
 
 @Generated("org.jsonschema2pojo")
-public class UserData {
+public class UserData implements Serializable {
     @SerializedName("vendedor")
     @Expose
     private Vendedor vendedor;
     @SerializedName("cliente")
     @Expose
-    private Object cliente;
+    private Cliente cliente;
     @SerializedName("endereco")
     @Expose
     private Endereco endereco;
@@ -25,6 +28,9 @@ public class UserData {
     @SerializedName("email")
     @Expose
     private String email;
+    @SerializedName("senha")
+    @Expose
+    private String senha;
     @SerializedName("isAdmin")
     @Expose
     private Object isAdmin;
@@ -51,7 +57,14 @@ public class UserData {
      * No args constructor for use in serialization
      *
      */
-    public UserData() {
+    public UserData(Integer id, Vendedor vendedor, Cliente cliente, Endereco endereco, String email, String senha, String nome) {
+        this.id = id;
+        this.setVendedor(vendedor);
+        this.setCliente(cliente);
+        this.setEndereco(endereco);
+        this.setEmail(email);
+        this.setSenha(senha);
+        this.setNome(nome);
     }
 
     /**
@@ -69,7 +82,7 @@ public class UserData {
      * @param gravatarUrl
      * @param endereco
      */
-    public UserData(Vendedor vendedor, Object cliente, Endereco endereco, Integer id, String email, Object isAdmin, String createdAt, String updatedAt, String token, String nome, String gravatar, String gravatarUrl) {
+    public UserData(Vendedor vendedor, Cliente cliente, Endereco endereco, Integer id, String email, Object isAdmin, String createdAt, String updatedAt, String token, String nome, String gravatar, String gravatarUrl) {
         this.vendedor = vendedor;
         this.cliente = cliente;
         this.endereco = endereco;
@@ -112,29 +125,39 @@ public class UserData {
      * @return
      * The cliente
      */
-    /*public Object getCliente() {
+    public Cliente getCliente() {
         return cliente;
-    }*/
+    }
 
     /**
      *
      * @param cliente
      * The cliente
      */
-    public void setCliente(Object cliente) {
+    public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
 
-    public UserData withCliente(Object cliente) {
+    public UserData withCliente(Cliente cliente) {
         this.cliente = cliente;
         return this;
     }
 
     @Override
     public String toString() {
+        String strVendedor = "null";
+        String strCliente = "null";
+        if(!(vendedor == null)) {
+            strVendedor = vendedor.toString();
+        }
+
+        if(!(cliente == null)) {
+            strCliente = cliente.toString();
+        }
         return "UserData{" +
                 "createdAt='" + createdAt + '\'' +
-                ", vendedor='" + vendedor.toString() + '\'' +
+                ", vendedor='" + strVendedor + '\'' +
+                ", cliente='" + strCliente + '\'' +
                 ", endereco=" + endereco.toString() +
                 ", id=" + id +
                 ", email='" + email + '\'' +
@@ -214,6 +237,14 @@ public class UserData {
     public UserData withEmail(String email) {
         this.email = email;
         return this;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
     /**

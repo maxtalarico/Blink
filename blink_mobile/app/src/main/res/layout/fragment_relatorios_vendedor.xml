@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/rl_principal">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ll_externo"
+        android:orientation="vertical"
+        android:weightSum="1">
+
+
+    </LinearLayout>
+
+    <TextView
+        android:text="Relátorios de Venda"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="27dp"
+        android:id="@+id/textView3"
+        android:textSize="18dp"
+        android:textStyle="normal|bold"
+        android:layout_above="@+id/btn_data_inicio"
+        android:layout_alignStart="@+id/btn_cancelar" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView1"
+        tools:text="Data início:*"
+        android:textSize="18sp"
+        android:layout_alignBaseline="@+id/txt_data_inicio"
+        android:layout_alignBottom="@+id/txt_data_inicio"
+        android:layout_alignStart="@+id/textView3" />
+
+    <EditText
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="10"
+        android:layout_marginTop="80dp"
+        android:id="@+id/txt_data_inicio"
+        android:hint="dd/mm/yyyy"
+        android:layout_below="@+id/ll_externo"
+        android:layout_toEndOf="@+id/textView1"
+        android:layout_marginStart="14dp" />
+
+    <Button
+        android:text="..."
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:layout_alignTop="@+id/txt_data_inicio"
+        android:layout_toEndOf="@+id/txt_data_inicio"
+        android:layout_marginStart="20dp"
+        android:id="@+id/btn_data_inicio"
+        android:background="@color/DefaultBlue"
+        android:textColor="@android:color/white"
+        android:textStyle="normal|bold"
+        android:textSize="20dp"
+        android:onClick="showDatePickerDialog"/>
+
+    <TextView
+        android:text="Data fim:*"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView5"
+        android:textSize="14sp"
+        android:layout_alignBaseline="@+id/txt_data_fim"
+        android:layout_alignBottom="@+id/txt_data_fim"
+        android:layout_alignStart="@+id/textView1" />
+
+    <EditText
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="10"
+        android:layout_below="@+id/txt_data_inicio"
+        android:layout_alignStart="@+id/txt_data_inicio"
+        android:layout_marginTop="28dp"
+        android:id="@+id/txt_data_fim"
+        android:hint="dd/mm/yyyy" />
+
+    <Button
+        android:text="..."
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:id="@+id/btn_data_fim"
+        android:background="@color/DefaultBlue"
+        android:textColor="@android:color/white"
+        android:textStyle="normal|bold"
+        android:layout_alignTop="@+id/txt_data_fim"
+        android:layout_alignStart="@+id/btn_data_inicio"
+        android:textSize="20dp"
+        android:onClick="showDatePickerDialog"/>
+
+    <Button
+        android:text="Cancelar"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_cancelar"
+        android:background="@color/DefaultBlue"
+        android:textColor="@android:color/white"
+        android:textStyle="normal|bold"
+        android:layout_alignTop="@+id/btn_gerar_relatorio"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="23dp"
+        android:onClick="finish (RelatorioVendedor)" />
+
+    <Button
+        android:text="Gerar Relatório"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="19dp"
+        android:layout_marginBottom="27dp"
+        android:id="@+id/btn_gerar_relatorio"
+        android:textColor="@android:color/white"
+        android:textStyle="normal|bold"
+        android:background="@color/DefaultBlue" />
+
+</RelativeLayout>

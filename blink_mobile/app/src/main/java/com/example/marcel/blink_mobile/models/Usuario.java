@@ -1,11 +1,14 @@
 package com.example.marcel.blink_mobile.models;
 
-import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
+import javax.annotation.Generated;
+
 @Generated("org.jsonschema2pojo")
-public class Usuario {
+public class Usuario implements Serializable{
 
     @SerializedName("usuario")
     @Expose
@@ -15,7 +18,10 @@ public class Usuario {
      * No args constructor for use in serialization
      *
      */
-    public Usuario() {
+    public Usuario(Integer id, Vendedor vendedor, Cliente cliente, Endereco endereco, String email, String senha, String nome) {
+        UserData userData = new UserData(id, vendedor, cliente, endereco, email, senha, nome);
+
+        this.setUserData(userData);
     }
 
     /**

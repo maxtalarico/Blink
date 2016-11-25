@@ -1,25 +1,30 @@
 package com.example.marcel.blink_mobile;
 
 import android.app.Activity;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v4.widget.DrawerLayout;
+
+import com.example.marcel.blink_mobile.models.Usuario;
+
+import java.io.Serializable;
 
 public class Drawer extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks, Serializable {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
-    private NavigationDrawerFragment mNavigationDrawerFragment;
+    private NavigationDrawerFragment mNavigationDrawerFragment = new NavigationDrawerFragment();
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -31,8 +36,13 @@ public class Drawer extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
 
+        Intent i = getIntent();
+        Bundle b = i.getExtras();
+        mNavigationDrawerFragment.setArguments(b);
+
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
+
         mTitle = getTitle();
 
         // Set up the drawer.
@@ -48,21 +58,74 @@ public class Drawer extends ActionBarActivity
 
         Fragment fragment = null;
 
-        switch (position){
-            case 0:
-                mTitle = getString(R.string.home);
-                fragment = new ClienteHome();
-                break;
-            case 1:
-                mTitle = getString(R.string.teste);
-                fragment = new Teste();
-                break;
-            default:
-                break;
+        Intent i = getIntent();
+
+        Usuario usuario = (Usuario) i.getSerializableExtra("Usuario");
+        Bundle bs = new Bundle();
+        bs.putSerializable("Usuario", usuario);
+
+        Bundle b = i.getExtras();
+        int value = -1; // or other values
+        if(b != null)
+            value = b.getInt("key");
+
+        if(value == 0) {
+            switch (position){
+                case 0:
+                    mTitle = getString(R.string.home);
+                    fragment = new VendedorHome();
+
+                    /*Intent i = getIntent();
+                    Usuario usuario = (Usuario) i.getSerializableExtra("Usuario");
+                    UserData userData = usuario.getUserData();
+
+                    Log.d("UsuarioVendedor", userData.toString());*/
+
+                    break;
+                case 1:
+                    mTitle = "Contas";
+                    fragment = new ContasBancarias();
+                    break;
+
+                case 2:
+                    mTitle = "Meus Dados";
+                    fragment = new DadosVendedor();
+                    break;
+
+                case 3:
+                    mTitle = "Meus Estabelecimentos";
+                    fragment = new EstabelecimentosComerciais();
+                    break;
+
+                default:
+                    break;
+            }
+        } else {
+            switch (position){
+                case 0:
+                    mTitle = getString(R.string.home);
+                    fragment = new ClienteHome();
+
+                    break;
+                case 1:
+                    mTitle = "Cartões";
+                    fragment = new Cartoes();
+                    break;
+
+                case 2:
+                    mTitle = "Meus Dados";
+                    fragment = new DadosCliente();
+                    break;
+
+                default:
+                    break;
+            }
         }
+        fragment.setArguments(bs);
         fragmentManager.beginTransaction()
                 .replace(R.id.container, fragment)
                 .commit();
+
     }
 
     public void onSectionAttached(int number) {

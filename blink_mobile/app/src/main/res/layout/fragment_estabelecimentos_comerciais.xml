@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:text="Estabelecimentos Cadastradas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_top"
+        android:textSize="20sp" />
+
+    <fragment class="com.example.marcel.blink_mobile.EstabelecimentosComerciaisList"
+        android:id="@+id/fragment_estabelecimentos_comerciais_list"
+        android:layout_width="match_parent"
+        android:layout_height="436dp"
+        tools:layout="@layout/fragment_estabelecimentos_comerciais_list" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="137dp"
+        android:background="@color/DefaultBlue"
+        android:weightSum="1"
+        android:id="@+id/llv_home_pagamento">
+
+        <Button
+            android:text="Cadastrar Estabelecimento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_cadastrar_estabelecimento" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,21 +1,15 @@
 package com.example.marcel.blink_mobile.models;
 
-import android.util.Log;
-import android.util.Pair;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Marcel on 26/09/2016.
  */
-public class Endereco {
+public class Endereco implements Serializable {
     /*public class EstadosCidades<String> {
         public final String estado;
         public final String[] cidades;
@@ -29,7 +23,7 @@ public class Endereco {
     EstadosCidades estadosCidades = new EstadosCidades("São Paulo");*/
     @SerializedName("id")
     @Expose
-    protected int id;
+    protected Integer id;
     @SerializedName("logradouro")
     @Expose
     protected String logradouro;
@@ -45,6 +39,19 @@ public class Endereco {
     @SerializedName("estado")
     @Expose
     protected int estado;
+    @SerializedName("cep")
+    @Expose
+    protected String cep;
+
+    public Endereco(Integer id, String bairro, int cidade, int estado, String logradouro, String numero, String cep) {
+        this.id = id;
+        this.bairro = bairro;
+        this.cidade = cidade;
+        this.estado = estado;
+        this.logradouro = logradouro;
+        this.numero = numero;
+        this.cep = cep;
+    }
 
     public void setBairro(String bairro) {
         this.bairro = bairro;

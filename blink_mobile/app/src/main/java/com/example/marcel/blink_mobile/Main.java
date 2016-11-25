@@ -3,7 +3,6 @@ package com.example.marcel.blink_mobile;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +15,7 @@ import android.widget.Toast;
 import com.example.marcel.blink_mobile.interfaces.ApiInterface;
 import com.example.marcel.blink_mobile.models.UserData;
 import com.example.marcel.blink_mobile.models.Usuario;
+import com.example.marcel.blink_mobile.models.Vendedor;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -76,7 +76,7 @@ public class Main extends ActionBarActivity {
     }
 
     private void attemptLogin(){
-        boolean mCancel = this.loginValidation(email, senha);
+        boolean mCancel = false; //this.loginValidation(email, senha);
         if (mCancel) {
             focusView.requestFocus();
         } else {
@@ -94,7 +94,7 @@ public class Main extends ActionBarActivity {
         startActivity(intent);
     };
 
-    private boolean loginValidation(String email, String senha) {
+    /*private boolean loginValidation(String email, String senha) {
         // Reset errors.
         login.setError(null);
         pass.setError(null);
@@ -129,7 +129,7 @@ public class Main extends ActionBarActivity {
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
         return password.length() > 4;
-    }
+    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -174,7 +174,9 @@ public class Main extends ActionBarActivity {
         return mInterfaceService;
     }
 
-    private void loginProcessWithRetrofit(final String email, String senha){
+    private void loginProcessWithRetrofit(String email, String senha){
+        email = "cliente@teste.com";
+        senha = "123456";
         ApiInterface mApiService = this.getInterfaceService();
         Call<Usuario> mService = mApiService.authenticate(email, senha);
         mService.enqueue(new Callback<Usuario>() {
@@ -191,8 +193,9 @@ public class Main extends ActionBarActivity {
                     Log.d("StatusCode", Integer.toString(statusCode));
 
                     Usuario mUsuarioObject = response.body();
-                    UserData mUserDataObject;
+                    UserData mUserDataObject = null;
                     String returnedResponse = null;
+                    Vendedor userType = null;
 
                     if(mUsuarioObject != null) {
                         try {
@@ -218,6 +221,29 @@ public class Main extends ActionBarActivity {
                         Toast.makeText(Main.this, "Aconteceu algo inesperado.", Toast.LENGTH_LONG).show();
                     } else {
                         Intent i = new Intent(Main.this, Drawer.class);
+                        Bundle b = new Bundle();
+                        userType = mUserDataObject.getVendedor();
+
+
+                        /*try {
+                            mUserDataObject.getVendedor();
+                            b.putInt("key", 0);
+                            Log.d("LoginType", "Vendedor");
+                        } catch (Exception e) {
+                            b.putInt("key", 1);
+                            Log.d("LoginType", "Cliente");
+                        }*/
+                        //AppGlobals appGlobals = AppGlobals.getInstance();
+                        if(!(userType == null)) {
+                            b.putInt("key", 0); //Your id
+                            //appGlobals.userType = 0;
+                        } else {
+                            b.putInt("key", 1); //Your id
+                            //appGlobals.userType = 1;
+                        }
+
+                        i.putExtras(b); //Put your id to your next Intent
+                        i.putExtra("Usuario", mUsuarioObject);
                         startActivity(i);
                     }
                 }

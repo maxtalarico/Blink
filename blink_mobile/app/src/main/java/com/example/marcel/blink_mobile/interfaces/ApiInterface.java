@@ -4,95 +4,77 @@ package com.example.marcel.blink_mobile.interfaces;
  * Created by Marcel on 03/10/2016.
  */
 
+import com.example.marcel.blink_mobile.models.Cartao;
+import com.example.marcel.blink_mobile.models.Cliente;
+import com.example.marcel.blink_mobile.models.ContaBancaria;
+import com.example.marcel.blink_mobile.models.Endereco;
+import com.example.marcel.blink_mobile.models.EstabelecimentoComercial;
+import com.example.marcel.blink_mobile.models.UserData;
 import com.example.marcel.blink_mobile.models.Usuario;
+import com.example.marcel.blink_mobile.models.Vendedor;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface ApiInterface {
     @FormUrlEncoded
-    @POST("authenticate")
+    @POST("/authenticate")
     Call<Usuario> authenticate(@Field("email") String email,
                                @Field("senha") String senha);
 
-    @FormUrlEncoded
-    @POST("/usuario/create")
-    Call<Usuario> userCreate(@Field("email") String email,
-                             @Field("senha") String senha,
-                             @Field("nome") String nome,
-                             @Field("dataNascimento") String dataNascimento,
-                             @Field("cpf") String cpf,
-                             @Field("telefoneRes") String telefoneRes,
-                             @Field("celular") String celular,
-                             @Field("telefoneCom") String telefoneCom,
-                             @Field("cep") String cep,
-                             @Field("cmb_estado") String estado,
-                             @Field("cmb_cidade") String cidade,
-                             @Field("bairro") String bairro,
-                             @Field("logradouro") String logradouro,
-                             @Field("logradouro") String numero);
+    @POST("/cartao")
+    Call<Cartao> cartaoCreate(@Body Cartao cartao);
 
-    @FormUrlEncoded
-    @POST("/usuario/update")
-    Call<Usuario> userUpdate(@Field("nome") String nome,
-                             @Field("dataNascimento") String dataNascimento,
-                             @Field("cpf") String cpf,
-                             @Field("telefoneRes") String telefoneRes,
-                             @Field("celular") String celular,
-                             @Field("telefoneCom") String telefoneCom,
-                             @Field("cep") String cep,
-                             @Field("cmb_estado") String estado,
-                             @Field("cmb_cidade") String cidade,
-                             @Field("bairro") String bairro,
-                             @Field("logradouro") String logradouro);
+    @GET("/cartao")
+    Call<Cartao[]> getCartao(@Query("proprietario") Integer id);
 
-    @FormUrlEncoded
-    @POST("/estabelecimentocomercial/create")
-    Call<Usuario> estabelecimentoCreate(@Field("nome") String nome,
-                                        @Field("cnpj") String cnpj,
-                                        @Field("telefoneCom") String telefoneCom,
-                                        @Field("cmb_categoria") String categoria,
-                                        @Field("cep") String cep,
-                                        @Field("cmb_estado") String estado,
-                                        @Field("cmb_cidade") String cidade,
-                                        @Field("bairro") String bairro,
-                                        @Field("logradouro") String logradouro,
-                                        @Field("cmb_conta_bancaria") String contaBancaria);
+    @DELETE("/cartao/{id}")
+    Call<Cartao> deleteCartao(@Path("id") Integer id);
 
-    @FormUrlEncoded
-    @POST("/estabelecimentocomercial/update")
-    Call<Usuario> estabelecimentoUpdate(@Field("nome") String nome,
-                                        @Field("cnpj") String cnpj,
-                                        @Field("telefoneCom") String telefoneCom,
-                                        @Field("cmb_categoria") String categoria,
-                                        @Field("cep") String cep,
-                                        @Field("cmb_estado") String estado,
-                                        @Field("cmb_cidade") String cidade,
-                                        @Field("bairro") String bairro,
-                                        @Field("logradouro") String logradouro,
-                                        @Field("cmb_conta_bancaria") String contaBancaria);
+    @POST("/contabancaria")
+    Call<ContaBancaria> contaBancariaCreate(@Body ContaBancaria contaBancaria);
 
+    @GET("/contabancaria")
+    Call<ContaBancaria[]> getContas(@Query("titular") Integer id);
 
-    @FormUrlEncoded
-    @POST("/contabancaria/create")
-    Call<Usuario> contabancariaCreate(@Field("cmb_banco") String banco,
-                                      @Field("cmb_tipoConta") String tipoConta,
-                                      @Field("agencia") String agencia,
-                                      @Field("digitoAgencia") String digitoAgencia,
-                                      @Field("conta") String conta,
-                                      @Field("digitoConta") String digitoConta);
+    @DELETE("/contabancaria/{id}")
+    Call<ContaBancaria> deleteConta(@Path("id") Integer id);
 
-    @FormUrlEncoded
-    @POST("/contabancaria/update")
-    Call<Usuario> contabancariaUpdate(@Field("cmb_banco") String banco,
-                                      @Field("cmb_tipoConta") String tipoConta,
-                                      @Field("agencia") String agencia,
-                                      @Field("digitoAgencia") String digitoAgencia,
-                                      @Field("conta") String conta,
-                                      @Field("digitoConta") String digitoConta);
+    @POST("/estabelecimentocomercial")
+    Call<EstabelecimentoComercial> estabelecimentoCreate(@Body EstabelecimentoComercial estabelecimentoComercial);
 
+    @GET("/estabelecimentocomercial")
+    Call<EstabelecimentoComercial[]> getEstabelecimentos(@Query("dono") Integer id);
 
+    @DELETE("/estabelecimentocomercial/{id}")
+    Call<EstabelecimentoComercial> deleteEstabelecimentos(@Path("id") Integer id);
 
+    @PUT("/estabelecimentocomercial/full/{id}")
+    Call<EstabelecimentoComercial> estabelecimentoUpdate(@Path("id") Integer id, @Body EstabelecimentoComercial estabelecimentoComercial);
+
+    @POST("/usuario")
+    Call<Usuario> userCreate(@Body UserData usuario);
+
+    @PUT("/usuario/{id}")
+    Call<UserData> userUpdate(@Path("id") Integer id, @Body UserData userData);
+
+    @PUT("/vendedor/{id}")
+    Call<Vendedor> vendedorUpdate(@Path("id") Integer id, @Body Vendedor vendedor);
+
+    @PUT("/cliente/{id}")
+    Call<Cliente> clienteUpdate(@Path("id") Integer id, @Body Cliente cliente);
+
+    @POST("/endereco")
+    Call<Endereco> createEndereco(@Body Endereco endereco);
+
+    @PUT("/endereco/{id}")
+    Call<Endereco> enderecoUpdate(@Path("id") Integer id, @Body Endereco endereco);
 }

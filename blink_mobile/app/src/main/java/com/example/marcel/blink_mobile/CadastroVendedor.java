@@ -14,8 +14,10 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.marcel.blink_mobile.interfaces.ApiInterface;
-import com.example.marcel.blink_mobile.models.UserData;
+import com.example.marcel.blink_mobile.models.Cliente;
+import com.example.marcel.blink_mobile.models.Endereco;
 import com.example.marcel.blink_mobile.models.Usuario;
+import com.example.marcel.blink_mobile.models.Vendedor;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,7 +25,12 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -51,8 +58,8 @@ public class CadastroVendedor extends ActionBarActivity  {
     private EditText dataNascimentoEdTex;
     private EditText cpfEdTex;
     private EditText telResEdTex;
+    private EditText celularEdTex;
     private EditText telComEdTex;
-    private EditText telCom2EdTex;
 
     private EditText cepEdTex;
     private Spinner estadoSpinner;
@@ -71,12 +78,12 @@ public class CadastroVendedor extends ActionBarActivity  {
     private String dataNascimento;
     private String cpf;
     private String telRes;
+    private String celular;
     private String telCom;
-    private String telCom2;
 
     private String cep;
-    private String estado;
-    private String cidade;
+    private int estado;
+    private int  cidade;
     private String logradouro;
     private String bairro;
     private String numero;
@@ -108,8 +115,8 @@ public class CadastroVendedor extends ActionBarActivity  {
         dataNascimentoEdTex = (EditText) findViewById(R.id.txt_data_nascimento);
         cpfEdTex = (EditText) findViewById(R.id.txt_cpf);
         telResEdTex = (EditText) findViewById(R.id.txt_telefone_residencial);
-        telComEdTex = (EditText) findViewById(R.id.txt_teefone_comercial);
-        telCom2EdTex = (EditText) findViewById(R.id.txt_telefone_celular);
+        celularEdTex = (EditText) findViewById(R.id.txt_teefone_comercial);
+        telComEdTex = (EditText) findViewById(R.id.txt_telefone_celular);
 
         cepEdTex = (EditText) findViewById(R.id.txt_cep);
         estadoSpinner = (Spinner) findViewById(R.id.spn_estado);
@@ -128,38 +135,133 @@ public class CadastroVendedor extends ActionBarActivity  {
         dataNascimento = dataNascimentoEdTex.getText().toString().trim();;
         cpf = cpfEdTex.getText().toString().trim();;
         telRes = telResEdTex.getText().toString().trim();;
+        celular = celularEdTex.getText().toString().trim();;
         telCom = telComEdTex.getText().toString().trim();;
-        telCom2 = telCom2EdTex.getText().toString().trim();;
 
         cep = cepEdTex.getText().toString().trim();;
-        estado = estadoSpinner.getSelectedItem().toString().trim();;
-        cidade = cidadeSpinner.getSelectedItem().toString().trim();;
+        estado = getEstadoId(estadoSpinner.getSelectedItem().toString().trim());
+        cidade = getCidadeId(cidadeSpinner.getSelectedItem().toString().trim(), estado);
         logradouro = logradouroEdTex.getText().toString().trim();;
         bairro = bairroEdTex.getText().toString().trim();;
         numero = numeroEdTex.getText().toString().trim();;
 
         registerAttemptWithRetrofit(email,
+                                    emailConf,
                                     senha,
+                                    senhaConf,
                                     nome,
                                     dataNascimento,
                                     cpf,
                                     telRes,
+                                    celular,
                                     telCom,
-                                    telCom2,
                                     cep,
                                     estado,
                                     cidade,
                                     logradouro,
                                     bairro,
                                     numero);
+    }
 
+    protected int getEstadoId(String siglaEstado) {
+        int idEstado = 0;
+        JSONArray jsonEstados = null;
+        String siglaEstadoCur;
+        ArrayList<String> estadosList = new ArrayList<String>();
+        try{
+            InputStream is = getResources().getAssets().open("cidades-estados-wid.json");
+            int size=is.available();
+            byte[] data=new byte[size];
+            is.read(data);
+            is.close();
+            String json = new String(data, "UTF-8");
+
+            JSONObject object = new JSONObject(json);
+            jsonEstados  = object.getJSONArray("estados");
+
+            for (int i = 0; i < jsonEstados.length(); i++) {
+                siglaEstadoCur = jsonEstados.getJSONObject(i).getString("sigla");
+
+                //Log.d("Siglas Estado", "getEstadoId: " + siglaEstadoCur);
+
+                if(siglaEstadoCur.equals(siglaEstado)) {
+                    //Log.d("STATE", jsonEstados.getJSONObject(i).getString("nome"));
+                    //Log.d("STATE", jsonEstados.getJSONObject(i).getString("sigla"));
+
+                    idEstado = jsonEstados.getJSONObject(i).getInt("id");
+                    break;
+                }
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }catch (JSONException je){
+            je.printStackTrace();
+        }
+
+        return idEstado;
+    }
+
+    protected int getCidadeId(String nomeCidade, int idEstado) {
+        int idCidade = 0;
+
+        JSONArray jsonEstados = null;
+        JSONObject jsonEstado = null;
+        JSONArray jsonCidades = null;
+        String nomeCidadeCur;
+        int idEstadoCur;
+        ArrayList<String> cidadesList = new ArrayList<String>();
+        try{
+            InputStream is = getResources().getAssets().open("cidades-estados-wid.json");
+            int size=is.available();
+            byte[] data=new byte[size];
+            is.read(data);
+            is.close();
+            String json = new String(data, "UTF-8");
+
+
+            JSONObject object = new JSONObject(json);
+            jsonEstados = object.getJSONArray("estados");
+
+            for (int i = 0; i < jsonEstados.length(); i++) {
+                idEstadoCur = jsonEstados.getJSONObject(i).getInt("id");
+
+                if(idEstadoCur == idEstado) {
+                    //Log.d("STATE", jsonEstados.getJSONObject(i).getString("nome"));
+                    //Log.d("STATE", jsonEstados.getJSONObject(i).getString("sigla"));
+
+                    jsonEstado = jsonEstados.getJSONObject(i);
+                    break;
+                }
+            }
+
+            //Log.d("STATE", jsonEstado.toString());
+            jsonCidades = jsonEstado.getJSONArray("cidades");
+
+            for (int i = 0; i < jsonCidades.length(); i++) {
+                nomeCidadeCur = jsonCidades.getJSONObject(i).getString("nome");
+
+                if(nomeCidadeCur.equals(nomeCidade)) {
+                    //Log.d("STATE", jsonEstados.getJSONObject(i).getString("nome"));
+                    //Log.d("STATE", jsonEstados.getJSONObject(i).getString("sigla"));
+
+                    idCidade = jsonCidades.getJSONObject(i).getInt("id");
+                    break;
+                }
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }catch (JSONException je){
+            je.printStackTrace();
+        }
+
+        return idCidade;
     }
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_vendedor);
 
-        ArrayList<String> items = getEstados("estados-cidades.json");
+        ArrayList<String> items = getEstados("cidades-estados-wid.json");
         final Spinner spinner=(Spinner) this.findViewById(R.id.spn_estado);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_layout, R.id.textView, items);
         spinner.setAdapter(adapter);
@@ -171,7 +273,7 @@ public class CadastroVendedor extends ActionBarActivity  {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 String estado = spinner.getSelectedItem().toString();;
 
-                ArrayList<String> items2 = getCidades("estados-cidades.json", estado);
+                ArrayList<String> items2 = getCidades("cidades-estados-wid.json", estado);
                 Spinner spinner2=(Spinner) findViewById(R.id.spn_cidade);
                 ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(curView, R.layout.spinner_layout, R.id.textView, items2);
                 spinner2.setAdapter(adapter2);
@@ -184,7 +286,7 @@ public class CadastroVendedor extends ActionBarActivity  {
 
         });
 
-        ArrayList<String> items2 = getCidades("estados-cidades.json", "AC");
+        ArrayList<String> items2 = getCidades("cidades-estados-wid", "AC");
         Spinner spinner2=(Spinner) findViewById(R.id.spn_cidade);
         ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, R.layout.spinner_layout, R.id.textView, items2);
         spinner2.setAdapter(adapter2);
@@ -245,8 +347,8 @@ public class CadastroVendedor extends ActionBarActivity  {
                 nomeEstado = jsonEstados.getJSONObject(i).getString("sigla");
 
                 if(nomeEstado.equals(estado)) {
-                    Log.d("STATE", jsonEstados.getJSONObject(i).getString("nome"));
-                    Log.d("STATE", jsonEstados.getJSONObject(i).getString("sigla"));
+                    //Log.d("STATE", jsonEstados.getJSONObject(i).getString("nome"));
+                    //Log.d("STATE", jsonEstados.getJSONObject(i).getString("sigla"));
 
                     jsonEstado = jsonEstados.getJSONObject(i);
                     break;
@@ -257,7 +359,7 @@ public class CadastroVendedor extends ActionBarActivity  {
             jsonCidades = jsonEstado.getJSONArray("cidades");
 
             for (int i = 0; i < jsonCidades.length(); i++) {
-                nomeCidade = jsonCidades.getString(i);
+                nomeCidade = jsonCidades.getJSONObject(i).getString("nome");
                 cidadesList.add(nomeCidade);
             }
         }catch (IOException e){
@@ -297,76 +399,82 @@ public class CadastroVendedor extends ActionBarActivity  {
         return mInterfaceService;
     }
 
-    private void registerAttemptWithRetrofit(final String email,
+    private void registerAttemptWithRetrofit( String email,
+                                              String emailConf,
                                               String senha,
+                                              String senhaConf,
                                               String nome,
                                               String dataNascimento,
                                               String cpf,
                                               String telRes,
+                                              String celular,
                                               String telCom,
-                                              String telCom2,
                                               String cep,
-                                              String estado,
-                                              String cidade,
+                                              int estado,
+                                              int cidade,
                                               String logradouro,
                                               String bairro,
                                               String numero){
+        email = "vendor99@teste.com";
+        emailConf = "vendor99@teste.com";
+        senha = "123456";
+        senhaConf = "123456";
+        nome = "Vendor Teste";
+        dataNascimento = "12/11/1993";
+        cpf = "423.370.988.00";
+        telRes = "(19) 3852-4091";
+        celular = "(19) 3852-94091";
+        telCom = "(19) 3852-4091";
+        cep = "13920-000";
+        logradouro = "Rua Teste";
+        bairro = "Bairro Teste";
+        numero = "22";
+        cidade = 1;
+        estado = 1;
+
+        //Log.d("IDs", "registerAttemptWithRetrofit: estado: " + Integer.toString(estado) + " | cidade: " + Integer.toString(cidade));
+
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.CANADA);
+        Date data = null;
+        try {
+            data = format.parse(dataNascimento);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Integer id = null;
+
+        Vendedor vendedor = new Vendedor(id, celular, cpf, data, nome, telCom, telRes);
+        Cliente cliente = null;
+        Endereco endereco = new Endereco(id, bairro, cidade, estado, logradouro, numero, cep);
+
+        Usuario usuario = new Usuario(id, vendedor, cliente, endereco, email, senha, nome);
+
+
+
         ApiInterface mApiService = this.getInterfaceService();
-        Call<Usuario> mService = mApiService.userCreate(email,
-                                                        senha,
-                                                        nome,
-                                                        dataNascimento,
-                                                        cpf,
-                                                        telRes,
-                                                        telCom,
-                                                        telCom2,
-                                                        cep,
-                                                        estado,
-                                                        cidade,
-                                                        logradouro,
-                                                        bairro,
-                                                        numero);
+        Call<Usuario> mService = mApiService.userCreate(usuario.getUserData());
         mService.enqueue(new Callback<Usuario>() {
             @Override
             public void onResponse(Call<Usuario> call, Response<Usuario> response) {
                 int statusCode;
 
                 if(!response.isSuccessful()){
-                    Log.d("Response Failed", response.message());
-                    Toast.makeText(getApplicationContext(), "Login e/ou senha incorreto(s)", Toast.LENGTH_SHORT).show();
+                    //Log.d("Response Failed", response.message());
+                    Toast.makeText(getApplicationContext(), "Tente novamente.", Toast.LENGTH_SHORT).show();
                 } else {
-                    Log.d("Response Worked", response.message());
+                    //Log.d("Response Worked", response.message());
                     statusCode = response.code();
-                    Log.d("StatusCode", Integer.toString(statusCode));
+                    //Log.d("StatusCode", Integer.toString(statusCode));
 
                     Usuario mUsuarioObject = response.body();
-                    UserData mUserDataObject;
-                    String returnedResponse = null;
 
-                    if(mUsuarioObject != null) {
-                        try {
-                            mUserDataObject = mUsuarioObject.getUserData();
-
-                            if(mUserDataObject != null){
-                                returnedResponse = mUserDataObject.toString();
-                                Log.d("Response String", returnedResponse);
-                            } else {
-                                Log.d("Response Error", "UserData is null");
-                            }
-
-                        } catch(Exception e) {
-                            Log.d("Response Error", e.toString());
-                        }
-                    } else {
-                        Log.d("Response Error", "Usuario is null");
-                    }
-
-
-                    if(returnedResponse == null) {
+                    if(mUsuarioObject == null) {
                         Log.d("Response Error", "Deu MUITO ruim.");
                         Toast.makeText(CadastroVendedor.this, "Aconteceu algo inesperado.", Toast.LENGTH_LONG).show();
                     } else {
-                        Intent i = new Intent(CadastroVendedor.this, Drawer.class);
+                        Intent i = new Intent(CadastroVendedor.this, Main.class);
+                        Toast.makeText(CadastroVendedor.this, "Cadastro realizado com sucesso!", Toast.LENGTH_LONG).show();
                         startActivity(i);
                     }
                 }
@@ -375,7 +483,7 @@ public class CadastroVendedor extends ActionBarActivity  {
             @Override
             public void onFailure(Call<Usuario> call, Throwable t) {
                 call.cancel();
-                Toast.makeText(CadastroVendedor.this, "Please check your network connection and internet permission", Toast.LENGTH_LONG).show();
+                Toast.makeText(CadastroVendedor.this, "Não foi possível encontrar conexão com a internet", Toast.LENGTH_LONG).show();
             }
         });
     }

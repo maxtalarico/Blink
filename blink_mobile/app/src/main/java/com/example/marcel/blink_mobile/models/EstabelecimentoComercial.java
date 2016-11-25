@@ -3,16 +3,18 @@ package com.example.marcel.blink_mobile.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by Marcel on 26/09/2016.
  */
-public class Estabelecimento {
+public class EstabelecimentoComercial implements Serializable {
     @SerializedName("id")
     @Expose
-    protected int id;
+    protected Integer id;
     @SerializedName("codigoEstabelecimento")
     @Expose
-    protected int codigoEstabelecimento;
+    protected Integer codigoEstabelecimento;
     @SerializedName("nome")
     @Expose
     protected String nome;
@@ -21,22 +23,38 @@ public class Estabelecimento {
     protected String cnpj;
     @SerializedName("categoria")
     @Expose
-    protected String categoria;
+    protected Integer categoria;
     @SerializedName("contaBancaria")
     @Expose
-    protected ContaBancaria contaBancaria;
+    protected Integer contaBancaria;
     @SerializedName("localizacao")
     @Expose
-    protected Endereco localizacao;
+    protected Integer localizacao;
     @SerializedName("telefoneCom")
     @Expose
     protected String telefoneCom;
     @SerializedName("aparelhos")
     @Expose
     protected Aparelho[] aparelhos;
+    @SerializedName("dono")
+    @Expose
+    protected Integer dono;
+
+    public EstabelecimentoComercial(Integer categoria, String cnpj, Integer codigoEstabelecimento, Integer contaBancaria, Integer id, Integer localizacao, String nome, String telefoneCom, Integer dono) {
+        this.categoria = categoria;
+        this.cnpj = cnpj;
+        this.codigoEstabelecimento = codigoEstabelecimento;
+        this.contaBancaria = contaBancaria;
+        this.id = id;
+        this.localizacao = localizacao;
+        this.nome = nome;
+        this.telefoneCom = telefoneCom;
+        this.dono = dono;
+        this.aparelhos = null;
+    }
 
 
-    public void setCategoria(String categoria) {
+    public void setCategoria(Integer categoria) {
         this.categoria = categoria;
     }
 
@@ -48,11 +66,11 @@ public class Estabelecimento {
         this.codigoEstabelecimento = codigoEstabelecimento;
     }
 
-    public void setContaBancaria(ContaBancaria contaBancaria) {
+    public void setContaBancaria(Integer contaBancaria) {
         this.contaBancaria = contaBancaria;
     }
 
-    public void setLocalizacao(Endereco localizacao) {
+    public void setLocalizacao(Integer localizacao) {
         this.localizacao = localizacao;
     }
 
@@ -69,7 +87,7 @@ public class Estabelecimento {
         return aparelhos;
     }
 
-    public String getCategoria() {
+    public Integer getCategoria() {
         return categoria;
     }
 
@@ -81,11 +99,11 @@ public class Estabelecimento {
         return codigoEstabelecimento;
     }
 
-    public ContaBancaria getContaBancaria() {
+    public Integer getContaBancaria() {
         return contaBancaria;
     }
 
-    public Endereco getLocalizacao() {
+    public Integer getLocalizacao() {
         return localizacao;
     }
 
