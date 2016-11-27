@@ -19,13 +19,8 @@ import com.example.marcel.blink_mobile.models.Cliente;
 import com.example.marcel.blink_mobile.models.UserData;
 import com.example.marcel.blink_mobile.models.Usuario;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -61,7 +56,7 @@ public class CadastroCartao extends Fragment  {
                 switch (v.getId()) {
                     case R.id.btn_cadastrar_cartao:
                         registerAttemptWithRetrofit("Cliente Teste",
-                                                    1111111111,
+                                                    "1111111111",
                                                     "123456",
                                                     "12/11/2020",
                                                     777,
@@ -108,28 +103,20 @@ public class CadastroCartao extends Fragment  {
     }
 
     private void registerAttemptWithRetrofit( String nome,
-                                              int numero,
+                                              String numero,
                                               String senha,
                                               String dataVencimento,
                                               int codigoSeguranca,
                                               String bandeira){
 
         nome = "Cliente Teste";
-        numero = 1111112332;
+        numero = "1111112332";
         senha = "123456";
-        dataVencimento = "12/11/2020";
+        dataVencimento = "11/2020";
         codigoSeguranca = 777;
         bandeira = "Master Card";
 
         //Log.d("IDs", "registerAttemptWithRetrofit: estado: " + Integer.toString(estado) + " | cidade: " + Integer.toString(cidade));
-
-        DateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.CANADA);
-        Date data = null;
-        try {
-            data = format.parse(dataVencimento);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
 
         Integer id = null;
 
@@ -142,7 +129,7 @@ public class CadastroCartao extends Fragment  {
         Cliente cliente = userData.getCliente();
 
         List<Cartao> cartoesList = new ArrayList<Cartao>();
-        Cartao cartao = new Cartao(bandeira, codigoSeguranca, data, id, nome, numero, cliente.getId()/*, cliente*/);
+        Cartao cartao = new Cartao(bandeira, codigoSeguranca, dataVencimento, id, nome, numero, cliente.getId()/*, cliente*/);
         cartoesList.add(cartao);
 
         Cartao[] cartoes = new Cartao[cartoesList.size()];

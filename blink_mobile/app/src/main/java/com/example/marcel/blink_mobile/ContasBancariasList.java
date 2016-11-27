@@ -50,9 +50,11 @@ public class ContasBancariasList extends Fragment implements OnClickListener{
         UserData userData = usuario.getUserData();
         Vendedor vendedor = userData.getVendedor();
 
-        vendedor = registerAttemptWithRetrofit(vendedor.getId(), vendedor);
+        registerAttemptWithRetrofit(vendedor.getId(), vendedor);
 
         ContaBancaria[] contas = vendedor.getContasBancarias();
+
+        getContas(contas, vendedor);
 
         return view;
     }
@@ -96,7 +98,7 @@ public class ContasBancariasList extends Fragment implements OnClickListener{
         return mInterfaceService;
     }
 
-    private Vendedor registerAttemptWithRetrofit(Integer id, Vendedor vendedor){
+    private void registerAttemptWithRetrofit(Integer id, Vendedor vendedor){
 
         //Log.d("IDs", "registerAttemptWithRetrofit: estado: " + Integer.toString(estado) + " | cidade: " + Integer.toString(cidade));
         ApiInterface mApiService = this.getInterfaceService();
@@ -136,7 +138,6 @@ public class ContasBancariasList extends Fragment implements OnClickListener{
                 Toast.makeText(getActivity(), "Não foi possível encontrar conexão com a internet", Toast.LENGTH_LONG).show();
             }
         });
-        return vendedor;
     }
 
     public void getContas(ContaBancaria[] contas, Vendedor vendedor) {
@@ -144,8 +145,6 @@ public class ContasBancariasList extends Fragment implements OnClickListener{
 
         try {
             int qtdContas = Array.getLength(contas);
-
-            Log.d("qtdContas", Integer.toString(qtdContas));
 
             String nomeBanco;
             String numeroAgencia;
@@ -157,8 +156,6 @@ public class ContasBancariasList extends Fragment implements OnClickListener{
                 idConta = contas[x].getId();
                 nomeBanco = vendedor.getNome() + contas[x].getBanco();
                 numeroAgencia = contas[x].getNumeroConta()+ contas[x].getDigitoConta() + contas[x].getAgencia() + contas[x].getDigitoAgencia();
-
-                Log.d("Conta: ", contas[x].toString());
 
                 contasStrings.add(Integer.toString(idConta) + ";" + nomeBanco + ";" + numeroAgencia);
             }

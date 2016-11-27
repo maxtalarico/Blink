@@ -54,6 +54,8 @@ public class CartoesList extends Fragment implements OnClickListener{
 
         Cartao[] cartoes = cliente.getCartoes();
 
+        getCartoes(cartoes, cliente);
+
         return view;
     }
 
@@ -145,8 +147,6 @@ public class CartoesList extends Fragment implements OnClickListener{
         try {
             int qtdCartoes = Array.getLength(cartoes);
 
-            Log.d("qtdCartoes", Integer.toString(qtdCartoes));
-
             String nomeBandeira;
             String numeroCartao;
             Integer idCartao;
@@ -156,9 +156,7 @@ public class CartoesList extends Fragment implements OnClickListener{
             for (int x = 0; x < qtdCartoes; x++ ) {
                 idCartao = cartoes[x].getId();
                 nomeBandeira = cartoes[x].getNome() + cartoes[x].getBandeira();
-                numeroCartao = Integer.toString(cartoes[x].getNumero());
-
-                Log.d("Cartao: ", cartoes[x].toString());
+                numeroCartao = cartoes[x].getNumero();
 
                 cartoesStrings.add(Integer.toString(idCartao) + ";" + nomeBandeira + ";" + numeroCartao);
             }

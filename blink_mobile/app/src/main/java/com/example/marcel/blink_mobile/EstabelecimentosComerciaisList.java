@@ -33,12 +33,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class EstabelecimentosComerciaisList extends Fragment implements OnClickListener{
     final static String BASE_URL = "http://blink-brunopansani-1.c9users.io/";
+    View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_estabelecimentos_comerciais_list, container, false);
+        view = inflater.inflate(R.layout.fragment_estabelecimentos_comerciais_list, container, false);
 
         // Get the reference of movies
 
@@ -52,10 +53,11 @@ public class EstabelecimentosComerciaisList extends Fragment implements OnClickL
 
         registerAttemptWithRetrofit(vendedor.getId());
 
+        vendedor.getEstabelecimentoComercials();
+
         EstabelecimentoComercial[] estabelecimentoComercials = vendedor.getEstabelecimentoComercials();
 
-
-
+        getEstabelecimentos(estabelecimentoComercials, vendedor);
 
         return view;
     }
@@ -161,15 +163,8 @@ public class EstabelecimentosComerciaisList extends Fragment implements OnClickL
                 estabelecimentosStrings.add(Integer.toString(idEstabelecimento) + ";" + nomeEstabelecimento + ";" + cnpjEstabelecimento);
             }
 
-            // Create The Adapter with passing ArrayList as 3rd parameter
-            //ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity() ,android.R.layout.simple_list_item_1 , history);
-            // Set The Adapter
-
-            EstabelecimentosComerciaisListAdapter adapter = new EstabelecimentosComerciaisListAdapter(estabelecimentosStrings, this);
-
-            //handle listview and assign adapter
             ListView estabelecimentosList = (ListView) view.findViewById(R.id.estabelecimentos_comerciais_list_listview);
-
+            EstabelecimentosComerciaisListAdapter adapter = new EstabelecimentosComerciaisListAdapter(estabelecimentosStrings, this);
             estabelecimentosList.setAdapter(adapter);
 
         } catch (Exception e) {

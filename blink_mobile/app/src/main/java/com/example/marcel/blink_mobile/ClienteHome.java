@@ -1,5 +1,6 @@
 package com.example.marcel.blink_mobile;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,13 +18,15 @@ import static android.app.Activity.RESULT_OK;
 public class ClienteHome extends Fragment implements OnClickListener{
     public static final int REQUEST_CODE = 0;
 
+    Fragment historyFragment;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
-        Fragment historyFragment = new History();
+        historyFragment = new History();
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.add(R.id.fragment_history, historyFragment).commit();
 
@@ -75,6 +78,23 @@ public class ClienteHome extends Fragment implements OnClickListener{
             confirmacaoCompra.setArguments(b);
 
             confirmacaoCompra.show(fm, "Sample Fragment");
+
+            confirmacaoCompra.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    Log.d("Dimiss", "onDismiss: ");
+                    reloadHistoryFragment();
+                }
+            });
         }
+    }
+
+    public void reloadHistoryFragment() {
+        Fragment fragment = new ClienteHome();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, fragment)
+                .commit();
     }
 }

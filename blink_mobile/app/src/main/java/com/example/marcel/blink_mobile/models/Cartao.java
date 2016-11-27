@@ -4,7 +4,6 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Created by Marcel on 26/09/2016.
@@ -18,10 +17,10 @@ public class Cartao implements Serializable {
     protected String nome;
     @SerializedName("numero")
     @Expose
-    protected int numero;
+    protected String numero;
     @SerializedName("dataVencimento")
     @Expose
-    protected Date dataVencimento;
+    protected String dataVencimento;
     @SerializedName("codigoSeguranca")
     @Expose
     protected int codigoSeguranca;
@@ -53,7 +52,7 @@ public class Cartao implements Serializable {
                 '}';
     }
 
-    public Cartao(String bandeira, int codigoSeguranca, Date dataVencimento, Integer id, String nome, int numero, Integer proprietario/*, Cliente proprietario*/) {
+    public Cartao(String bandeira, int codigoSeguranca, String dataVencimento, Integer id, String nome, String numero, Integer proprietario/*, Cliente proprietario*/) {
         this.bandeira = bandeira;
         this.codigoSeguranca = codigoSeguranca;
         this.dataVencimento = dataVencimento;
@@ -71,7 +70,7 @@ public class Cartao implements Serializable {
         this.codigoSeguranca = codigoSeguranca;
     }
 
-    public void setDataVencimento(Date dataVencimento) {
+    public void setDataVencimento(String dataVencimento) {
         this.dataVencimento = dataVencimento;
     }
 
@@ -79,7 +78,7 @@ public class Cartao implements Serializable {
         this.nome = nome;
     }
 
-    public void setNumero(int numero) {
+    public void setNumero(String numero) {
         this.numero = numero;
     }
 
@@ -92,7 +91,7 @@ public class Cartao implements Serializable {
         return codigoSeguranca;
     }
 
-    public Date getDataVencimento() {
+    public String getDataVencimento() {
         return dataVencimento;
     }
 
@@ -104,7 +103,7 @@ public class Cartao implements Serializable {
         return nome;
     }
 
-    public int getNumero() {
+    public String getNumero() {
         return numero;
     }
 }

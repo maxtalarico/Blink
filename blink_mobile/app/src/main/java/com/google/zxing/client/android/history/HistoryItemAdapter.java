@@ -16,8 +16,6 @@
 
 package com.google.zxing.client.android.history;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.view.LayoutInflater;
@@ -25,10 +23,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import com.example.marcel.blink_mobile.R;
 
+import com.example.marcel.blink_mobile.R;
 import com.google.zxing.Result;
+
+import java.util.ArrayList;
 
 final class HistoryItemAdapter extends ArrayAdapter<HistoryItem> {
 
@@ -63,8 +62,8 @@ final class HistoryItemAdapter extends ArrayAdapter<HistoryItem> {
       detail = resources.getString(R.string.history_empty_detail);
     }
 
-    ((TextView) layout.findViewById(R.id.history_title)).setText(title);    
-    ((TextView) layout.findViewById(R.id.history_detail)).setText(detail);
+    /*((TextView) layout.findViewById(R.id.history_title)).setText(title);
+    ((TextView) layout.findViewById(R.id.history_detail)).setText(detail);*/
 
     return layout;
   }

@@ -17,6 +17,11 @@
         android:ems="10"
         android:id="@+id/editText" />
 
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerEstabelecimento" />
+
     <Button
         android:text="Gerar"
         android:layout_width="match_parent"

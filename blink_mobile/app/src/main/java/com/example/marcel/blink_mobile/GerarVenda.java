@@ -1,5 +1,7 @@
 package com.example.marcel.blink_mobile;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,19 +12,27 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.marcel.blink_mobile.interfaces.ApiInterface;
 import com.example.marcel.blink_mobile.models.Aparelho;
 import com.example.marcel.blink_mobile.models.Compra;
+import com.example.marcel.blink_mobile.models.EstabelecimentoComercial;
+import com.example.marcel.blink_mobile.models.UserData;
+import com.example.marcel.blink_mobile.models.Usuario;
 import com.example.marcel.blink_mobile.models.Venda;
+import com.example.marcel.blink_mobile.models.Vendedor;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.client.android.encode.MyEncoder;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -43,14 +53,26 @@ public class GerarVenda extends Fragment {
 
     EditText etValor;
     ImageView qrImage;
+    Spinner estabelecimentoSpinner;
+    String valor;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_gerar_venda, container, false);
 
         etValor = (EditText) rootView.findViewById(R.id.editText);
-        String valor = etValor.getText().toString();
+        valor = etValor.getText().toString();
 
         qrImage = (ImageView ) rootView.findViewById(R.id.imageView);
+
+        Activity activity = getActivity();
+        Intent i = activity.getIntent();
+        Bundle b = i.getExtras();
+
+        Usuario usuario = (Usuario) b.getSerializable("Usuario");
+        UserData userData = usuario.getUserData();
+        Vendedor vendedor = userData.getVendedor();
+
+        setEstabelecimentosSpinner(vendedor.getId());
 
         Button gerar = (Button) rootView.findViewById(R.id.button);
         gerar.setOnClickListener(new View.OnClickListener() {
@@ -58,7 +80,7 @@ public class GerarVenda extends Fragment {
             public void onClick(View v) {
                 String valor = etValor.getText().toString();
 
-                registerAttemptWithRetrofit(valor, 4);
+                registerAttemptWithRetrofit(valor);
             }
         });
 
@@ -102,7 +124,13 @@ public class GerarVenda extends Fragment {
         return mInterfaceService;
     }
 
-    private void registerAttemptWithRetrofit(String valor, final Integer idEstabelecimentoComercial) {
+    private void registerAttemptWithRetrofit(String valor) {
+        Activity activity = getActivity();
+        Intent i = activity.getIntent();
+        Bundle b = i.getExtras();
+
+        final Integer idEstabelecimentoComercial = b.getInt("idEstabelecimentoComercial");
+        Log.d("id in aparelho", Integer.toString(idEstabelecimentoComercial));
 
         valor = "12.50";
 
@@ -205,6 +233,103 @@ public class GerarVenda extends Fragment {
         Thread t = new Thread(r);
         //new Thread(r).start();
         t.start();
+    }
+
+    public void setEstabelecimentosSpinner(Integer idVendedor) {
+        //Log.d("IDs", "registerAttemptWithRetrofit: estado: " + Integer.toString(estado) + " | cidade: " + Integer.toString(cidade));
+        ApiInterface mApiService = this.getInterfaceService();
+        Call<EstabelecimentoComercial[]> mService = mApiService.getEstabelecimentos(idVendedor);
+        mService.enqueue(new Callback<EstabelecimentoComercial[]>() {
+            @Override
+            public void onResponse(Call<EstabelecimentoComercial[]> call, Response<EstabelecimentoComercial[]> response) {
+                int statusCode;
+
+                if(!response.isSuccessful()){
+                    //Log.d("Response Failed", response.message());
+                    Toast.makeText(getActivity(), "Tente novamente.", Toast.LENGTH_SHORT).show();
+                } else {
+                    //Log.d("Response Worked", response.message());
+                    statusCode = response.code();
+                    //Log.d("StatusCode", Integer.toString(statusCode));
+
+                    EstabelecimentoComercial[] estabelecimentoComercials = response.body();
+
+                    Activity activity = getActivity();
+                    Intent i = activity.getIntent();
+                    Bundle b = i.getExtras();
+
+                    Usuario usuario = (Usuario) b.getSerializable("Usuario");
+                    UserData userData = usuario.getUserData();
+                    Vendedor vendedor = userData.getVendedor();
+
+                    vendedor.setEstabelecimentoComercials(estabelecimentoComercials);
+
+                    getEstabelecimentosArrayList(estabelecimentoComercials, vendedor);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<EstabelecimentoComercial[]> call, Throwable t) {
+                call.cancel();
+                Toast.makeText(getActivity(), "Não foi possível encontrar conexão com a internet", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void getEstabelecimentosArrayList(EstabelecimentoComercial[] estabelecimentoComercials, Vendedor vendedor) {
+        View view = getView();
+
+        try {
+            int qtdContas = Array.getLength(estabelecimentoComercials);
+
+            Integer idEstabelecimento;
+            String nomeEstabelecimento;
+
+            ArrayList<String> estabelecimentosStrings = new ArrayList<String>();
+
+            for (int x = 0; x < qtdContas; x++ ) {
+                idEstabelecimento = estabelecimentoComercials[x].getId();
+                nomeEstabelecimento = estabelecimentoComercials[x].getNome();
+
+                estabelecimentosStrings.add(Integer.toString(idEstabelecimento) + " - " + nomeEstabelecimento);
+            }
+
+            Activity activity = getActivity();
+            Intent i = activity.getIntent();
+
+            estabelecimentoSpinner = (Spinner) view.findViewById(R.id.spinnerEstabelecimento);
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_layout, R.id.textView, estabelecimentosStrings);
+            estabelecimentoSpinner.setAdapter(adapter);
+
+            String estabelecimentoSpinnerString = estabelecimentoSpinner.getSelectedItem().toString();
+            Integer idEstabelecimentoComercial = Integer.parseInt(estabelecimentoSpinnerString.split(" - ")[0]);
+            i.putExtra("idEstabelecimentoComercial", idEstabelecimentoComercial);
+            registerAttemptWithRetrofit(valor);
+
+            estabelecimentoSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                    Activity activity = getActivity();
+                    Intent i = activity.getIntent();
+
+                    String estabelecimentoSpinnerString = estabelecimentoSpinner.getSelectedItem().toString();
+                    Integer idEstabelecimentoComercial = Integer.parseInt(estabelecimentoSpinnerString.split(" - ")[0]);
+                    i.putExtra("idEstabelecimentoComercial", idEstabelecimentoComercial);
+                    Log.d("id", "onItemSelected: " + estabelecimentoSpinnerString.split(" - ")[0]);
+                    registerAttemptWithRetrofit(valor);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parentView) {
+                    // your code here
+                }
+
+            });
+
+        } catch (Exception e) {
+            Log.d("Sem Estabelecimentos", e.toString());
+        }
     }
 
     public class MyThread implements Runnable {

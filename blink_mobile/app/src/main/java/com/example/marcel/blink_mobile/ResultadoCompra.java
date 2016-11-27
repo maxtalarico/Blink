@@ -22,7 +22,7 @@ public class ResultadoCompra extends DialogFragment {
         Bundle b = getArguments();
         String resultado = b.getString("resultado");
 
-        if(resultado.equals("Autorizada.")) {
+        if(resultado.equals("Autorizada")) {
             TextView tvQRCode = (TextView) rootView.findViewById(R.id.resultado);
             tvQRCode.setText("Pagamento Autorizado!");
         } else {

@@ -2,6 +2,7 @@ package com.example.marcel.blink_mobile;
 
 import android.app.Activity;
 import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -33,6 +34,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ConfirmacaoCompra extends DialogFragment {
     final static String BASE_URL = "http://blink-brunopansani-1.c9users.io/";
     View rootView;
+
+    private DialogInterface.OnDismissListener onDismissListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -114,7 +117,7 @@ public class ConfirmacaoCompra extends DialogFragment {
 
 
         final Integer idCompra = compra.getId();
-        final Integer idCartao = 1;
+        final Integer idCartao = 2;
         final Integer idCliente = cliente.getId();
 
         Button confirm = (Button) rootView.findViewById(R.id.confirm);
@@ -156,8 +159,6 @@ public class ConfirmacaoCompra extends DialogFragment {
                     //Log.d("Response Worked", response.message());
                     statusCode = response.code();
                     //Log.d("StatusCode", Integer.toString(statusCode));
-
-                    Compra compra = response.body();
                     dismiss();
                 }
             }
@@ -168,5 +169,17 @@ public class ConfirmacaoCompra extends DialogFragment {
                 Toast.makeText(getActivity(), "Não foi possível encontrar conexão com a internet", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    public void setOnDismissListener(DialogInterface.OnDismissListener onDismissListener) {
+        this.onDismissListener = onDismissListener;
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        if (onDismissListener != null) {
+            onDismissListener.onDismiss(dialog);
+        }
     }
 }

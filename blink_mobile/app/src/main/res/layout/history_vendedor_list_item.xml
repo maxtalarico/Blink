@@ -13,7 +13,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:singleLine="true"/>
 
-  <TextView android:id="@+id/cartaoValor"
+  <TextView android:id="@+id/valor"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"

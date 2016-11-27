@@ -9,6 +9,7 @@ import com.example.marcel.blink_mobile.models.Autorizacao;
 import com.example.marcel.blink_mobile.models.Cartao;
 import com.example.marcel.blink_mobile.models.Cliente;
 import com.example.marcel.blink_mobile.models.Compra;
+import com.example.marcel.blink_mobile.models.Compras;
 import com.example.marcel.blink_mobile.models.ContaBancaria;
 import com.example.marcel.blink_mobile.models.Endereco;
 import com.example.marcel.blink_mobile.models.EstabelecimentoComercial;
@@ -102,4 +103,10 @@ public interface ApiInterface {
 
     @POST("/autorizar")
     Call<Compra> fecharCompra(@Body Autorizacao autorizacao);
+
+    @GET("/compra")
+    Call<Compras[]> getComprasHistory(@Query("cliente") Integer idCliente);
+
+    @GET("/compra")
+    Call<Compras[]> getComprasHistoryVendedor(@Query("estabelecimento") Integer idEstabelecimento);
 }
