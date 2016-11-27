@@ -5,6 +5,7 @@ package com.example.marcel.blink_mobile.interfaces;
  */
 
 import com.example.marcel.blink_mobile.models.Aparelho;
+import com.example.marcel.blink_mobile.models.Autorizacao;
 import com.example.marcel.blink_mobile.models.Cartao;
 import com.example.marcel.blink_mobile.models.Cliente;
 import com.example.marcel.blink_mobile.models.Compra;
@@ -98,4 +99,7 @@ public interface ApiInterface {
 
     @GET("/compra?populate=0")
     Call<Compra> getCompra(@Query("id") Integer id);
+
+    @POST("/autorizar")
+    Call<Compra> fecharCompra(@Body Autorizacao autorizacao);
 }

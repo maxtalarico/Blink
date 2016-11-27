@@ -48,6 +48,14 @@ public class Compra implements Serializable {
     @Expose
     protected String status;
 
+    @Override
+    public String toString() {
+        return "Compra{" +
+                "estabelecimento=" + estabelecimento +
+                ", valorTotal=" + valorTotal +
+                '}';
+    }
+
     public Integer getAparelho() {
         return aparelho;
     }

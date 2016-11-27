@@ -70,7 +70,7 @@ public class ClienteHome extends Fragment implements OnClickListener{
             ConfirmacaoCompra confirmacaoCompra = new ConfirmacaoCompra ();
 
             Bundle b = new Bundle();
-            b.putString("idCompra", data.getStringExtra("SCAN_FORMAT"));
+            b.putString("idCompra", data.getStringExtra("SCAN_RESULT"));
 
             confirmacaoCompra.setArguments(b);
 

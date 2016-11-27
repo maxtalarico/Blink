@@ -58,7 +58,7 @@ public class GerarVenda extends Fragment {
             public void onClick(View v) {
                 String valor = etValor.getText().toString();
 
-                registerAttemptWithRetrofit(valor, 1);
+                registerAttemptWithRetrofit(valor, 4);
             }
         });
 
@@ -245,20 +245,20 @@ public class GerarVenda extends Fragment {
                                 ResultadoCompra resultadoCompra = new ResultadoCompra();
                                 Bundle b = new Bundle();
 
-                                if (compra.getStatus().equals("autorizado")) {
-                                    b.putString("resultado", "autorizado");
+                                if (compra.getStatus().equals("Autorizada")) {
+                                    b.putString("resultado", "Autorizada");
                                     resultadoCompra.setArguments(b);
                                     resultadoCompra.show(fm, "Compra #" + compra.getId());
                                     stateDefined[0] = true;
 
-                                } else if (compra.getStatus().equals("naoautorizado")) {
-                                    b.putString("resultado", "naoautorizado");
+                                } else if (compra.getStatus().equals("Cancelada")) {
+                                    b.putString("resultado", "Cancelada");
                                     resultadoCompra.setArguments(b);
                                     resultadoCompra.show(fm, "Compra #" + compra.getId());
                                     stateDefined[0] = true;
 
                                 } else if (finalTries == 29) {
-                                    b.putString("resultado", "naoautorizado");
+                                    b.putString("resultado", "Cancelar");
                                     resultadoCompra.setArguments(b);
                                     resultadoCompra.show(fm, "Compra #" + compra.getId());
                                 }
