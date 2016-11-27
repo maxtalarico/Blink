@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.marcel.blink_mobile.interfaces.ApiInterface;
@@ -34,6 +36,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class EdicaoEstabelecimentoComercial extends Fragment implements View.OnClickListener {
     final String REGISTER_URL = "http://blink-brunopansani-1.c9users.io/";
 
+    View rootView;
+
     Integer categoria;
     String cnpj;
     Integer codigoEstabelecimento;
@@ -52,7 +56,12 @@ public class EdicaoEstabelecimentoComercial extends Fragment implements View.OnC
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_edicao_estabelecimentos_comercial, container, false);
+        rootView = inflater.inflate(R.layout.fragment_edicao_estabelecimentos_comercial, container, false);
+
+        Bundle b = getArguments();
+        Integer idEstabelecimentoComercial = b.getInt("idEstabelecimento");
+
+        getEstabelecimentoComercial(idEstabelecimentoComercial);
 
         Button btnAlterar = (Button)rootView.findViewById(R.id.btn_alterar);
         btnAlterar.setOnClickListener(this);
@@ -127,9 +136,9 @@ public class EdicaoEstabelecimentoComercial extends Fragment implements View.OnC
         contaBancaria = 18;
         nome = "Estab Teste";
         telefoneCom = "(19) 9874-9874";
-        cep = "13920-000";
-        logradouro = "Rua Teste";
-        bairro = "Bairro Teste";
+        cep = "13920-111";
+        logradouro = "Rua TesteQ";
+        bairro = "Bairro TesteW";
         numero = "22";
         cidade = 1;
         estado = 1;
@@ -138,10 +147,12 @@ public class EdicaoEstabelecimentoComercial extends Fragment implements View.OnC
 
         Integer id = null;
 
+        Bundle bArguments = getArguments();
+        Integer idEstabelecimentoComercial = bArguments.getInt("idEstabelecimento");
+
         Activity activity = getActivity();
         Intent i = activity.getIntent();
         Bundle b = i.getExtras();
-        Integer idEstabelecimentoComercial = b.getInt("key");
 
         Usuario usuario = (Usuario) b.getSerializable("Usuario");
         UserData userData = usuario.getUserData();
@@ -204,6 +215,15 @@ public class EdicaoEstabelecimentoComercial extends Fragment implements View.OnC
                     //Log.d("StatusCode", Integer.toString(statusCode));
 
                     EstabelecimentoComercial mEstabelecimentoComercialObject = response.body();
+                    Toast.makeText(getActivity(), "Estabelecimento alterado!", Toast.LENGTH_SHORT).show();
+
+                    Fragment fragment = new EstabelecimentosComerciais();
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.container, fragment)
+                            .commit();
+
                 }
             }
 
@@ -213,5 +233,42 @@ public class EdicaoEstabelecimentoComercial extends Fragment implements View.OnC
                 Toast.makeText(getActivity(), "Não foi possível encontrar conexão com a internet", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void getEstabelecimentoComercial(Integer idEstabelecimentoComercial) {
+        try {
+            ApiInterface mApiService = this.getInterfaceService();
+            Call<EstabelecimentoComercial> mService = mApiService.getEstabelecimentoComercial(idEstabelecimentoComercial);
+            mService.enqueue(new Callback<EstabelecimentoComercial>() {
+                @Override
+                public void onResponse(Call<EstabelecimentoComercial> call, Response<EstabelecimentoComercial> response) {
+                    int statusCode;
+
+                    if(!response.isSuccessful()){
+                        //Log.d("Response Failed", response.message());
+                        Toast.makeText(getActivity(), "Tente novamente.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        //Log.d("Response Worked", response.message());
+                        statusCode = response.code();
+                        //Log.d("StatusCode", Integer.toString(statusCode));
+
+                        EstabelecimentoComercial mEstabelecimentoComercialObject = response.body();
+
+                        TextView tvTeste = (TextView)rootView.findViewById(R.id.teste);
+                        tvTeste.setText(mEstabelecimentoComercialObject.toString());
+                        Log.d("Estabelecimento", mEstabelecimentoComercialObject.toString());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<EstabelecimentoComercial> call, Throwable t) {
+                    call.cancel();
+                    Toast.makeText(getActivity(), "Não foi possível encontrar conexão com a internet", Toast.LENGTH_LONG).show();
+                }
+            });
+
+        } catch (Exception e) {
+            Log.d("getEstabelecimento", e.toString());
+        }
     }
 }

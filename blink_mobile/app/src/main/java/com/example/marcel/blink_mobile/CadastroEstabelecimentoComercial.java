@@ -64,8 +64,11 @@ public class CadastroEstabelecimentoComercial extends Fragment  {
                                 1,
                                 1);
 
-
                         fragment = new EstabelecimentosComerciais();
+
+                    case R.id.btn_cancelar:
+                        fragment = new EstabelecimentosComerciais();
+                        break;
 
                     default:
                         break;
@@ -78,8 +81,11 @@ public class CadastroEstabelecimentoComercial extends Fragment  {
             }
         };
 
-        Button button = (Button) view.findViewById(R.id.btn_cadastrar_estabelecimento);
-        button.setOnClickListener(listener);
+        Button btnCadastrar = (Button) view.findViewById(R.id.btn_cadastrar_estabelecimento);
+        btnCadastrar.setOnClickListener(listener);
+
+        Button btnCancelar = (Button) view.findViewById(R.id.btn_cancelar);
+        btnCancelar.setOnClickListener(listener);
 
         return view;
     }

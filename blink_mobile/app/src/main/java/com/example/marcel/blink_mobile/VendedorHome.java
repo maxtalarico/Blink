@@ -1,18 +1,14 @@
 package com.example.marcel.blink_mobile;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-
-import static android.app.Activity.RESULT_OK;
 
 public class VendedorHome extends Fragment implements OnClickListener{
     public static final int REQUEST_CODE = 0;
@@ -41,7 +37,7 @@ public class VendedorHome extends Fragment implements OnClickListener{
         //do what you want to do when button is clicked
        switch (v.getId()) {
            case R.id.btn_home_pagamento:
-               callZXing(v);
+               fragment = new GerarVenda();
                break;
 
            default:
@@ -52,19 +48,6 @@ public class VendedorHome extends Fragment implements OnClickListener{
             fragmentManager.beginTransaction()
                     .replace(R.id.container, fragment)
                     .commit();
-        }
-    }
-
-    public void callZXing(View view){
-        Intent it = new Intent(getActivity(), com.google.zxing.client.android.CaptureActivity.class);
-        startActivityForResult(it, REQUEST_CODE);
-    }
-
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
-        if(REQUEST_CODE == requestCode && RESULT_OK == resultCode){
-            Log.d("QR Code", "RESULTADO: "+data.getStringExtra("SCAN_RESULT")+" ("+data.getStringExtra("SCAN_FORMAT")+")");
         }
     }
 }

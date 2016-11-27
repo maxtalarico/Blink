@@ -13,7 +13,7 @@ import java.util.Date;
 public class Aparelho implements Serializable {
     @SerializedName("id")
     @Expose
-    protected int id;
+    protected Integer id;
     @SerializedName("nome")
     @Expose
     protected String nome;
@@ -26,6 +26,40 @@ public class Aparelho implements Serializable {
     @SerializedName("status")
     @Expose
     protected String status;
+    @SerializedName("serial")
+    @Expose
+    protected String serial;
+    @SerializedName("proprietario")
+    @Expose
+    protected Integer proprietario;
+
+    public Aparelho(Date dataAtivacao, Integer id, String nome, String serial, String status, Date ultimoUso, Integer proprietario) {
+        this.dataAtivacao = dataAtivacao;
+        this.id = id;
+        this.nome = nome;
+        this.serial = serial;
+        this.status = status;
+        this.ultimoUso = ultimoUso;
+        this.proprietario = proprietario;
+    }
+
+    @Override
+    public String toString() {
+        return "Aparelho{" +
+                ", nome='" + nome + '\'' +
+                ", status='" + status + '\'' +
+                ", serial='" + serial + '\'' +
+                ", proprietario=" + Integer.toString(proprietario) +
+                '}';
+    }
+
+    public String getSerial() {
+        return serial;
+    }
+
+    public void setSerial(String serial) {
+        this.serial = serial;
+    }
 
     public void setDataAtivacao(Date dataAtivacao) {
         this.dataAtivacao = dataAtivacao;

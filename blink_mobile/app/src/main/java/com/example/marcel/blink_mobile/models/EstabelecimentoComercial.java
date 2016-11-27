@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 /**
  * Created by Marcel on 26/09/2016.
@@ -53,6 +54,20 @@ public class EstabelecimentoComercial implements Serializable {
         this.aparelhos = null;
     }
 
+    @Override
+    public String toString() {
+        return "EstabelecimentoComercial{" +
+                "aparelhos=" + Arrays.toString(aparelhos) +
+                ", id=" + Integer.toString(id) +
+                ", nome='" + nome + '\'' +
+                ", cnpj='" + cnpj + '\'' +
+                ", categoria=" + Integer.toString(categoria) +
+                ", contaBancaria=" + Integer.toString(contaBancaria) +
+                ", localizacao=" + Integer.toString(localizacao) +
+                ", telefoneCom='" + telefoneCom + '\'' +
+                ", dono=" + Integer.toString(dono) +
+                '}';
+    }
 
     public void setCategoria(Integer categoria) {
         this.categoria = categoria;

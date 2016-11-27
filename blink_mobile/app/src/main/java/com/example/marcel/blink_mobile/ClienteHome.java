@@ -65,6 +65,16 @@ public class ClienteHome extends Fragment implements OnClickListener{
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         if(REQUEST_CODE == requestCode && RESULT_OK == resultCode){
             Log.d("QR Code", "RESULTADO: "+data.getStringExtra("SCAN_RESULT")+" ("+data.getStringExtra("SCAN_FORMAT")+")");
+
+            android.app.FragmentManager fm = getActivity().getFragmentManager();
+            ConfirmacaoCompra confirmacaoCompra = new ConfirmacaoCompra ();
+
+            Bundle b = new Bundle();
+            b.putString("idCompra", data.getStringExtra("SCAN_FORMAT"));
+
+            confirmacaoCompra.setArguments(b);
+
+            confirmacaoCompra.show(fm, "Sample Fragment");
         }
     }
 }

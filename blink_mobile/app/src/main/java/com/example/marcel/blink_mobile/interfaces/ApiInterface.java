@@ -4,13 +4,16 @@ package com.example.marcel.blink_mobile.interfaces;
  * Created by Marcel on 03/10/2016.
  */
 
+import com.example.marcel.blink_mobile.models.Aparelho;
 import com.example.marcel.blink_mobile.models.Cartao;
 import com.example.marcel.blink_mobile.models.Cliente;
+import com.example.marcel.blink_mobile.models.Compra;
 import com.example.marcel.blink_mobile.models.ContaBancaria;
 import com.example.marcel.blink_mobile.models.Endereco;
 import com.example.marcel.blink_mobile.models.EstabelecimentoComercial;
 import com.example.marcel.blink_mobile.models.UserData;
 import com.example.marcel.blink_mobile.models.Usuario;
+import com.example.marcel.blink_mobile.models.Venda;
 import com.example.marcel.blink_mobile.models.Vendedor;
 
 import retrofit2.Call;
@@ -29,6 +32,15 @@ public interface ApiInterface {
     @POST("/authenticate")
     Call<Usuario> authenticate(@Field("email") String email,
                                @Field("senha") String senha);
+
+    @POST("/aparelho?populate=0")
+    Call<Aparelho> aparelhoCreate(@Body Aparelho aparelho);
+
+    @GET("/aparelho?populate=0")
+    Call<Aparelho[]> getAparelho(@Query("proprietario") Integer id);
+
+    @DELETE("/aparelho/{id}?populate=0")
+    Call<Aparelho> deleteAparelho(@Path("id") Integer id);
 
     @POST("/cartao")
     Call<Cartao> cartaoCreate(@Body Cartao cartao);
@@ -54,10 +66,13 @@ public interface ApiInterface {
     @GET("/estabelecimentocomercial")
     Call<EstabelecimentoComercial[]> getEstabelecimentos(@Query("dono") Integer id);
 
+    @GET("/estabelecimentocomercial")
+    Call<EstabelecimentoComercial> getEstabelecimentoComercial(@Query("id") Integer id);
+
     @DELETE("/estabelecimentocomercial/{id}")
     Call<EstabelecimentoComercial> deleteEstabelecimentos(@Path("id") Integer id);
 
-    @PUT("/estabelecimentocomercial/full/{id}")
+    @PUT("/estabelecimentocomercial/{id}?populate=0")
     Call<EstabelecimentoComercial> estabelecimentoUpdate(@Path("id") Integer id, @Body EstabelecimentoComercial estabelecimentoComercial);
 
     @POST("/usuario")
@@ -77,4 +92,10 @@ public interface ApiInterface {
 
     @PUT("/endereco/{id}")
     Call<Endereco> enderecoUpdate(@Path("id") Integer id, @Body Endereco endereco);
+
+    @POST("/venda")
+    Call<Compra> compraCreate(@Body Venda venda);
+
+    @GET("/compra?populate=0")
+    Call<Compra> getCompra(@Query("id") Integer id);
 }

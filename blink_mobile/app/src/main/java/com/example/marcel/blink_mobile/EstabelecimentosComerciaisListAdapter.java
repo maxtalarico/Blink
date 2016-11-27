@@ -1,6 +1,8 @@
 package com.example.marcel.blink_mobile;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -85,6 +87,7 @@ public class EstabelecimentosComerciaisListAdapter extends BaseAdapter implement
         //Handle buttons and add onClickListeners
         Button deleteBtn = (Button)view.findViewById(R.id.btn_delete);
         Button editBtn = (Button)view.findViewById(R.id.btn_edit);
+        Button aparelhosBtn = (Button)view.findViewById(R.id.btn_aparelhos);
 
         deleteBtn.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -100,7 +103,7 @@ public class EstabelecimentosComerciaisListAdapter extends BaseAdapter implement
                 Integer idEstabelecimento = Integer.parseInt(list.get(position).split(";")[0]);
 
                 Fragment fragment = null;
-                FragmentManager fragmentManager = context.getFragmentManager();
+                FragmentManager fragmentManager = context.getParentFragment().getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
                 fragment = new EdicaoEstabelecimentoComercial();
@@ -109,6 +112,33 @@ public class EstabelecimentosComerciaisListAdapter extends BaseAdapter implement
                 b.putInt("idEstabelecimento", idEstabelecimento);
 
                 fragment.setArguments(b);
+
+                if (fragment != null) {
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.container, fragment)
+                            .commit();
+                }
+            }
+        });
+
+        aparelhosBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Integer idEstabelecimento = Integer.parseInt(list.get(position).split(";")[0]);
+
+                Fragment fragment = null;
+                FragmentManager fragmentManager = context.getParentFragment().getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                fragment = new Aparelhos();
+
+                Bundle b = new Bundle();
+                b.putInt("idEstabelecimento", idEstabelecimento);
+                fragment.setArguments(b);
+
+                Activity activity = context.getActivity();
+                Intent i = activity.getIntent();
+                i.putExtras(b);
 
                 if (fragment != null) {
                     fragmentManager.beginTransaction()
