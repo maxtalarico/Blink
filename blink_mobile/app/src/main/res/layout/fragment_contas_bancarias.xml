@@ -30,7 +30,9 @@
             android:text="Cadastrar Conta"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_cadastrar_conta" />
+            android:id="@+id/btn_cadastrar_conta"
+            android:background="@color/DefaultBlue"
+            android:textColor="@android:color/white" />
 
     </LinearLayout>
 

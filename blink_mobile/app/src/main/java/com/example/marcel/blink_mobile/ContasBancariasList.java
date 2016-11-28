@@ -155,7 +155,10 @@ public class ContasBancariasList extends Fragment implements OnClickListener{
             for (int x = 0; x < qtdContas; x++ ) {
                 idConta = contas[x].getId();
                 nomeBanco = vendedor.getNome() + contas[x].getBanco();
-                numeroAgencia = contas[x].getNumeroConta()+ contas[x].getDigitoConta() + contas[x].getAgencia() + contas[x].getDigitoAgencia();
+                numeroAgencia = contas[x].getAgencia() + "-" +
+                        contas[x].getDigitoAgencia() + " / " +
+                        contas[x].getNumeroConta() + "-" +
+                        contas[x].getDigitoConta();
 
                 contasStrings.add(Integer.toString(idConta) + ";" + nomeBanco + ";" + numeroAgencia);
             }

@@ -140,7 +140,7 @@ public class HistoryVendedor extends Fragment implements View.OnClickListener {
         final Integer idEstabelecimentoComercial = b.getInt("idEstabelecimentoComercial");
 
         ApiInterface mApiService = this.getInterfaceService();
-        Call<Compras[]> mService = mApiService.getComprasHistoryVendedor(idEstabelecimentoComercial);
+        Call<Compras[]> mService = mApiService.getComprasHistoryVendedor(idEstabelecimentoComercial, "Autorizada");
         mService.enqueue(new Callback<Compras[]>() {
             @Override
             public void onResponse(Call<Compras[]> call, Response<Compras[]> response) {

@@ -38,13 +38,19 @@
                 android:text="Cancelar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/btn_cancelar" />
+                android:id="@+id/btn_cancelar"
+                android:background="@color/DefaultBlue"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="20dp" />
 
             <Button
                 android:text="Alterar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/btn_alterar" />
+                android:id="@+id/btn_alterar"
+                android:textColor="@android:color/white"
+                android:background="@color/DefaultBlue"
+                android:layout_marginTop="20dp" />
 
         </LinearLayout>
 

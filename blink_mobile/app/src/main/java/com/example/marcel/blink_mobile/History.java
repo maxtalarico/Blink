@@ -130,7 +130,7 @@ public class History extends Fragment implements OnClickListener{
         //Log.d("IDs", "registerAttemptWithRetrofit: estado: " + Integer.toString(estado) + " | cidade: " + Integer.toString(cidade));
 
         ApiInterface mApiService = this.getInterfaceService();
-        Call<Compras[]> mService = mApiService.getComprasHistory(id);
+        Call<Compras[]> mService = mApiService.getComprasHistory(id, "Autorizada");
         mService.enqueue(new Callback<Compras[]>() {
             @Override
             public void onResponse(Call<Compras[]> call, Response<Compras[]> response) {

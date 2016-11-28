@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +34,7 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.client.android.encode.MyEncoder;
 
 import java.lang.reflect.Array;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -56,15 +59,17 @@ public class GerarVenda extends Fragment {
     Spinner estabelecimentoSpinner;
     String valor;
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_gerar_venda, container, false);
 
-        etValor = (EditText) rootView.findViewById(R.id.editText);
-        valor = etValor.getText().toString();
+        etValor = (EditText) rootView.findViewById(R.id.txt_valor);
+
+        final EditText valorMonetario = (EditText) rootView.findViewById(R.id.txt_valor);
+        valorMonetario.addTextChangedListener(new MascaraMonetaria(valorMonetario));
 
         qrImage = (ImageView ) rootView.findViewById(R.id.imageView);
 
-        Activity activity = getActivity();
+        final Activity activity = getActivity();
         Intent i = activity.getIntent();
         Bundle b = i.getExtras();
 
@@ -74,17 +79,29 @@ public class GerarVenda extends Fragment {
 
         setEstabelecimentosSpinner(vendedor.getId());
 
-        Button gerar = (Button) rootView.findViewById(R.id.button);
+        Button gerar = (Button) rootView.findViewById(R.id.btn_gerar);
         gerar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String valor = etValor.getText().toString();
+                valor = etValor.getText().toString();
 
                 registerAttemptWithRetrofit(valor);
+
+                EditText preco = (EditText) getView().findViewById(R.id.txt_valor);
+
+                if ("".equals(preco.getText().toString().trim())) {
+                    preco.setError("Campo obrigatório");
+                    //Toast.makeText(getActivity(), "O valor Obrigatório", Toast.LENGTH_SHORT).show();
+                    return;
+                }if ("0,00".equals(preco.getText().toString().trim())) {
+                    preco  .setError("Campo obrigatório");
+                    //Toast.makeText(getActivity(), "O preço não pode ser R$0,00", Toast.LENGTH_SHORT).show();
+                    return;
+                }
             }
         });
 
-        Button cancelar = (Button) rootView.findViewById(R.id.button2);
+        Button cancelar = (Button) rootView.findViewById(R.id.btn_cancelar);
         cancelar.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -102,6 +119,61 @@ public class GerarVenda extends Fragment {
 
         return rootView;
     }
+
+    private class MascaraMonetaria implements TextWatcher {
+        final EditText txtValor;
+
+        public MascaraMonetaria(EditText txtValor) {
+            super();
+            this.txtValor = txtValor;
+        }
+
+        private boolean isUpdating = false;
+        // Pega a formatacao do sistema, se for brasil R$ se EUA US
+        private NumberFormat nf = NumberFormat.getCurrencyInstance();
+
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before,
+                                  int after) {
+            // Evita que o método seja executado varias vezes.
+            // Se tirar ele entre em loop
+            if (isUpdating) {
+                isUpdating = false;
+                return;
+            }
+            isUpdating = true;
+            String str = s.toString();
+            // Verifica se já existe a máscara no texto.
+            boolean hasMask = ((str.indexOf("R$") > -1 || str.indexOf("$") > -1) &&
+                    (str.indexOf(".") > -1 || str.indexOf(",") > -1));
+            // Verificamos se existe máscara
+            if (hasMask) {
+                // Retiramos a máscara.
+                str = str.replaceAll("[R$]", "").replaceAll("[,]", "")
+                        .replaceAll("[.]", "");
+            }
+            try {
+                // Transformamos o número que está escrito no EditText em
+                // monetário.
+                str = nf.format(Double.parseDouble(str) / 100);
+                txtValor.setText(str);
+                txtValor.setSelection(txtValor.getText().length());
+            } catch (NumberFormatException e) {
+                s = "";
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
+    }
+
 
     private ApiInterface getInterfaceService() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
@@ -131,8 +203,6 @@ public class GerarVenda extends Fragment {
 
         final Integer idEstabelecimentoComercial = b.getInt("idEstabelecimentoComercial");
         Log.d("id in aparelho", Integer.toString(idEstabelecimentoComercial));
-
-        valor = "12.50";
 
         ApiInterface mApiService = this.getInterfaceService();
         Call<Aparelho[]> mService = mApiService.getAparelho(idEstabelecimentoComercial);
@@ -179,7 +249,16 @@ public class GerarVenda extends Fragment {
     public void createVenda(String finalValor, Integer idEstabelecimentoComercial, Integer idAparelho) {
         Date data = new Date();
 
-        Float valorTotal = Float.parseFloat(finalValor);
+        /*String money = "$";//new String("R$");
+
+        String[] parts = finalValor.split(money);
+        Log.d("Filter", "createVenda: " + money);
+        String part1 = parts[0]; // 004
+        Log.d("R$", "createVenda: " + part1);
+        String part2 = parts[1];
+        Log.d("R$", "createVenda: " + part2);*/
+
+        Float valorTotal = Float.parseFloat(finalValor.substring(2, finalValor.length()).replace(".", "").replace(",", "."));
 
         Venda venda = new Venda(idAparelho, idEstabelecimentoComercial, valorTotal);
 
@@ -297,7 +376,7 @@ public class GerarVenda extends Fragment {
             Activity activity = getActivity();
             Intent i = activity.getIntent();
 
-            estabelecimentoSpinner = (Spinner) view.findViewById(R.id.spinnerEstabelecimento);
+            estabelecimentoSpinner = (Spinner) view.findViewById(R.id.spn_estabelecimento);
 
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_layout, R.id.textView, estabelecimentosStrings);
             estabelecimentoSpinner.setAdapter(adapter);
@@ -305,7 +384,7 @@ public class GerarVenda extends Fragment {
             String estabelecimentoSpinnerString = estabelecimentoSpinner.getSelectedItem().toString();
             Integer idEstabelecimentoComercial = Integer.parseInt(estabelecimentoSpinnerString.split(" - ")[0]);
             i.putExtra("idEstabelecimentoComercial", idEstabelecimentoComercial);
-            registerAttemptWithRetrofit(valor);
+            //registerAttemptWithRetrofit(valor);
 
             estabelecimentoSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
@@ -317,7 +396,7 @@ public class GerarVenda extends Fragment {
                     Integer idEstabelecimentoComercial = Integer.parseInt(estabelecimentoSpinnerString.split(" - ")[0]);
                     i.putExtra("idEstabelecimentoComercial", idEstabelecimentoComercial);
                     Log.d("id", "onItemSelected: " + estabelecimentoSpinnerString.split(" - ")[0]);
-                    registerAttemptWithRetrofit(valor);
+                    //registerAttemptWithRetrofit(valor);
                 }
 
                 @Override
@@ -342,66 +421,66 @@ public class GerarVenda extends Fragment {
         }
 
         public void run() {
-                final boolean[] stateDefined = {false};
-                for (int tries = 0; tries < 30; tries++) {
-                    //ApiInterface mApiService = this.getInterfaceService();
-                    Call<Compra> mService = mApiService.getCompra(idCompra);
-                    final int finalTries = tries;
+            final boolean[] stateDefined = {false};
+            for (int tries = 0; tries < 30; tries++) {
+                //ApiInterface mApiService = this.getInterfaceService();
+                Call<Compra> mService = mApiService.getCompra(idCompra);
+                final int finalTries = tries;
 
-                    if (stateDefined[0]) {
-                        break;
-                    }
-                    mService.enqueue(new Callback<Compra>() {
-                        @Override
-                        public void onResponse(Call<Compra> call, Response<Compra> response) {
-                            int statusCode;
+                if (stateDefined[0]) {
+                    break;
+                }
+                mService.enqueue(new Callback<Compra>() {
+                    @Override
+                    public void onResponse(Call<Compra> call, Response<Compra> response) {
+                        int statusCode;
 
-                            if (!response.isSuccessful()) {
-                                //Log.d("Response Failed", response.message());
-                                Toast.makeText(getActivity(), "Tente novamente.", Toast.LENGTH_SHORT).show();
-                            } else {
-                                //Log.d("Response Worked", response.message());
-                                statusCode = response.code();
-                                //Log.d("StatusCode", Integer.toString(statusCode));
+                        if (!response.isSuccessful()) {
+                            //Log.d("Response Failed", response.message());
+                            Toast.makeText(getActivity(), "Tente novamente.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            //Log.d("Response Worked", response.message());
+                            statusCode = response.code();
+                            //Log.d("StatusCode", Integer.toString(statusCode));
 
-                                Compra compra = response.body();
+                            Compra compra = response.body();
 
-                                android.app.FragmentManager fm = getActivity().getFragmentManager();
-                                ResultadoCompra resultadoCompra = new ResultadoCompra();
-                                Bundle b = new Bundle();
+                            android.app.FragmentManager fm = getActivity().getFragmentManager();
+                            ResultadoCompra resultadoCompra = new ResultadoCompra();
+                            Bundle b = new Bundle();
 
-                                if (compra.getStatus().equals("Autorizada")) {
-                                    b.putString("resultado", "Autorizada");
-                                    resultadoCompra.setArguments(b);
-                                    resultadoCompra.show(fm, "Compra #" + compra.getId());
-                                    stateDefined[0] = true;
+                            if (compra.getStatus().equals("Autorizada")) {
+                                b.putString("resultado", "Autorizada");
+                                resultadoCompra.setArguments(b);
+                                resultadoCompra.show(fm, "Compra #" + compra.getId());
+                                stateDefined[0] = true;
 
-                                } else if (compra.getStatus().equals("Cancelada")) {
-                                    b.putString("resultado", "Cancelada");
-                                    resultadoCompra.setArguments(b);
-                                    resultadoCompra.show(fm, "Compra #" + compra.getId());
-                                    stateDefined[0] = true;
+                            } else if (compra.getStatus().equals("Cancelada")) {
+                                b.putString("resultado", "Cancelada");
+                                resultadoCompra.setArguments(b);
+                                resultadoCompra.show(fm, "Compra #" + compra.getId());
+                                stateDefined[0] = true;
 
-                                } else if (finalTries == 29) {
-                                    b.putString("resultado", "Cancelar");
-                                    resultadoCompra.setArguments(b);
-                                    resultadoCompra.show(fm, "Compra #" + compra.getId());
-                                }
+                            } else if (finalTries == 29) {
+                                b.putString("resultado", "Cancelar");
+                                resultadoCompra.setArguments(b);
+                                resultadoCompra.show(fm, "Compra #" + compra.getId());
                             }
                         }
-
-                        @Override
-                        public void onFailure(Call<Compra> call, Throwable t) {
-                            call.cancel();
-                            Toast.makeText(getActivity(), "Não foi possível encontrar conexão com a internet", Toast.LENGTH_LONG).show();
-                        }
-                    });
-                    try {
-                        TimeUnit.SECONDS.sleep(1);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
                     }
+
+                    @Override
+                    public void onFailure(Call<Compra> call, Throwable t) {
+                        call.cancel();
+                        Toast.makeText(getActivity(), "Não foi possível encontrar conexão com a internet", Toast.LENGTH_LONG).show();
+                    }
+                });
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
+            }
         }
     }
 }

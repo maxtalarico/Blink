@@ -105,8 +105,8 @@ public interface ApiInterface {
     Call<Compra> fecharCompra(@Body Autorizacao autorizacao);
 
     @GET("/compra")
-    Call<Compras[]> getComprasHistory(@Query("cliente") Integer idCliente);
+    Call<Compras[]> getComprasHistory(@Query("cliente") Integer idCliente, @Query("status") String status);
 
     @GET("/compra")
-    Call<Compras[]> getComprasHistoryVendedor(@Query("estabelecimento") Integer idEstabelecimento);
+    Call<Compras[]> getComprasHistoryVendedor(@Query("estabelecimento") Integer idEstabelecimento, @Query("status") String status);
 }

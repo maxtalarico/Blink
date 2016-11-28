@@ -24,5 +24,7 @@
         android:id="@+id/dismiss"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Cancelar" />
+        android:text="Cancelar"
+        android:background="@color/DefaultBlue"
+        android:textColor="@android:color/white" />
 </LinearLayout>

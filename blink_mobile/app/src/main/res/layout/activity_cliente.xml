@@ -223,13 +223,12 @@
             android:layout_alignBaseline="@+id/spinnerBandeira"/>
 
         <Button
-            android:layout_width="150dp"
-            android:layout_height="35dp"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
             android:text="Cadastrar"
             android:id="@+id/btnCadastrarCliente"
-            android:textColor="@color/DefaultBlue"
-            android:textStyle="bold"
-            android:background="@color/White"
+            android:textColor="@android:color/white"
+            android:background="@color/DefaultBlue"
             android:clickable="true"
             android:nestedScrollingEnabled="false"
             android:layout_below="@+id/campoCodigo"
@@ -237,6 +236,15 @@
             android:layout_marginTop="45dp"
             android:onClick="CreateNovoCliente"/>
 
+        <Button
+            android2:text="Cancelar"
+            android2:layout_alignParentBottom="true"
+            android2:layout_alignParentStart="true"
+            android:id="@+id/btn_cancelar"
+            android:textColor="@android:color/white"
+            android:background="@color/DefaultBlue"
+            android:layout_width="100dp"
+            android:layout_height="40dp" />
 
 
     </RelativeLayout>

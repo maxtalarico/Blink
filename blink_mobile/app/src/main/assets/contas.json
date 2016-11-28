@@ -1,0 +1,16 @@
+{
+  "contas": [
+    {
+      "id": 1,
+      "nome": "Conta Corrente",
+      "createdAt": null,
+      "updatedAt": null
+    },
+    {
+      "id": 2,
+      "nome": "Conta Poupança",
+      "createdAt": null,
+      "updatedAt": null
+    }
+  ]
+}

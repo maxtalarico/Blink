@@ -1,0 +1,184 @@
+{
+  "categorias": [
+    {
+      "id": 2,
+      "nome": "Açougue",
+      "createdAt": null,
+      "updatedAt": null
+    },
+    {
+      "id": 3,
+      "nome": "Alfaiataria",
+      "createdAt": null,
+      "updatedAt": null
+    },
+    {
+      "id": 4,
+      "nome": "AmPm",
+      "createdAt": null,
+      "updatedAt": null
+    },
+    {
+      "id": 5,
+      "nome": "Antiquário",
+      "createdAt": null,
+      "updatedAt": null
+    },
+    {
+      "id": 6,
+      "nome": "Banca de jornal",
+      "createdAt": null,
+      "updatedAt": null
+    },
+    {
+      "id": 7,
+      "nome": "Bar (estabelecimento)",
+      "createdAt": null,
+      "updatedAt": null
+    },
+    {
+      "id": 8,
+      "nome": "Bazar",
+      "createdAt": null,
+      "updatedAt": null
+    },
+    {
+      "id": 9,
+      "nome": "Bomboniere",
+      "createdAt": null,
+      "updatedAt": null
+    },
+    {
+      "id": 10,
+      "nome": "Borracharia",
+      "createdAt": null,
+      "updatedAt": null
+    },
+    {
+      "id": 11,
+      "nome": "Brechó",
+      "createdAt": null,
+      "updatedAt": null
+    },
+    {
+      "id": 12,
+      "nome": "Cabeleireiro",
+      "createdAt": null,
+      "updatedAt": null
+    },
+    {
+      "id": 13,
+      "nome": "Coffeeshop",
+      "createdAt": null,
+      "updatedAt": null
+    },
+    {
+      "id": 14,
+      "nome": "Cyber café",
+      "createdAt": null,
+      "updatedAt": null
+    },
+    {
+      "id": 15,
+      "nome": "Doceria",
+      "createdAt": null,
+      "updatedAt": null
+    },
+    {
+      "id": 16,
+      "nome": "Drogaria",
+      "createdAt": null,
+      "updatedAt": null
+    },
+    {
+      "id": 17,
+      "nome": "Empório",
+      "createdAt": null,
+      "updatedAt": null
+    },
+    {
+      "id": 18,
+      "nome": "Farmácia (estabelecimento)",
+      "createdAt": null,
+      "updatedAt": null
+    },
+    {
+      "id": 19,
+      "nome": "Fliperama",
+      "createdAt": null,
+      "updatedAt": null
+    },
+    {
+      "id": 20,
+      "nome": "Galeria de arte",
+      "createdAt": null,
+      "updatedAt": null
+    },
+    {
+      "id": 21,
+      "nome": "Gibiteria",
+      "createdAt": null,
+      "updatedAt": null
+    },
+    {
+      "id": 22,
+      "nome": "Gráfica",
+      "createdAt": null,
+      "updatedAt": null
+    },
+    {
+      "id": 23,
+      "nome": "LAN house",
+      "createdAt": null,
+      "updatedAt": null
+    },
+    {
+      "id": 24,
+      "nome": "Lanchonete",
+      "createdAt": null,
+      "updatedAt": null
+    },
+    {
+      "id": 25,
+      "nome": "Loja",
+      "createdAt": null,
+      "updatedAt": null
+    },
+    {
+      "id": 26,
+      "nome": "Loja de brinquedos",
+      "createdAt": null,
+      "updatedAt": null
+    },
+    {
+      "id": 27,
+      "nome": "Loja de conveniência",
+      "createdAt": null,
+      "updatedAt": null
+    },
+    {
+      "id": 28,
+      "nome": "Lojas de 1,99",
+      "createdAt": null,
+      "updatedAt": null
+    },
+    {
+      "id": 29,
+      "nome": "Mercearia",
+      "createdAt": null,
+      "updatedAt": null
+    },
+    {
+      "id": 30,
+      "nome": "Papelaria",
+      "createdAt": null,
+      "updatedAt": null
+    },
+    {
+      "id": 31,
+      "nome": "Pet shop",
+      "createdAt": null,
+      "updatedAt": null
+    }
+  ]
+}

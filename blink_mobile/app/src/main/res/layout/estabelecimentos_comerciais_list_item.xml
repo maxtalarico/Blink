@@ -31,7 +31,9 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="5dp"
-        android:text="Deletar" />
+        android:text="Deletar"
+        android:textColor="@android:color/white"
+        android:background="@color/DefaultBlue" />
 
     <Button
         android:id="@+id/btn_edit"
@@ -40,7 +42,9 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="5dp"
-        android:text="Editar" />
+        android:text="Editar"
+        android:textColor="@android:color/white"
+        android:background="@color/DefaultBlue" />
 
     <Button
         android:id="@+id/btn_aparelhos"
@@ -49,7 +53,9 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="5dp"
-        android:text="Aparelhos" />
+        android:text="Aparelhos"
+        android:textColor="@android:color/white"
+        android:background="@color/DefaultBlue" />
 
   </LinearLayout>
 

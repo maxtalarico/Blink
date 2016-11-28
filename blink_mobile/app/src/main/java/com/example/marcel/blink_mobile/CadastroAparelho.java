@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.marcel.blink_mobile.interfaces.ApiInterface;
@@ -37,7 +38,7 @@ public class CadastroAparelho extends Fragment  {
 
     Activity rootActivity;
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
 
         final View view = inflater.inflate(R.layout.fragment_cadastro_aparelhos, container, false);
@@ -53,14 +54,39 @@ public class CadastroAparelho extends Fragment  {
 
                 switch (v.getId()) {
                     case R.id.btn_cadastrar_aparelho:
-                        registerAttemptWithRetrofit(/*"Cliente Teste",
-                                                    1111111111,
-                                                    "123456",
-                                                    "12/11/2020",
-                                                    777,
-                                                    "Master Card"*/);
+                        EditText dispositivo = (EditText) getView().findViewById(R.id.txt_nome_dispositivo);
+                        //EditText dt_ativacao = (EditText) getView().findViewById(R.id.txt_data_ativacao);
+                        //EditText dt_u_uso = (EditText) getView().findViewById(R.id.txt_data_ultimo_uso);
+                        //EditText serial = (EditText) getView().findViewById(R.id.txt_serial);
+                        //EditText proprietario = (EditText) getView().findViewById(R.id.txt_proprietario);
 
-                        fragment = new Aparelhos();
+                        if ("".equals(dispositivo.getText().toString().trim())) {
+                            dispositivo.setError("Campo obrigatório");
+                            //Toast.makeText(getActivity(), "Campo Nome do Dispositivo é Obrigatório", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        /*if ("".equals(dt_ativacao.getText().toString().trim())) {
+                            dt_ativacao.setError("Campo obrigatório");
+                            //Toast.makeText(getActivity(), "Campo Digito da Agência Obrigatório", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        if ("".equals(dt_u_uso.getText().toString().trim())) {
+                            dt_u_uso.setError("Campo obrigatório");
+                            //Toast.makeText(getActivity(), "Campo Conta Obrigatório", Toast.LENGTH_SHORT).show();
+                            return;
+                        }if ("".equals(serial.getText().toString().trim())) {
+                        serial.setError("Campo obrigatório");
+                        //Toast.makeText(getActivity(), "Campo Digito da Conta Obrigatório", Toast.LENGTH_SHORT).show();
+                        return;
+                        }if ("".equals(proprietario.getText().toString().trim())) {
+                            proprietario.setError("Campo obrigatório");
+                            //Toast.makeText(getActivity(), "Campo Digito da Conta Obrigatório", Toast.LENGTH_SHORT).show();
+                            return;
+                        }*/ else {
+                            registerAttemptWithRetrofit(dispositivo.getText().toString());
+
+                            fragment = new Aparelhos();
+                        }
 
                     default:
                         break;
@@ -75,6 +101,14 @@ public class CadastroAparelho extends Fragment  {
 
         Button button = (Button) view.findViewById(R.id.btn_cadastrar_aparelho);
         button.setOnClickListener(listener);
+
+        /*EditText dtAtv = (EditText) view.findViewById(R.id.txt_data_ativacao);
+        MaskEditTextChangedListener maskdtAtv = new MaskEditTextChangedListener("##/##/####", dtAtv);
+        EditText datUU = (EditText) view.findViewById(R.id.txt_data_ultimo_uso);
+        MaskEditTextChangedListener maskdatUU = new MaskEditTextChangedListener("##/##/####", datUU);
+
+        dtAtv.addTextChangedListener((TextWatcher) maskdtAtv);
+        datUU.addTextChangedListener((TextWatcher) maskdatUU);*/
 
         return view;
     }
@@ -100,15 +134,9 @@ public class CadastroAparelho extends Fragment  {
         return mInterfaceService;
     }
 
-    private void registerAttemptWithRetrofit( /*String nome,
-                                              int numero,
-                                              String senha,
-                                              String dataVencimento,
-                                              int codigoSeguranca,
-                                              String bandeira*/){
+    private void registerAttemptWithRetrofit(String nome){
 
         Date dataAtivacao = new Date();
-        String nome = "Max MotoZ Play";
         String serial = Build.SERIAL;
         String status = "Ativo";
         Date ultimoUso = new Date();
