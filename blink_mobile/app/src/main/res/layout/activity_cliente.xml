@@ -48,13 +48,44 @@
             android:layout_below="@+id/campoNome"/>
 
         <EditText
+            android:id="@+id/campoEmailConf"
+            android:hint="Confirme seu Email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:inputType="textEmailAddress"
+            android:layout_below="@+id/campoEmail"/>
+
+        <EditText
+            android:id="@+id/campoSenha"
+            android:hint="Senha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:inputType="textPassword"
+            android:layout_below="@+id/campoEmailConf"/>
+
+        <EditText
+            android:id="@+id/campoSenhaConf"
+            android:hint="Confirme sua senha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:inputType="textPassword"
+            android:layout_below="@+id/campoSenha"/>
+
+        <EditText
             android:id="@+id/campoCPF"
             android:hint="CPF"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_below="@+id/campoEmail"/>
+            android:layout_below="@+id/campoSenhaConf"
+            android:inputType="number" />
 
         <TextView
             android:id="@+id/campoDataNasc"
@@ -75,7 +106,8 @@
             android:layout_marginRight="10dp"
             android:layout_toRightOf="@+id/campoDataNasc"
             android:layout_below="@+id/campoCPF"
-            android:layout_alignBaseline="@+id/campoDataNasc"/>
+            android:layout_alignBaseline="@+id/campoDataNasc"
+            android:inputType="number"/>
 
         <EditText
             android:id="@+id/campoTelefone"
@@ -84,7 +116,19 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_below="@+id/campoDataNasc"/>
+            android:layout_below="@+id/campoDataNasc"
+            android:inputType="number"/>
+
+
+        <EditText
+            android:id="@+id/campoCelular"
+            android:hint="Celular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_below="@+id/campoTelefone"
+            android:inputType="number"/>
 
         <EditText
             android:id="@+id/campoCEP"
@@ -93,7 +137,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_below="@+id/campoTelefone"/>
+            android:layout_below="@+id/campoCelular"/>
 
         <EditText
             android:id="@+id/campoEndereco"
@@ -111,7 +155,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="5dp"
-            android:layout_below="@+id/campoEndereco"/>
+            android:layout_below="@+id/campoEndereco"
+            android:inputType="number"/>
 
         <EditText
             android:id="@+id/campoComplemento"
@@ -177,7 +222,7 @@
             android:layout_toRightOf="@+id/campoCidade"
             android:layout_alignBaseline="@+id/campoBairro"/>-->
 
-        <TextView
+<!--        <TextView
             android:id="@+id/titleNovoCartao"
             android:text="Cadastrar Cartão"
             android:textSize="20dp"
@@ -220,31 +265,58 @@
             android:layout_marginRight="10dp"
             android:layout_below="@+id/campoNomeCartao"
             android:layout_toRightOf="@+id/spinnerBandeira"
-            android:layout_alignBaseline="@+id/spinnerBandeira"/>
+            android:layout_alignBaseline="@+id/spinnerBandeira"/>-->
+
+        <TextView
+            android:id="@+id/campoPINdesc"
+            android:text="* PIN utilizado para confirmar pagamentos"
+            android:layout_below="@+id/spinnerEstado"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="15dp"
+            android:textSize="16dp"
+            android:inputType="number"/>
+
+        <EditText
+            android:id="@+id/campoPIN"
+            android:hint="PIN"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_below="@+id/campoPINdesc"
+            android:inputType="numberPassword"/>
 
         <Button
-            android:layout_width="100dp"
-            android:layout_height="40dp"
+            android:layout_marginTop="30dp"
+            android:layout_width="150dp"
+            android:layout_height="35dp"
+            android:id="@+id/btnCancelarCadastro"
+            android:background="@color/DefaultBlue"
+            android:onClick="cancelar"
+            android:clickable="true"
+            android:text="Cancelar"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:layout_below="@+id/campoPIN"
+            android:nestedScrollingEnabled="false"
+            android:layout_marginLeft="10dp"/>
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="35dp"
             android:text="Cadastrar"
             android:id="@+id/btnCadastrarCliente"
+            android:textStyle="bold"
             android:textColor="@android:color/white"
             android:background="@color/DefaultBlue"
             android:clickable="true"
             android:nestedScrollingEnabled="false"
-            android:layout_below="@+id/campoCodigo"
-            android:layout_alignRight="@+id/campoCodigo"
-            android:layout_marginTop="45dp"
-            android:onClick="CreateNovoCliente"/>
+            android:layout_below="@+id/campoPIN"
+            android:layout_alignRight="@+id/spinnerEstado"
+            android:layout_alignBaseline="@+id/btnCancelarCadastro"/>
 
-        <Button
-            android2:text="Cancelar"
-            android2:layout_alignParentBottom="true"
-            android2:layout_alignParentStart="true"
-            android:id="@+id/btn_cancelar"
-            android:textColor="@android:color/white"
-            android:background="@color/DefaultBlue"
-            android:layout_width="100dp"
-            android:layout_height="40dp" />
 
 
     </RelativeLayout>
