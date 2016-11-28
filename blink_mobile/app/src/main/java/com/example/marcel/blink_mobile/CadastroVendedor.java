@@ -98,74 +98,72 @@ public class CadastroVendedor extends ActionBarActivity  implements TextWatcher{
     }
 
     public void registerViews(){
-        if(checkValidation()) {
-            Eemail = (EditText) findViewById(R.id.txt_email);
-            EemailConf = (EditText) findViewById(R.id.txt_confirmar_email);
-            Esenha = (EditText) findViewById(R.id.txt_senha);
-            EsenhaConf = (EditText) findViewById(R.id.txt_confirmar_senha);
-            Enome = (EditText) findViewById(R.id.txt_nome);
-            EdataNasc = (EditText) findViewById(R.id.txt_data_nascimento);
-            Ecpf = (EditText) findViewById(R.id.txt_cpf);
-            Etel = (EditText) findViewById(R.id.txt_telefone_residencial);
-            Etel2 = (EditText) findViewById(R.id.txt_teefone_comercial);
-            Ecelular = (EditText) findViewById(R.id.txt_telefone_celular);
-            Ecep = (EditText) findViewById(R.id.txt_cep);
-            estadoSpinner = (Spinner) findViewById(R.id.spn_estado);
-            cidadeSpinner = (Spinner) findViewById(R.id.spn_cidade);
-            Eendereco = (EditText) findViewById(R.id.txt_endereco);
-            Ebairro = (EditText) findViewById(R.id.txt_bairro);
-            Enumero = (EditText) findViewById(R.id.txt_numero);
+        Eemail = (EditText) findViewById(R.id.txt_email);
+        EemailConf = (EditText) findViewById(R.id.txt_confirmar_email);
+        Esenha = (EditText) findViewById(R.id.txt_senha);
+        EsenhaConf = (EditText) findViewById(R.id.txt_confirmar_senha);
+        Enome = (EditText) findViewById(R.id.txt_nome);
+        EdataNasc = (EditText) findViewById(R.id.txt_data_nascimento);
+        Ecpf = (EditText) findViewById(R.id.txt_cpf);
+        Etel = (EditText) findViewById(R.id.txt_telefone_residencial);
+        Etel2 = (EditText) findViewById(R.id.txt_teefone_comercial);
+        Ecelular = (EditText) findViewById(R.id.txt_telefone_celular);
+        Ecep = (EditText) findViewById(R.id.txt_cep);
+        estadoSpinner = (Spinner) findViewById(R.id.spn_estado);
+        cidadeSpinner = (Spinner) findViewById(R.id.spn_cidade);
+        Eendereco = (EditText) findViewById(R.id.txt_endereco);
+        Ebairro = (EditText) findViewById(R.id.txt_bairro);
+        Enumero = (EditText) findViewById(R.id.txt_numero);
 
 
-            Enome.addTextChangedListener(this);
-            Eemail.addTextChangedListener(this);
-            EemailConf.addTextChangedListener(this);
-            Ecpf.addTextChangedListener(this);
-            Esenha.addTextChangedListener(this);
-            EsenhaConf.addTextChangedListener(this);
-            Etel.addTextChangedListener(this);
-            Etel2.addTextChangedListener(this);
-            Ecelular.addTextChangedListener(this);
-            Ecep.addTextChangedListener(this);
-            Eendereco.addTextChangedListener(this);
-            Enumero.addTextChangedListener(this);
-            Ebairro.addTextChangedListener(this);
-            EdataNasc.addTextChangedListener(this);
+        Enome.addTextChangedListener(this);
+        Eemail.addTextChangedListener(this);
+        EemailConf.addTextChangedListener(this);
+        Ecpf.addTextChangedListener(this);
+        Esenha.addTextChangedListener(this);
+        EsenhaConf.addTextChangedListener(this);
+        Etel.addTextChangedListener(this);
+        Etel2.addTextChangedListener(this);
+        Ecelular.addTextChangedListener(this);
+        Ecep.addTextChangedListener(this);
+        Eendereco.addTextChangedListener(this);
+        Enumero.addTextChangedListener(this);
+        Ebairro.addTextChangedListener(this);
+        EdataNasc.addTextChangedListener(this);
 
-            estadoSpinner = (Spinner) findViewById(R.id.spinnerEstado);
-            cidadeSpinner = (Spinner) findViewById(R.id.spinnerCidade);
+        estadoSpinner = (Spinner) findViewById(R.id.spinnerEstado);
+        cidadeSpinner = (Spinner) findViewById(R.id.spinnerCidade);
 
-            MaskEditTextChangedListener maskTel = new MaskEditTextChangedListener("(##)####-#####", Etel);
-            MaskEditTextChangedListener maskTel2 = new MaskEditTextChangedListener("(##)####-#####", Etel2);
-            MaskEditTextChangedListener maskCel = new MaskEditTextChangedListener("(##)####-#####", Ecelular);
-            MaskEditTextChangedListener maskCPF = new MaskEditTextChangedListener("###.###.###-##", Ecpf);
-            MaskEditTextChangedListener maskNasc = new MaskEditTextChangedListener("##/##/####", EdataNasc);
-            MaskEditTextChangedListener maskCep = new MaskEditTextChangedListener("#####-###", Ecep);
+        MaskEditTextChangedListener maskTel = new MaskEditTextChangedListener("(##)####-#####", Etel);
+        MaskEditTextChangedListener maskTel2 = new MaskEditTextChangedListener("(##)####-#####", Etel2);
+        MaskEditTextChangedListener maskCel = new MaskEditTextChangedListener("(##)####-#####", Ecelular);
+        MaskEditTextChangedListener maskCPF = new MaskEditTextChangedListener("###.###.###-##", Ecpf);
+        MaskEditTextChangedListener maskNasc = new MaskEditTextChangedListener("##/##/####", EdataNasc);
+        MaskEditTextChangedListener maskCep = new MaskEditTextChangedListener("#####-###", Ecep);
 
-            Etel.addTextChangedListener(maskTel);
-            Etel2.addTextChangedListener(maskTel2);
-            Ecelular.addTextChangedListener(maskCel);
-            Ecpf.addTextChangedListener(maskCPF);
-            EdataNasc.addTextChangedListener(maskNasc);
-            Ecep.addTextChangedListener(maskCep);
+        Etel.addTextChangedListener(maskTel);
+        Etel2.addTextChangedListener(maskTel2);
+        Ecelular.addTextChangedListener(maskCel);
+        Ecpf.addTextChangedListener(maskCPF);
+        EdataNasc.addTextChangedListener(maskNasc);
+        Ecep.addTextChangedListener(maskCep);
 
-            Semail = Eemail.getText().toString().trim();
-            SemailConf = EemailConf.getText().toString().trim();
-            Ssenha = Esenha.getText().toString().trim();
-            SsenhaConf = EsenhaConf.getText().toString().trim();
-            Snome = Enome.getText().toString().trim();
-            SdataNasc = EdataNasc.getText().toString().trim();
-            Scpf = Ecpf.getText().toString().trim();
-            Stel = Etel.getText().toString().trim();
-            Stel2 = Etel2.getText().toString().trim();
-            Scelular = Ecelular.getText().toString().trim();
-            Scep = Ecep.getText().toString().trim();
-            Sestado = getEstadoId(estadoSpinner.getSelectedItem().toString().trim());
-            Scidade = getCidadeId(cidadeSpinner.getSelectedItem().toString().trim(), Sestado);
-            Sendereco = Eendereco.getText().toString().trim();
-            Sbairro = Ebairro.getText().toString().trim();
-            Snumero = Enumero.getText().toString().trim();
-        }
+        Semail = Eemail.getText().toString().trim();
+        SemailConf = EemailConf.getText().toString().trim();
+        Ssenha = Esenha.getText().toString().trim();
+        SsenhaConf = EsenhaConf.getText().toString().trim();
+        Snome = Enome.getText().toString().trim();
+        SdataNasc = EdataNasc.getText().toString().trim();
+        Scpf = Ecpf.getText().toString().trim();
+        Stel = Etel.getText().toString().trim();
+        Stel2 = Etel2.getText().toString().trim();
+        Scelular = Ecelular.getText().toString().trim();
+        Scep = Ecep.getText().toString().trim();
+        Sestado = getEstadoId(estadoSpinner.getSelectedItem().toString().trim());
+        Scidade = getCidadeId(cidadeSpinner.getSelectedItem().toString().trim(), Sestado);
+        Sendereco = Eendereco.getText().toString().trim();
+        Sbairro = Ebairro.getText().toString().trim();
+        Snumero = Enumero.getText().toString().trim();
 
     }
 
@@ -216,22 +214,26 @@ public class CadastroVendedor extends ActionBarActivity  implements TextWatcher{
     protected void cadastrarVendedor() {
         registerViews();
 
-        registerAttemptWithRetrofit(Semail,
-                                    SemailConf,
-                                    Ssenha,
-                                    SsenhaConf,
-                                    Snome,
-                                    SdataNasc,
-                                    Scpf,
-                                    Stel,
-                                    Scelular,
-                                    Stel2,
-                                    Scep,
-                                    Sestado,
-                                    Scidade,
-                                    Sendereco,
-                                    Sbairro,
-                                    Snumero);
+        if(checkValidation()) {
+            registerAttemptWithRetrofit(Semail,
+                                        SemailConf,
+                                        Ssenha,
+                                        SsenhaConf,
+                                        Snome,
+                                        SdataNasc,
+                                        Scpf,
+                                        Stel,
+                                        Scelular,
+                                        Stel2,
+                                        Scep,
+                                        Sestado,
+                                        Scidade,
+                                        Sendereco,
+                                        Sbairro,
+                                        Snumero);
+        }
+
+
     }
 
     protected int getEstadoId(String siglaEstado) {

@@ -108,5 +108,8 @@ public interface ApiInterface {
     Call<Compras[]> getComprasHistory(@Query("cliente") Integer idCliente, @Query("status") String status);
 
     @GET("/compra")
+    Call<Compras> getCompras(@Query("id") Integer idCompra);
+
+    @GET("/compra")
     Call<Compras[]> getComprasHistoryVendedor(@Query("estabelecimento") Integer idEstabelecimento, @Query("status") String status);
 }

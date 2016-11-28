@@ -155,7 +155,7 @@ public class CartoesList extends Fragment implements OnClickListener{
 
             for (int x = 0; x < qtdCartoes; x++ ) {
                 idCartao = cartoes[x].getId();
-                nomeBandeira = cartoes[x].getNome() + cartoes[x].getBandeira();
+                nomeBandeira = cartoes[x].getNome() + " - " + cartoes[x].getBandeira();
                 numeroCartao = cartoes[x].getNumero();
 
                 cartoesStrings.add(Integer.toString(idCartao) + ";" + nomeBandeira + ";" + numeroCartao);

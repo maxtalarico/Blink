@@ -50,7 +50,7 @@ public class CadastroCliente extends ActionBarActivity implements TextWatcher {
     public EditText Enome, Eemail, EemailConf, EcpfCliente, Esenha, EsenhaConf, EdataNasc, EtelCliente, Ecelular,
             EcepCliente, Eendereco, Enumero, Ebairro, EnumCartao, EnomeCartao, Ecodigo, Enumpin;
     public String Snome, Semail, SemailConf, ScpfCliente, Ssenha, SsenhaConf, SdataNasc, StelCliente, Scelular,
-            ScepCliente, Sendereco, Snumero, Sbairro, SnumCartao, SnomeCartao, Scodigo, Snumpin;
+            ScepCliente, Slogradouro, Snumero, Sbairro, SnumCartao, SnomeCartao, Scodigo, Snumpin;
     public int Sestado, Scidade;
 
     Spinner cidadeSpinner;
@@ -100,7 +100,6 @@ public class CadastroCliente extends ActionBarActivity implements TextWatcher {
     }
 
     public void registerViews(){
-        if(checkValidation()) {
             Enome = (EditText) findViewById(R.id.campoNome);
             Eemail = (EditText) findViewById(R.id.campoEmail);
             EemailConf = (EditText) findViewById(R.id.campoEmailConf);
@@ -155,13 +154,12 @@ public class CadastroCliente extends ActionBarActivity implements TextWatcher {
             StelCliente = EtelCliente.getText().toString().trim();
             Scelular = Ecelular.getText().toString().trim();
             ScepCliente = EcepCliente.getText().toString().trim();
-            Sendereco = Eendereco.getText().toString().trim();
+            Slogradouro = Eendereco.getText().toString().trim();
             Snumero = Enumero.getText().toString().trim();
             Sbairro = Ebairro.getText().toString().trim();
             Snumpin = Enumpin.getText().toString().trim();
             Sestado = getEstadoId(estadoSpinner.getSelectedItem().toString().trim());
             Scidade = getCidadeId(cidadeSpinner.getSelectedItem().toString().trim(), Sestado);
-        }
 
     }
 
@@ -219,21 +217,24 @@ public class CadastroCliente extends ActionBarActivity implements TextWatcher {
     protected void cadastrarCliente() {
         registerViews();
 
-        registerAttemptWithRetrofit(Snome,
-                                    Semail,
-                                    SemailConf,
-                                    ScpfCliente,
-                                    Ssenha,
-                                    SsenhaConf,
-                                    SdataNasc,
-                                    StelCliente,
-                                    Scelular,
-                                    ScepCliente,
-                                    Scidade,
-                                    Sestado,
-                                    Sendereco,
-                                    Snumero,
-                                    Sbairro);
+        if(checkValidation()) {
+
+            registerAttemptWithRetrofit(Snome,
+                    Semail,
+                    SemailConf,
+                    ScpfCliente,
+                    Ssenha,
+                    SsenhaConf,
+                    SdataNasc,
+                    StelCliente,
+                    Scelular,
+                    ScepCliente,
+                    Scidade,
+                    Sestado,
+                    Slogradouro,
+                    Snumero,
+                    Sbairro);
+        }
     }
 
    /*private void registerAttemptWithRetrofit(String Snome, String Semail, String SemailConf, String ScpfCliente, String Ssenha, String SsenhaConf, String SdataNasc, String StelCliente, String Scelular,
