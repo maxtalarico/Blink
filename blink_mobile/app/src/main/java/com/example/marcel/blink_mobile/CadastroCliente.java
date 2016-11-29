@@ -93,7 +93,8 @@ public class CadastroCliente extends ActionBarActivity implements TextWatcher {
             estadoSpinner = (Spinner) findViewById(R.id.spinnerEstado);
             cidadeSpinner = (Spinner) findViewById(R.id.spinnerCidade);
 
-            MaskEditTextChangedListener maskTel = new MaskEditTextChangedListener("(##)####-#####", EtelCliente);
+            MaskEditTextChangedListener maskTel = new MaskEditTextChangedListener("(##)####-####", EtelCliente);
+            MaskEditTextChangedListener maskCel = new MaskEditTextChangedListener("(##)#####-####", Ecelular);
             MaskEditTextChangedListener maskCPF = new MaskEditTextChangedListener("###.###.###-##", EcpfCliente);
             MaskEditTextChangedListener maskNasc = new MaskEditTextChangedListener("##/##/####", EdataNasc);
             MaskEditTextChangedListener maskCep = new MaskEditTextChangedListener("#####-###", EcepCliente);
@@ -102,6 +103,7 @@ public class CadastroCliente extends ActionBarActivity implements TextWatcher {
             EcpfCliente.addTextChangedListener(maskCPF);
             EdataNasc.addTextChangedListener(maskNasc);
             EcepCliente.addTextChangedListener(maskCep);
+            Ecelular.addTextChangedListener(maskCel);
 
             Snome = Enome.getText().toString().trim();
             Semail = Eemail.getText().toString().trim();
