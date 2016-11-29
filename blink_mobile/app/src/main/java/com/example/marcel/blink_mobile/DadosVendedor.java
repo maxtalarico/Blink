@@ -10,8 +10,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.marcel.blink_mobile.interfaces.ApiInterface;
@@ -21,8 +24,15 @@ import com.example.marcel.blink_mobile.models.UserData;
 import com.example.marcel.blink_mobile.models.Usuario;
 import com.example.marcel.blink_mobile.models.Vendedor;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -54,8 +64,8 @@ public class DadosVendedor extends Fragment /*implements View.OnClickListener */
     EditText celularEdTex;
     EditText telComEdTex;
     EditText cepEdTex;
-    /* EditText estadoSpinner = (Spinner) rootView.findViewById(R.id.spn_estado);
-     EditText cidadeSpinner = (Spinner) rootView.findViewById(R.id.spn_cidade);*/
+    Spinner estadoSpinner;
+    Spinner cidadeSpinner;
     EditText logradouroEdTex;
     EditText bairroEdTex;
     EditText numeroEdTex;
@@ -108,6 +118,34 @@ public class DadosVendedor extends Fragment /*implements View.OnClickListener */
 
         getUsuario(null);
 
+        ArrayList<String> items = getEstados("cidades-estados-wid.json");
+        estadoSpinner = (Spinner) rootView.findViewById(R.id.spinnerEstado);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(rootView.getContext(), R.layout.spinner_layout, R.id.textView, items);
+        estadoSpinner.setAdapter(adapter);
+
+        estadoSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String estado = estadoSpinner.getSelectedItem().toString();;
+
+                ArrayList<String> items2 = getCidades("cidades-estados-wid.json", estado);
+                cidadeSpinner=(Spinner) rootView.findViewById(R.id.spinnerCidade);
+                ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(rootView.getContext(), R.layout.spinner_layout, R.id.textView, items2);
+                cidadeSpinner.setAdapter(adapter2);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
+
+        ArrayList<String> items2 = getCidades("cidades-estados-wid", "AC");
+        cidadeSpinner=(Spinner) rootView.findViewById(R.id.spinnerCidade);
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(rootView.getContext(), R.layout.spinner_layout, R.id.textView, items2);
+        cidadeSpinner.setAdapter(adapter2);
+
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,8 +167,8 @@ public class DadosVendedor extends Fragment /*implements View.OnClickListener */
                         celularEdTex = (EditText) rootView.findViewById(R.id.campoTel2);
                         telComEdTex = (EditText) rootView.findViewById(R.id.campoCelular);
                         cepEdTex = (EditText) rootView.findViewById(R.id.campoCEP);
-                       /* EditText estadoSpinner = (Spinner) rootView.findViewById(R.id.spn_estado);
-                        EditText cidadeSpinner = (Spinner) rootView.findViewById(R.id.spn_cidade);*/
+                        estado = getEstadoId(estadoSpinner.getSelectedItem().toString().trim());
+                        cidade = getCidadeId(cidadeSpinner.getSelectedItem().toString().trim(), estado);
                         logradouroEdTex = (EditText) rootView.findViewById(R.id.campoEndereco);
                         bairroEdTex = (EditText) rootView.findViewById(R.id.campoBairro);
                         numeroEdTex = (EditText) rootView.findViewById(R.id.campoNo);
@@ -446,5 +484,171 @@ public class DadosVendedor extends Fragment /*implements View.OnClickListener */
         } catch (Exception e) {
             Log.d("getUsuario", e.toString());
         }
+    }
+
+    protected int getEstadoId(String siglaEstado) {
+        int idEstado = 0;
+        JSONArray jsonEstados = null;
+        String siglaEstadoCur;
+        ArrayList<String> estadosList = new ArrayList<String>();
+        try{
+            InputStream is = getResources().getAssets().open("cidades-estados-wid.json");
+            int size=is.available();
+            byte[] data=new byte[size];
+            is.read(data);
+            is.close();
+            String json = new String(data, "UTF-8");
+
+            JSONObject object = new JSONObject(json);
+            jsonEstados  = object.getJSONArray("estados");
+
+            for (int i = 0; i < jsonEstados.length(); i++) {
+                siglaEstadoCur = jsonEstados.getJSONObject(i).getString("sigla");
+
+                //Log.d("Siglas Estado", "getEstadoId: " + siglaEstadoCur);
+
+                if(siglaEstadoCur.equals(siglaEstado)) {
+                    //Log.d("STATE", jsonEstados.getJSONObject(i).getString("nome"));
+                    //Log.d("STATE", jsonEstados.getJSONObject(i).getString("sigla"));
+
+                    idEstado = jsonEstados.getJSONObject(i).getInt("id");
+                    break;
+                }
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }catch (JSONException je){
+            je.printStackTrace();
+        }
+
+        return idEstado;
+    }
+
+    protected int getCidadeId(String nomeCidade, int idEstado) {
+        int idCidade = 0;
+
+        JSONArray jsonEstados = null;
+        JSONObject jsonEstado = null;
+        JSONArray jsonCidades = null;
+        String nomeCidadeCur;
+        int idEstadoCur;
+        ArrayList<String> cidadesList = new ArrayList<String>();
+        try{
+            InputStream is = getResources().getAssets().open("cidades-estados-wid.json");
+            int size=is.available();
+            byte[] data=new byte[size];
+            is.read(data);
+            is.close();
+            String json = new String(data, "UTF-8");
+
+
+            JSONObject object = new JSONObject(json);
+            jsonEstados = object.getJSONArray("estados");
+
+            for (int i = 0; i < jsonEstados.length(); i++) {
+                idEstadoCur = jsonEstados.getJSONObject(i).getInt("id");
+
+                if(idEstadoCur == idEstado) {
+                    //Log.d("STATE", jsonEstados.getJSONObject(i).getString("nome"));
+                    //Log.d("STATE", jsonEstados.getJSONObject(i).getString("sigla"));
+
+                    jsonEstado = jsonEstados.getJSONObject(i);
+                    break;
+                }
+            }
+
+            //Log.d("STATE", jsonEstado.toString());
+            jsonCidades = jsonEstado.getJSONArray("cidades");
+
+            for (int i = 0; i < jsonCidades.length(); i++) {
+                nomeCidadeCur = jsonCidades.getJSONObject(i).getString("nome");
+
+                if(nomeCidadeCur.equals(nomeCidade)) {
+                    //Log.d("STATE", jsonEstados.getJSONObject(i).getString("nome"));
+                    //Log.d("STATE", jsonEstados.getJSONObject(i).getString("sigla"));
+
+                    idCidade = jsonCidades.getJSONObject(i).getInt("id");
+                    break;
+                }
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }catch (JSONException je){
+            je.printStackTrace();
+        }
+
+        return idCidade;
+    }
+
+    public ArrayList<String> getEstados(String jsonFile) {
+        JSONArray jsonArray = null;
+        ArrayList<String> estadosList = new ArrayList<String>();
+        try{
+            InputStream is = getResources().getAssets().open(jsonFile);
+            int size=is.available();
+            byte[] data=new byte[size];
+            is.read(data);
+            is.close();
+            String json = new String(data, "UTF-8");
+
+            JSONObject object = new JSONObject(json);
+            jsonArray  = object.getJSONArray("estados");
+
+            for (int i = 0; i < jsonArray.length(); i++)
+            {
+                estadosList.add(jsonArray.getJSONObject(i).getString("sigla"));
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }catch (JSONException je){
+            je.printStackTrace();
+        }
+        return estadosList;
+    }
+
+    public ArrayList<String> getCidades(String jsonFile, String estado) {
+        JSONArray jsonEstados = null;
+        JSONObject jsonEstado = null;
+        JSONArray jsonCidades = null;
+        String nomeCidade;
+        String nomeEstado;
+        ArrayList<String> cidadesList = new ArrayList<String>();
+        try{
+            InputStream is = getResources().getAssets().open(jsonFile);
+            int size=is.available();
+            byte[] data=new byte[size];
+            is.read(data);
+            is.close();
+            String json = new String(data, "UTF-8");
+
+
+            JSONObject object = new JSONObject(json);
+            jsonEstados = object.getJSONArray("estados");
+
+            for (int i = 0; i < jsonEstados.length(); i++) {
+                nomeEstado = jsonEstados.getJSONObject(i).getString("sigla");
+
+                if(nomeEstado.equals(estado)) {
+                    Log.d("STATE", jsonEstados.getJSONObject(i).getString("nome"));
+                    Log.d("STATE", jsonEstados.getJSONObject(i).getString("sigla"));
+
+                    jsonEstado = jsonEstados.getJSONObject(i);
+                    break;
+                }
+            }
+
+            //Log.d("STATE", jsonEstado.toString());
+            jsonCidades = jsonEstado.getJSONArray("cidades");
+
+            for (int i = 0; i < jsonCidades.length(); i++) {
+                nomeCidade = jsonCidades.getJSONObject(i).getString("nome");
+                cidadesList.add(nomeCidade);
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }catch (JSONException je){
+            je.printStackTrace();
+        }
+        return cidadesList;
     }
 }
