@@ -93,7 +93,7 @@ public interface ApiInterface {
     @POST("/endereco")
     Call<Endereco> createEndereco(@Body Endereco endereco);
 
-    @PUT("/endereco/{id}")
+    @PUT("/endereco/{id}?populate=0")
     Call<Endereco> enderecoUpdate(@Path("id") Integer id, @Body Endereco endereco);
 
     @POST("/venda")

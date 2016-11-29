@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.marcel.blink_mobile.interfaces.ApiInterface;
@@ -22,10 +22,7 @@ import com.example.marcel.blink_mobile.models.Usuario;
 import com.example.marcel.blink_mobile.models.Vendedor;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -35,15 +32,33 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+
 /**
  * Created by Marcel on 23/11/2016.
  */
 
-public class DadosVendedor extends Fragment implements View.OnClickListener {
+public class DadosVendedor extends Fragment /*implements View.OnClickListener */{
     public static final int REQUEST_CODE = 0;
     final String REGISTER_URL = "http://blink-brunopansani-1.c9users.io/";
 
     private View rootView;
+
+    EditText emailEdTex;
+    //EditText emailConfEdTex = (EditText) rootView.findViewById(R.id.campoEmailConf);
+    //EditText senhaEdTex = (EditText) findViewById(R.id.txt_senha);
+    //EditText senhaConfEdTex = (EditText) findViewById(R.id.txt_confirmar_senha);
+    EditText nomeEdTex;
+    EditText dataNascimentoEdTex;
+    EditText cpfEdTex;
+    EditText telResEdTex;
+    EditText celularEdTex;
+    EditText telComEdTex;
+    EditText cepEdTex;
+    /* EditText estadoSpinner = (Spinner) rootView.findViewById(R.id.spn_estado);
+     EditText cidadeSpinner = (Spinner) rootView.findViewById(R.id.spn_cidade);*/
+    EditText logradouroEdTex;
+    EditText bairroEdTex;
+    EditText numeroEdTex;
 
     private String email;
     private String emailConf;
@@ -65,27 +80,121 @@ public class DadosVendedor extends Fragment implements View.OnClickListener {
     private String bairro;
     private String numero;
 
+    Activity activity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        activity = getActivity();
 
         rootView = inflater.inflate(R.layout.fragment_dados_vendedor, container, false);
 
+        emailEdTex = (EditText) rootView.findViewById(R.id.campoEmail);
+        //EditText emailConfEdTex = (EditText) rootView.findViewById(R.id.campoEmailConf);
+        //EditText senhaEdTex = (EditText) findViewById(R.id.txt_senha);
+        //EditText senhaConfEdTex = (EditText) findViewById(R.id.txt_confirmar_senha);
+        nomeEdTex = (EditText) rootView.findViewById(R.id.campoNome);
+        dataNascimentoEdTex = (EditText) rootView.findViewById(R.id.campoDataNasc);
+        cpfEdTex = (EditText) rootView.findViewById(R.id.campoCPF);
+        telResEdTex = (EditText) rootView.findViewById(R.id.campoTelefone);
+        celularEdTex = (EditText) rootView.findViewById(R.id.campoTel2);
+        telComEdTex = (EditText) rootView.findViewById(R.id.campoCelular);
+        cepEdTex = (EditText) rootView.findViewById(R.id.campoCEP);
+                       /* EditText estadoSpinner = (Spinner) rootView.findViewById(R.id.spn_estado);
+                        EditText cidadeSpinner = (Spinner) rootView.findViewById(R.id.spn_cidade);*/
+        logradouroEdTex = (EditText) rootView.findViewById(R.id.campoEndereco);
+        bairroEdTex = (EditText) rootView.findViewById(R.id.campoBairro);
+        numeroEdTex = (EditText) rootView.findViewById(R.id.campoNo);
+
         getUsuario(null);
 
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = null;
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                switch (v.getId()) {
+                    case R.id.btn_alterar:
+
+                        emailEdTex = (EditText) rootView.findViewById(R.id.campoEmail);
+                        //EditText emailConfEdTex = (EditText) rootView.findViewById(R.id.campoEmailConf);
+                        //EditText senhaEdTex = (EditText) findViewById(R.id.txt_senha);
+                        //EditText senhaConfEdTex = (EditText) findViewById(R.id.txt_confirmar_senha);
+                        nomeEdTex = (EditText) rootView.findViewById(R.id.campoNome);
+                        dataNascimentoEdTex = (EditText) rootView.findViewById(R.id.campoDataNasc);
+                        cpfEdTex = (EditText) rootView.findViewById(R.id.campoCPF);
+                        telResEdTex = (EditText) rootView.findViewById(R.id.campoTelefone);
+                        celularEdTex = (EditText) rootView.findViewById(R.id.campoTel2);
+                        telComEdTex = (EditText) rootView.findViewById(R.id.campoCelular);
+                        cepEdTex = (EditText) rootView.findViewById(R.id.campoCEP);
+                       /* EditText estadoSpinner = (Spinner) rootView.findViewById(R.id.spn_estado);
+                        EditText cidadeSpinner = (Spinner) rootView.findViewById(R.id.spn_cidade);*/
+                        logradouroEdTex = (EditText) rootView.findViewById(R.id.campoEndereco);
+                        bairroEdTex = (EditText) rootView.findViewById(R.id.campoBairro);
+                        numeroEdTex = (EditText) rootView.findViewById(R.id.campoNo);
+
+                        if ("".equals(telResEdTex.getText().toString().trim())) {
+                        telResEdTex.setError("Campo obrigatório");
+                        return;
+                        }if ("".equals(cepEdTex.getText().toString().trim())) {
+                        cepEdTex.setError("Campo obrigatório");
+                        return;
+                        }if ("".equals(logradouroEdTex.getText().toString().trim())) {
+                        logradouroEdTex.setError("Campo obrigatório");
+                        return;
+                        }if ("".equals(bairroEdTex.getText().toString().trim())) {
+                            bairroEdTex.setError("Campo obrigatório");
+                            return;
+                        }if ("".equals(numeroEdTex.getText().toString().trim())) {
+                            numeroEdTex.setError("Campo obrigatório");
+                            return;
+                        }else {
+                        registerAttemptWithRetrofit(emailEdTex.getText().toString(),
+                                                    nomeEdTex.getText().toString(),
+                                                    dataNascimentoEdTex.getText().toString(),
+                                                    cpfEdTex.getText().toString(),
+                                                    telResEdTex.getText().toString(),
+                                                    celularEdTex.getText().toString(),
+                                                    cepEdTex.getText().toString(),
+                                                    1,
+                                                    1,
+                                                    logradouroEdTex.getText().toString(),
+                                                    bairroEdTex.getText().toString(),
+                                                    numeroEdTex.getText().toString());
+
+                        fragment = new DadosVendedor();
+                    }
+                        break;
+
+                    case R.id.btn_cancelar:
+                        fragment = new DadosVendedor();
+                        break;
+
+                    default:
+                        break;
+                }
+
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, fragment)
+                        .commit();
+
+            }
+        };
+
         Button btnAlterar = (Button)rootView.findViewById(R.id.btn_alterar);
-        btnAlterar.setOnClickListener(this);
+        btnAlterar.setOnClickListener(listener);
 
         Button btnCancelar= (Button)rootView.findViewById(R.id.btn_cancelar);
-        btnCancelar.setOnClickListener(this);
+        btnCancelar.setOnClickListener(listener);
 
         return rootView;
     }
 
-    public void onClick(View v) {
+/*    public void onClick(View v) {
         Fragment fragment = null;
-        FragmentManager fragmentManager = getFragmentManager();
+        FragmentManager fragmentManager = getFragmentManager(),
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         //do what you want to do when button is clicked
         switch (v.getId()) {
@@ -106,7 +215,7 @@ public class DadosVendedor extends Fragment implements View.OnClickListener {
                     .replace(R.id.container, fragment)
                     .commit();
         }
-    }
+    }*/
 
     private ApiInterface getInterfaceService() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
@@ -129,10 +238,7 @@ public class DadosVendedor extends Fragment implements View.OnClickListener {
         return mInterfaceService;
     }
 
-    private void registerAttemptWithRetrofit(/*String email,
-                                              String emailConf,
-                                              String senha,
-                                              String senhaConf,
+    private void registerAttemptWithRetrofit(String email,
                                               String nome,
                                               String dataNascimento,
                                               String cpf,
@@ -143,8 +249,8 @@ public class DadosVendedor extends Fragment implements View.OnClickListener {
                                               int cidade,
                                               String logradouro,
                                               String bairro,
-                                              String numero*/){
-        email = "vendor99@teste.com";
+                                              String numero){
+        /*email = "vendor99@teste.com";
         emailConf = "vendor99@teste.com";
         senha = "123456";
         senhaConf = "123456";
@@ -157,17 +263,17 @@ public class DadosVendedor extends Fragment implements View.OnClickListener {
         cep = "13920-333";
         logradouro = "Rua TesteZ";
         bairro = "Bairro TesteA";
-        numero = "33";
+        numero = "33";*/
 
         //Log.d("IDs", "registerAttemptWithRetrofit: estado: " + Integer.toString(estado) + " | cidade: " + Integer.toString(cidade));
 
-        DateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.CANADA);
+        /*DateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.CANADA);
         Date data = null;
         try {
             data = format.parse(dataNascimento);
         } catch (ParseException e) {
             e.printStackTrace();
-        }
+        }*/
 
         Activity activity = getActivity();
         Intent i = activity.getIntent();
@@ -180,11 +286,11 @@ public class DadosVendedor extends Fragment implements View.OnClickListener {
 
         Integer id = userDataAtivo.getId();
 
-        Vendedor vendedor = new Vendedor(vendedorAtivo.getId(), celular, cpf, data, nome, telCom, telRes);
+        Vendedor vendedor = new Vendedor(vendedorAtivo.getId(), celular, vendedorAtivo.getCpf(), vendedorAtivo.getDataNascimento(), vendedorAtivo.getNome(), telCom, telRes);
         Cliente cliente = null;
-        Endereco endereco = new Endereco(enderecoAtivo.getId(), bairro, cidade, estado, logradouro, numero, cep);
+        Endereco endereco = new Endereco(enderecoAtivo.getId(), bairro, 1, 1, logradouro, numero, cep);
 
-        Usuario usuario = new Usuario(userDataAtivo.getId(), vendedor, cliente, endereco, email, senha, nome);
+        Usuario usuario = new Usuario(userDataAtivo.getId(), vendedor, cliente, endereco, userDataAtivo.getEmail(), userDataAtivo.getSenha(), userDataAtivo.getNome());
         UserData userData = usuario.getUserData();
 
         //usuarioAtivo = usuario;
@@ -207,7 +313,7 @@ public class DadosVendedor extends Fragment implements View.OnClickListener {
 
                 if(!response.isSuccessful()){
                     //Log.d("Response Failed", response.message());
-                    Toast.makeText(getActivity(), "Tente novamente.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(rootView.getContext(), "Tente novamente. 2", Toast.LENGTH_SHORT).show();
                 } else {
                     //Log.d("Response Worked", response.message());
                     statusCode = response.code();
@@ -222,7 +328,7 @@ public class DadosVendedor extends Fragment implements View.OnClickListener {
             @Override
             public void onFailure(Call<Vendedor> call, Throwable t) {
                 call.cancel();
-                Toast.makeText(getActivity(), "Não foi possível encontrar conexão com a internet", Toast.LENGTH_LONG).show();
+                Toast.makeText(rootView.getContext(), "Não foi possível encontrar conexão com a internet", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -230,6 +336,8 @@ public class DadosVendedor extends Fragment implements View.OnClickListener {
 
     private void updateEnderecoCall(final ApiInterface mApiService, final UserData userData) {
         Endereco endereco = userData.getEndereco();
+
+        Log.d("Response Worked", endereco.toString());
         Call<Endereco> mServiceEndereco = mApiService.enderecoUpdate(endereco.getId(), endereco);
         mServiceEndereco.enqueue(new Callback<Endereco>() {
             @Override
@@ -238,7 +346,7 @@ public class DadosVendedor extends Fragment implements View.OnClickListener {
 
                 if(!response.isSuccessful()){
                     //Log.d("Response Failed", response.message());
-                    Toast.makeText(getActivity(), "Tente novamente.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(rootView.getContext(), "Tente novamente. 3", Toast.LENGTH_SHORT).show();
                 } else {
                     //Log.d("Response Worked", response.message());
                     statusCode = response.code();
@@ -253,7 +361,7 @@ public class DadosVendedor extends Fragment implements View.OnClickListener {
             @Override
             public void onFailure(Call<Endereco> call, Throwable t) {
                 call.cancel();
-                Toast.makeText(getActivity(), "Tente novamente.", Toast.LENGTH_LONG).show();
+                Toast.makeText(rootView.getContext(), "Não foi possível encontrar conexão com a internet.", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -270,8 +378,8 @@ public class DadosVendedor extends Fragment implements View.OnClickListener {
 
                 if(!response.isSuccessful()){
                     //Log.d("Response Failed", response.message());
-                    //Toast.makeText(getActivity(), "Tente novamente. Usuario", Toast.LENGTH_SHORT).show();
-                    Toast.makeText(getActivity(), "Tente novamente.", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(rootView.getContext(), "Tente novamente. Usuario", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(rootView.getContext(), "Tente novamente 1.", Toast.LENGTH_SHORT).show();
                 } else {
                     //Log.d("Response Worked", response.message());
                     statusCode = response.code();
@@ -279,7 +387,7 @@ public class DadosVendedor extends Fragment implements View.OnClickListener {
 
                     UserData userData = response.body();
                     getUsuario(userData);
-                    Toast.makeText(getActivity(), "Alteração realizada com sucesso!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(rootView.getContext(), "Alteração realizada com sucesso!", Toast.LENGTH_SHORT).show();
 
                     //getUsuario(usuario.getUserData());
                 }
@@ -288,14 +396,13 @@ public class DadosVendedor extends Fragment implements View.OnClickListener {
             @Override
             public void onFailure(Call<UserData> call, Throwable t) {
                 call.cancel();
-                Toast.makeText(getActivity(), "Não foi possível encontrar conexão com a internet", Toast.LENGTH_LONG).show();
+                Toast.makeText(rootView.getContext(), "Não foi possível encontrar conexão com a internet", Toast.LENGTH_LONG).show();
             }
         });
     }
 
     private void getUsuario(UserData userData) {
         try {
-            Activity activity = getActivity();
             Intent i = activity.getIntent();
             Bundle b = i.getExtras();
 
@@ -313,9 +420,28 @@ public class DadosVendedor extends Fragment implements View.OnClickListener {
             if(userData == null)
                 Log.d("getUsuario", "UserData Null");
 
-            TextView tvTeste = (TextView)rootView.findViewById(R.id.teste);
-            tvTeste.setText(userData.toString());
-            Log.d("UserData", userData.toString());
+            Vendedor vendedor = userData.getVendedor();
+            Endereco endereco = userData.getEndereco();
+
+            emailEdTex.setText(userData.getEmail());
+            //EditText emailConfEdTex = (EditText) rootView.findViewById(R.id.campoEmailConf);
+            //EditText senhaEdTex = (EditText) findViewById(R.id.txt_senha);
+            //EditText senhaConfEdTex = (EditText) findViewById(R.id.txt_confirmar_senha);
+            nomeEdTex.setText(vendedor.getNome());
+
+            DateFormat date = new SimpleDateFormat("dd//MM/yyyy");
+            dataNascimentoEdTex.setText(date.format(vendedor.getDataNascimento()));
+
+            cpfEdTex.setText(vendedor.getCpf());
+            telResEdTex.setText(vendedor.getTelefoneRes());
+            celularEdTex.setText(vendedor.getCelular());
+            telComEdTex.setText(vendedor.getTelefoneCom());
+            cepEdTex.setText(endereco.getCep());
+    /* EditText estadoSpinner = (Spinner) rootView.findViewById(R.id.spn_estado);
+     EditText cidadeSpinner = (Spinner) rootView.findViewById(R.id.spn_cidade);*/
+            logradouroEdTex.setText(endereco.getLogradouro());
+            bairroEdTex.setText(endereco.getBairro());
+            numeroEdTex.setText(endereco.getNumero());
 
         } catch (Exception e) {
             Log.d("getUsuario", e.toString());
