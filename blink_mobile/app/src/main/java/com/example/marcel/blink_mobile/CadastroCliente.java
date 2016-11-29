@@ -47,19 +47,79 @@ public class CadastroCliente extends ActionBarActivity implements TextWatcher {
     //implements View.OnClickListener
     final String REGISTER_URL = "http://blink-brunopansani-1.c9users.io/";
 
-    public EditText Enome, Eemail, EemailConf, EcpfCliente, Esenha, EsenhaConf, EdataNasc, EtelCliente, Ecelular,
+     EditText Enome, Eemail, EemailConf, EcpfCliente, Esenha, EsenhaConf, EdataNasc, EtelCliente, Ecelular,
             EcepCliente, Eendereco, Enumero, Ebairro, EnumCartao, EnomeCartao, Ecodigo, Enumpin;
     public String Snome, Semail, SemailConf, ScpfCliente, Ssenha, SsenhaConf, SdataNasc, StelCliente, Scelular,
             ScepCliente, Slogradouro, Snumero, Sbairro, SnumCartao, SnomeCartao, Scodigo, Snumpin;
     public int Sestado, Scidade;
-
+	
+	Spinner estadoSpinner;
     Spinner cidadeSpinner;
-    Spinner estadoSpinner;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cliente);
+		
+		Enome = (EditText) findViewById(R.id.campoNome);
+            Eemail = (EditText) findViewById(R.id.campoEmail);
+            EemailConf = (EditText) findViewById(R.id.campoEmailConf);
+            EcpfCliente = (EditText) findViewById(R.id.campoCPF);
+            Esenha = (EditText) findViewById(R.id.campoSenha);
+            EsenhaConf = (EditText) findViewById(R.id.campoSenhaConf);
+            EtelCliente = (EditText) findViewById(R.id.campoTelefone);
+            Ecelular = (EditText) findViewById(R.id.campoCelular);
+            EcepCliente = (EditText) findViewById(R.id.campoCEP);
+            Eendereco = (EditText) findViewById(R.id.campoEndereco);
+            Enumero = (EditText) findViewById(R.id.campoNum);
+            Ebairro = (EditText) findViewById(R.id.campoBairro);
+            Enumpin = (EditText) findViewById(R.id.campoPIN);
+            EdataNasc = (EditText) findViewById(R.id.campoDDMM);
 
+            Enome.addTextChangedListener(this);
+            Eemail.addTextChangedListener(this);
+            EemailConf.addTextChangedListener(this);
+            EcpfCliente.addTextChangedListener(this);
+            Esenha.addTextChangedListener(this);
+            EsenhaConf.addTextChangedListener(this);
+            EtelCliente.addTextChangedListener(this);
+            Ecelular.addTextChangedListener(this);
+            EcepCliente.addTextChangedListener(this);
+            Eendereco.addTextChangedListener(this);
+            Enumero.addTextChangedListener(this);
+            Ebairro.addTextChangedListener(this);
+            Enumpin.addTextChangedListener(this);
+            EdataNasc.addTextChangedListener(this);
+
+            estadoSpinner = (Spinner) findViewById(R.id.spinnerEstado);
+            cidadeSpinner = (Spinner) findViewById(R.id.spinnerCidade);
+
+            MaskEditTextChangedListener maskTel = new MaskEditTextChangedListener("(##)####-#####", EtelCliente);
+            MaskEditTextChangedListener maskCPF = new MaskEditTextChangedListener("###.###.###-##", EcpfCliente);
+            MaskEditTextChangedListener maskNasc = new MaskEditTextChangedListener("##/##/####", EdataNasc);
+            MaskEditTextChangedListener maskCep = new MaskEditTextChangedListener("#####-###", EcepCliente);
+
+            EtelCliente.addTextChangedListener(maskTel);
+            EcpfCliente.addTextChangedListener(maskCPF);
+            EdataNasc.addTextChangedListener(maskNasc);
+            EcepCliente.addTextChangedListener(maskCep);
+
+            Snome = Enome.getText().toString().trim();
+            Semail = Eemail.getText().toString().trim();
+            SemailConf = EemailConf.getText().toString().trim();
+            ScpfCliente = EcpfCliente.getText().toString().trim();
+            Ssenha = Esenha.getText().toString().trim();
+            SsenhaConf = EsenhaConf.getText().toString().trim();
+            SdataNasc = EdataNasc.getText().toString().trim();
+            StelCliente = EtelCliente.getText().toString().trim();
+            Scelular = Ecelular.getText().toString().trim();
+            ScepCliente = EcepCliente.getText().toString().trim();
+            Slogradouro = Eendereco.getText().toString().trim();
+            Snumero = Enumero.getText().toString().trim();
+            Sbairro = Ebairro.getText().toString().trim();
+            Snumpin = Enumpin.getText().toString().trim();
+            //Sestado = getEstadoId(estadoSpinner.getSelectedItem().toString().trim());
+            //Scidade = getCidadeId(cidadeSpinner.getSelectedItem().toString().trim(), Sestado);
+			
         ArrayList<String> items = getEstados("cidades-estados-wid.json");
         estadoSpinner=(Spinner) this.findViewById(R.id.spinnerEstado);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_layout, R.id.textView, items);
@@ -95,8 +155,6 @@ public class CadastroCliente extends ActionBarActivity implements TextWatcher {
 
         Button btnCadastrarCliente = (Button) findViewById(R.id.btnCancelarCadastro);
         btnCadastrarCliente.setOnClickListener(listener);
-
-        //registerViews();
     }
 
     public void registerViews(){
@@ -113,7 +171,6 @@ public class CadastroCliente extends ActionBarActivity implements TextWatcher {
             Enumero = (EditText) findViewById(R.id.campoNum);
             Ebairro = (EditText) findViewById(R.id.campoBairro);
             Enumpin = (EditText) findViewById(R.id.campoPIN);
-
             EdataNasc = (EditText) findViewById(R.id.campoDDMM);
 
             Enome.addTextChangedListener(this);
@@ -130,9 +187,6 @@ public class CadastroCliente extends ActionBarActivity implements TextWatcher {
             Ebairro.addTextChangedListener(this);
             Enumpin.addTextChangedListener(this);
             EdataNasc.addTextChangedListener(this);
-
-            estadoSpinner = (Spinner) findViewById(R.id.spinnerEstado);
-            cidadeSpinner = (Spinner) findViewById(R.id.spinnerCidade);
 
             MaskEditTextChangedListener maskTel = new MaskEditTextChangedListener("(##)####-#####", EtelCliente);
             MaskEditTextChangedListener maskCPF = new MaskEditTextChangedListener("###.###.###-##", EcpfCliente);
@@ -199,7 +253,7 @@ public class CadastroCliente extends ActionBarActivity implements TextWatcher {
                 case R.id.btnCadastrarCliente:
                     if (checkValidation()) {
                         cadastrarCliente();
-                    }
+					}	
                     break;
                 case R.id.btnCancelarCadastro:
                     cancelar();
@@ -216,9 +270,25 @@ public class CadastroCliente extends ActionBarActivity implements TextWatcher {
 
     protected void cadastrarCliente() {
         registerViews();
-
-        if(checkValidation()) {
-
+		
+		if(checkValidation()) {
+			Snome = Enome.getText().toString().trim();
+            Semail = Eemail.getText().toString().trim();
+            SemailConf = EemailConf.getText().toString().trim();
+            ScpfCliente = EcpfCliente.getText().toString().trim();
+            Ssenha = Esenha.getText().toString().trim();
+            SsenhaConf = EsenhaConf.getText().toString().trim();
+            SdataNasc = EdataNasc.getText().toString().trim();
+            StelCliente = EtelCliente.getText().toString().trim();
+            Scelular = Ecelular.getText().toString().trim();
+            ScepCliente = EcepCliente.getText().toString().trim();
+            Slogradouro = Eendereco.getText().toString().trim();
+            Snumero = Enumero.getText().toString().trim();
+            Sbairro = Ebairro.getText().toString().trim();
+            Snumpin = Enumpin.getText().toString().trim();
+            Sestado = getEstadoId(estadoSpinner.getSelectedItem().toString().trim());
+            Scidade = getCidadeId(cidadeSpinner.getSelectedItem().toString().trim(), Sestado);
+			
             registerAttemptWithRetrofit(Snome,
                     Semail,
                     SemailConf,
@@ -234,7 +304,8 @@ public class CadastroCliente extends ActionBarActivity implements TextWatcher {
                     Slogradouro,
                     Snumero,
                     Sbairro);
-        }
+		}
+
     }
 
    /*private void registerAttemptWithRetrofit(String Snome, String Semail, String SemailConf, String ScpfCliente, String Ssenha, String SsenhaConf, String SdataNasc, String StelCliente, String Scelular,
@@ -557,21 +628,21 @@ public class CadastroCliente extends ActionBarActivity implements TextWatcher {
                                              String Sendereco,
                                              String Snumero,
                                              String Sbairro) {
-        //email = "cliente@teste.com";
-        //emailConf = "cliente@teste.com";
-        //senha = "123456";
-        //senhaConf = "123456";
-        //nome = "Cliente Teste";
-        //dataNascimento = "12/11/1993";
-        //cpf = "423.370.988.00";
-        //telRes = "(19) 3852-4091";
-        //celular = "(19) 3852-94091";
-        //cep = "13920-000";
-        //logradouro = "Rua Teste";
-        //bairro = "Bairro Teste";
-        //numero = "22";
-        //cidade = 1;
-        //estado = 1;
+        /*Semail = "cliente@teste.com";
+        SemailConf = "cliente@teste.com";
+        Ssenha = "123456";
+        SsenhaConf = "123456";
+        Snome = "Cliente Teste";
+        SdataNasc = "12/11/1993";
+        ScpfCliente = "423.370.988.00";
+        StelCliente = "(19) 3852-4091";
+        Scelular = "(19) 3852-94091";
+        ScepCliente = "13920-000";
+        Sendereco = "Rua Teste";
+        Sbairro = "Bairro Teste";
+        Snumero = "22";
+        Scidade = 1;
+        Sestado = 1;*/
 
 
         //Log.d("IDs", "registerAttemptWithRetrofit: estado: " + Integer.toString(estado) + " | cidade: " + Integer.toString(cidade));
