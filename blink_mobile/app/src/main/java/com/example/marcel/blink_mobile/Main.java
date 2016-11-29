@@ -175,12 +175,12 @@ public class Main extends ActionBarActivity {
     }
 
     private void loginProcessWithRetrofit(String email, String senha){
-        if(!email.equals(""))
+        /*if(!email.equals(""))
             email = "cliente@teste.com";
         else
             email = "vendor99@teste.com";
 
-        senha = "123456";
+        senha = "123456";*/
         ApiInterface mApiService = this.getInterfaceService();
         Call<Usuario> mService = mApiService.authenticate(email, senha);
         mService.enqueue(new Callback<Usuario>() {
