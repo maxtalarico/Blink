@@ -3,41 +3,9 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-        <EditText
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:ems="8"
-            android:layout_alignTop="@+id/spn_tipo_de_conta"
-            android:id="@+id/txt_digito_agencia"
-            android:layout_alignParentEnd="true"
-            android:hint="Dígito"
-            android:layout_toEndOf="@+id/txt_agencia" />
-
-        <EditText
-            android:layout_width="130dp"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:ems="10"
-            android:id="@+id/txt_agencia"
-            android:hint="Agência"
-            android:layout_alignBaseline="@+id/txt_digito_agencia"
-            android:layout_alignBottom="@+id/txt_digito_agencia"
-            android:layout_toEndOf="@+id/spn_tipo_de_conta" />
-
-        <EditText
-            android:layout_width="95dp"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:ems="10"
-            android:id="@+id/txt_digito_conta"
-            android:layout_alignBottom="@+id/txt_conta"
-            android:layout_toEndOf="@+id/txt_conta"
-            android:layout_alignTop="@+id/txt_conta"
-            android:hint="Digito" />
 
         <TextView
             android:text="Dados Bancários"
@@ -50,25 +18,6 @@
             android:textColorHighlight="@color/Black"
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:ems="8"
-            android:id="@+id/txt_conta"
-            android:hint="Conta"
-            android:layout_below="@+id/txt_agencia"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="27dp" />
-
-        <Spinner
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:id="@+id/spn_tipo_de_conta"
-            android:layout_below="@+id/textView3"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="23dp" />
 
         <Button
             android:text="Cancelar"
@@ -99,11 +48,63 @@
 
         <Spinner
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_below="@+id/textView3"
             android:layout_alignParentStart="true"
             android:layout_marginStart="15dp"
             android:id="@+id/spn_banco" />
+
+        <Spinner
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            android:id="@+id/spn_tipo_de_conta"
+            android:textSize="40sp"
+            android:layout_below="@+id/spn_banco"
+            android:layout_alignParentStart="true" />
+
+        <EditText
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="8"
+            android:id="@+id/txt_conta"
+            android:hint="Conta"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/txt_agencia"/>
+
+        <EditText
+            android:layout_width="95dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="10"
+            android:id="@+id/txt_digito_conta"
+            android:layout_alignBottom="@+id/txt_conta"
+            android:layout_toEndOf="@+id/txt_conta"
+            android:layout_alignTop="@+id/txt_conta"
+            android:hint="Digito"
+            android:layout_alignEnd="@+id/spn_banco"/>
+
+        <EditText
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="10"
+            android:id="@+id/txt_agencia"
+            android:hint="Agência"
+            android:layout_below="@+id/spn_tipo_de_conta"/>
+
+        <EditText
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="8"
+            android:id="@+id/txt_digito_agencia"
+            android:hint="Dígito"
+            android:layout_toEndOf="@+id/txt_agencia"
+            android:layout_alignEnd="@+id/spn_banco"
+            android:layout_below="@+id/spn_tipo_de_conta"/>
+
 
 
     </RelativeLayout>

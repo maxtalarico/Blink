@@ -24,30 +24,6 @@
         android:layout_toEndOf="@+id/txt_numero_cartao"
         android:layout_marginStart="21dp" />
 
-    <Button
-        android:text="Cancelar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="11dp"
-        android:id="@+id/btn_cancelar"
-        android:background="@color/DefaultBlue"
-        android:textColor="@android:color/white"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true" />
-
-    <Button
-        android:text="Cadastrar Cartão"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="17dp"
-        android:id="@+id/btn_cadastrar_cartao"
-        android:textColor="@android:color/white"
-        android:background="@color/DefaultBlue"
-        android:layout_above="@+id/btn_cancelar"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true" />
-
     <Spinner
         android:layout_width="180dp"
         android:layout_height="wrap_content"
@@ -115,34 +91,7 @@
         android:layout_alignParentStart="true"
         android:layout_marginStart="16dp" />
 
-</RelativeLayout>
-
 <!--
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
-
-    <TextView
-        android:text="Cadastro de cartão de crédito"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
-        android:id="@+id/textView4"
-        android:layout_marginEnd="85dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/txt_codigo_seguranca"
-        android:layout_alignBaseline="@+id/txt_data_validade"
-        android:layout_alignBottom="@+id/txt_data_validade"
-        android:layout_toEndOf="@+id/txt_data_validade"
-        android:layout_marginStart="21dp" />
-
     <Button
         android:text="Cancelar"
         android:layout_width="wrap_content"
@@ -165,57 +114,33 @@
         android:background="@color/DefaultBlue"
         android:layout_above="@+id/btn_cancelar"
         android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />-->
+
+
+    <Button
+        android:text="Cadastrar"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:id="@+id/btn_cadastrar_cartao"
+        android:background="@color/DefaultBlue"
+        android:textColor="@android:color/white"
+        android:layout_below="@+id/campoValidade"
+        android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true" />
 
-    <Spinner
-        android:layout_width="180dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/spn_bandeira"
-        android:layout_below="@+id/textView4"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="22dp" />
-
-    <EditText
+    <Button
+        android:text="Cancelar"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/txt_nome_cartao"
-        android:layout_below="@+id/spn_bandeira"
+        android:layout_height="40dp"
+        android:layout_below="@+id/btn_cadastrar_cartao"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="29dp"
-        android:layout_alignParentEnd="true" />
+        android:layout_marginTop="8dp"
+        android:id="@+id/btn_cancelar"
+        android:layout_alignParentEnd="true"
+        android:textColor="@android:color/white"
+        android:background="@color/DefaultBlue" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/txt_numero_cartao"
-        android:layout_below="@+id/txt_nome_cartao"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="11dp"
-        android:layout_alignParentEnd="true" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="date"
-        android:ems="10"
-        android:id="@+id/txt_data_validade"
-        android:layout_below="@+id/txt_numero_cartao"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="19dp" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/txt_proprietario"
-        android:layout_below="@+id/txt_data_validade"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="21dp"
-        android:layout_alignParentEnd="true" />
-
-</RelativeLayout>-->
+</RelativeLayout>

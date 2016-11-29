@@ -40,12 +40,15 @@ public class HistoryVendedor extends Fragment implements View.OnClickListener {
     final static String BASE_URL = "http://blink-brunopansani-1.c9users.io/";
 
     Spinner estabelecimentoSpinner;
+    Activity activity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_history_vendedor_list, container, false);
+
+        activity = getActivity();
 
         // Get the reference of movies
         ListView historyList = (ListView) view.findViewById(R.id.history_vendedor_home_listview);
@@ -133,7 +136,7 @@ public class HistoryVendedor extends Fragment implements View.OnClickListener {
     }
 
     private void registerAttemptWithRetrofit(){
-        Activity activity = getActivity();
+        final Activity activity = getActivity();
         Intent i = activity.getIntent();
         Bundle b = i.getExtras();
 
@@ -156,7 +159,6 @@ public class HistoryVendedor extends Fragment implements View.OnClickListener {
 
                     Compras[] compras = response.body();
 
-                    Activity activity = getActivity();
                     Intent i = activity.getIntent();
                     Bundle b = i.getExtras();
                     i.putExtra("Compras", compras);

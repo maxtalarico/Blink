@@ -137,7 +137,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_below="@+id/campoCelular"/>
+            android:layout_below="@+id/campoCelular"
+            android:inputType="number"/>
 
         <EditText
             android:id="@+id/campoEndereco"

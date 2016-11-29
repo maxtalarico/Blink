@@ -258,7 +258,7 @@ public class GerarVenda extends Fragment {
         String part2 = parts[1];
         Log.d("R$", "createVenda: " + part2);*/
 
-        Float valorTotal = Float.parseFloat(finalValor.substring(2, finalValor.length()).replace(".", "").replace(",", "."));
+        Float valorTotal = Float.parseFloat(finalValor.substring(1, finalValor.length()).replace(".", "").replace(",", "."));
 
         Venda venda = new Venda(idAparelho, idEstabelecimentoComercial, valorTotal);
 

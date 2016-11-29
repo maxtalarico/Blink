@@ -94,8 +94,11 @@ public class CadastroCartao extends Fragment  {
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
+
+
                 switch (v.getId()) {
                     case R.id.btn_cadastrar_cartao:
+
                         EditText nome = (EditText) rootView.findViewById(R.id.txt_nome_cartao);
                         String txt_nome_cartao = nome.getText().toString();
                         EditText numero = (EditText) rootView.findViewById(R.id.txt_numero_cartao);
@@ -106,9 +109,19 @@ public class CadastroCartao extends Fragment  {
                         String txt_codigo_seguranca = codigo.getText().toString();
                         spinnerBandeiras=(Spinner) rootView.findViewById(R.id.spn_bandeira);
                         String txt_bandeira = spinnerBandeiras.getSelectedItem().toString();
-                        /*EditText proprietario = (EditText) rootView.findViewById(R.id.txt_proprietario);
+                       /* EditText proprietario = (EditText) rootView.findViewById(R.id.txt_proprietario);
                         String txt_proprietario = proprietario.getText().toString();*/
 
+
+                        if ("".equals(nome.getText().toString().trim())) {
+                            nome.setError("Campo Obrigatório");
+                        } if ("".equals(numero.getText().toString().trim())) {
+                        numero.setError("Campo obrigatório");
+                    } if ("".equals(data.getText().toString().trim())) {
+                        data.setError("Campo obrigatório");
+                    } if ("".equals(codigo.getText().toString().trim())) {
+                        codigo.setError("Campo obrigatório");
+                    }else {
                         registerAttemptWithRetrofit(txt_nome_cartao,
                                 txt_numero_cartao,
                                 txt_data_validade,
@@ -117,9 +130,35 @@ public class CadastroCartao extends Fragment  {
 
                         fragment = new Cartoes();
 
+                    }
+                        break;
+
+                    case R.id.btn_cancelar:
+                        fragment = new Cartoes();
+                        //fragment = new EstabelecimentosComerciais();
+                        break;
+
                     default:
                         break;
                 }
+
+/*
+                        registerAttemptWithRetrofit(txt_nome_cartao,
+                                txt_numero_cartao,
+                                txt_data_validade,
+                                Integer.parseInt(txt_codigo_seguranca),
+                                txt_bandeira);
+
+                        fragment = new Cartoes();
+
+                case R.id.btn_cancelar:
+                fragment = new EstabelecimentosComerciaisList();
+                //fragment = new EstabelecimentosComerciais();
+                break;
+                    default:
+                        break;
+                }
+*/
 
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, fragment)

@@ -51,7 +51,7 @@ public interface ApiInterface {
     @GET("/cartao")
     Call<Cartao[]> getCartao(@Query("proprietario") Integer id);
 
-    @DELETE("/cartao/{id}")
+    @DELETE("/cartao/{id}?populate=0")
     Call<Cartao> deleteCartao(@Path("id") Integer id);
 
     @POST("/contabancaria")
