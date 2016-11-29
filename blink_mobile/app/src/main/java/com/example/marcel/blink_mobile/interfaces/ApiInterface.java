@@ -13,6 +13,7 @@ import com.example.marcel.blink_mobile.models.Compras;
 import com.example.marcel.blink_mobile.models.ContaBancaria;
 import com.example.marcel.blink_mobile.models.Endereco;
 import com.example.marcel.blink_mobile.models.EstabelecimentoComercial;
+import com.example.marcel.blink_mobile.models.EstabelecimentoComercialEndereco;
 import com.example.marcel.blink_mobile.models.UserData;
 import com.example.marcel.blink_mobile.models.Usuario;
 import com.example.marcel.blink_mobile.models.Venda;
@@ -112,4 +113,7 @@ public interface ApiInterface {
 
     @GET("/compra")
     Call<Compras[]> getComprasHistoryVendedor(@Query("estabelecimento") Integer idEstabelecimento, @Query("status") String status);
+
+    @GET("/estabelecimentocomercial/{id}")
+    Call<EstabelecimentoComercialEndereco> getEstabelecimentoComercialEndereco(@Path("id") Integer id);
 }

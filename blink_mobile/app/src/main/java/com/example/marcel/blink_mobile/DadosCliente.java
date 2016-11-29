@@ -86,8 +86,6 @@ public class DadosCliente extends Fragment /*implements View.OnClickListener*/ {
 
     Activity activity;
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
