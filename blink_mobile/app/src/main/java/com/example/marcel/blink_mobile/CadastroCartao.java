@@ -6,11 +6,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.marcel.blink_mobile.interfaces.ApiInterface;
@@ -22,6 +24,7 @@ import com.example.marcel.blink_mobile.models.Usuario;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.jansenfelipe.androidmask.MaskEditTextChangedListener;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -39,12 +42,36 @@ public class CadastroCartao extends Fragment  {
 
     Activity rootActivity;
 
+    private View rootView;
+
+    EditText nome;
+    String txt_nome_cartao;
+    EditText numero;
+    String txt_numero_cartao;
+    EditText data;
+    String txt_data_validade;
+    EditText codigo;
+    String txt_codigo_seguranca;
+    EditText proprietario;
+    String txt_proprietario;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        final View view = inflater.inflate(R.layout.fragment_cadastro_cartoes, container, false);
+        rootView = inflater.inflate(R.layout.fragment_cadastro_cartoes, container, false);
 
         rootActivity = getActivity();
+
+        EditText nome = (EditText) rootView.findViewById(R.id.txt_nome_cartao);
+        String txt_nome_cartao = nome.getText().toString();
+        EditText numero = (EditText) rootView.findViewById(R.id.txt_numero_cartao);
+        String txt_numero_cartao = numero.getText().toString();
+        EditText data = (EditText) rootView.findViewById(R.id.txt_data_validade);
+        String txt_data_validade = data.getText().toString();
+        EditText codigo = (EditText) rootView.findViewById(R.id.txt_codigo_seguranca);
+        String txt_codigo_seguranca = codigo.getText().toString();
+        EditText proprietario = (EditText) rootView.findViewById(R.id.txt_proprietario);
+        String txt_proprietario = proprietario.getText().toString();
 
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
@@ -55,12 +82,23 @@ public class CadastroCartao extends Fragment  {
 
                 switch (v.getId()) {
                     case R.id.btn_cadastrar_cartao:
-                        registerAttemptWithRetrofit("Cliente Teste",
-                                                    "1111111111",
-                                                    "123456",
-                                                    "12/11/2020",
-                                                    777,
-                                                    "Master Card");
+                        EditText nome = (EditText) rootView.findViewById(R.id.txt_nome_cartao);
+                        String txt_nome_cartao = nome.getText().toString();
+                        EditText numero = (EditText) rootView.findViewById(R.id.txt_numero_cartao);
+                        String txt_numero_cartao = numero.getText().toString();
+                        EditText data = (EditText) rootView.findViewById(R.id.txt_data_validade);
+                        String txt_data_validade = data.getText().toString();
+                        EditText codigo = (EditText) rootView.findViewById(R.id.txt_codigo_seguranca);
+                        String txt_codigo_seguranca = codigo.getText().toString();
+                        EditText proprietario = (EditText) rootView.findViewById(R.id.txt_proprietario);
+                        String txt_proprietario = proprietario.getText().toString();
+
+                        registerAttemptWithRetrofit(txt_proprietario,
+                                txt_numero_cartao,
+                                "123456",
+                                txt_data_validade,
+                                Integer.parseInt(txt_codigo_seguranca),
+                                "Master Card");
 
                         fragment = new Cartoes();
 
@@ -75,11 +113,58 @@ public class CadastroCartao extends Fragment  {
             }
         };
 
-        Button button = (Button) view.findViewById(R.id.btn_cadastrar_cartao);
+        Button button = (Button) rootView.findViewById(R.id.btn_cadastrar_cartao);
         button.setOnClickListener(listener);
 
-        return view;
+        return rootView;
     }
+
+    public void fValidar(View view) {
+        EditText nome = (EditText) rootView.findViewById(R.id.txt_nome_cartao);
+        String txt_nome_cartao = nome.getText().toString();
+        EditText numero = (EditText) rootView.findViewById(R.id.txt_numero_cartao);
+        String txt_numero_cartao = numero.getText().toString();
+        EditText data = (EditText) rootView.findViewById(R.id.txt_data_validade);
+        String txt_data_validade = data.getText().toString();
+        EditText codigo = (EditText) rootView.findViewById(R.id.txt_codigo_seguranca);
+        String txt_codigo_seguranca = codigo.getText().toString();
+        EditText proprietario = (EditText) rootView.findViewById(R.id.txt_proprietario);
+        String txt_proprietario = proprietario.getText().toString();
+
+
+        switch (view.getId()) {
+            case R.id.btn_gerar:
+                if (txt_nome_cartao == null || txt_nome_cartao.equals("")) {
+                    nome.setError("Campo Obrigatório");
+                } if (txt_numero_cartao == null || txt_numero_cartao.equals("")) {
+                    numero.setError("Campo obrigatório");
+                 }if (txt_data_validade == null || txt_data_validade.equals("")) {
+                    data.setError("Campo obrigatório");
+            }if (txt_codigo_seguranca == null || txt_codigo_seguranca.equals("")) {
+                codigo.setError("Campo obrigatório");
+            }if (txt_proprietario == null || txt_proprietario.equals("")) {
+                 proprietario.setError("Campo obrigatório");
+            }
+                break;
+
+        }
+
+        EditText numeroCartao = (EditText) view.findViewById(R.id.txt_numero_cartao);
+        MaskEditTextChangedListener maskNum = new MaskEditTextChangedListener("#### #### #### ####", numeroCartao);
+        EditText dataV = (EditText) view.findViewById(R.id.txt_data_validade);
+        MaskEditTextChangedListener maskdataV = new MaskEditTextChangedListener("##/##/####", dataV);
+        EditText codigoS = (EditText) view.findViewById(R.id.txt_codigo_seguranca);
+        MaskEditTextChangedListener maskCod = new MaskEditTextChangedListener("###", codigoS);
+
+        numeroCartao.addTextChangedListener((TextWatcher) maskNum);
+        dataV.addTextChangedListener((TextWatcher) maskdataV);
+        codigoS.addTextChangedListener((TextWatcher) maskCod);
+
+    }
+
+
+
+
 
     private ApiInterface getInterfaceService() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
@@ -109,12 +194,12 @@ public class CadastroCartao extends Fragment  {
                                               int codigoSeguranca,
                                               String bandeira){
 
-        nome = "Cliente Teste";
+        /*nome = "Cliente Teste";
         numero = "1111112332";
         senha = "123456";
         dataVencimento = "11/2020";
         codigoSeguranca = 777;
-        bandeira = "Master Card";
+        bandeira = "Master Card";*/
 
         //Log.d("IDs", "registerAttemptWithRetrofit: estado: " + Integer.toString(estado) + " | cidade: " + Integer.toString(cidade));
 
