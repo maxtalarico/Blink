@@ -11,8 +11,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.marcel.blink_mobile.interfaces.ApiInterface;
@@ -21,6 +23,12 @@ import com.example.marcel.blink_mobile.models.Cliente;
 import com.example.marcel.blink_mobile.models.UserData;
 import com.example.marcel.blink_mobile.models.Usuario;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,8 +60,9 @@ public class CadastroCartao extends Fragment  {
     String txt_data_validade;
     EditText codigo;
     String txt_codigo_seguranca;
-    EditText proprietario;
-    String txt_proprietario;
+    /*EditText proprietario;
+    String txt_proprietario;*/
+    Spinner spinnerBandeiras;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -70,8 +79,13 @@ public class CadastroCartao extends Fragment  {
         String txt_data_validade = data.getText().toString();
         EditText codigo = (EditText) rootView.findViewById(R.id.txt_codigo_seguranca);
         String txt_codigo_seguranca = codigo.getText().toString();
-        EditText proprietario = (EditText) rootView.findViewById(R.id.txt_proprietario);
-        String txt_proprietario = proprietario.getText().toString();
+        /*EditText proprietario = (EditText) rootView.findViewById(R.id.txt_proprietario);
+        String txt_proprietario = proprietario.getText().toString();*/
+
+        ArrayList<String> bandeiras = getBandeiras("bandeiras.json");
+        spinnerBandeiras=(Spinner) rootView.findViewById(R.id.spn_bandeira);
+        ArrayAdapter<String> adapter3 = new ArrayAdapter<String>(rootView.getContext(), R.layout.spinner_layout, R.id.textView, bandeiras);
+        spinnerBandeiras.setAdapter(adapter3);
 
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
@@ -90,15 +104,16 @@ public class CadastroCartao extends Fragment  {
                         String txt_data_validade = data.getText().toString();
                         EditText codigo = (EditText) rootView.findViewById(R.id.txt_codigo_seguranca);
                         String txt_codigo_seguranca = codigo.getText().toString();
-                        EditText proprietario = (EditText) rootView.findViewById(R.id.txt_proprietario);
-                        String txt_proprietario = proprietario.getText().toString();
+                        spinnerBandeiras=(Spinner) rootView.findViewById(R.id.spn_bandeira);
+                        String txt_bandeira = spinnerBandeiras.getSelectedItem().toString();
+                        /*EditText proprietario = (EditText) rootView.findViewById(R.id.txt_proprietario);
+                        String txt_proprietario = proprietario.getText().toString();*/
 
-                        registerAttemptWithRetrofit(txt_proprietario,
+                        registerAttemptWithRetrofit(txt_nome_cartao,
                                 txt_numero_cartao,
-                                "123456",
                                 txt_data_validade,
                                 Integer.parseInt(txt_codigo_seguranca),
-                                "Master Card");
+                                txt_bandeira);
 
                         fragment = new Cartoes();
 
@@ -128,8 +143,8 @@ public class CadastroCartao extends Fragment  {
         String txt_data_validade = data.getText().toString();
         EditText codigo = (EditText) rootView.findViewById(R.id.txt_codigo_seguranca);
         String txt_codigo_seguranca = codigo.getText().toString();
-        EditText proprietario = (EditText) rootView.findViewById(R.id.txt_proprietario);
-        String txt_proprietario = proprietario.getText().toString();
+        /*EditText proprietario = (EditText) rootView.findViewById(R.id.txt_proprietario);
+        String txt_proprietario = proprietario.getText().toString();*/
 
 
         switch (view.getId()) {
@@ -142,8 +157,8 @@ public class CadastroCartao extends Fragment  {
                     data.setError("Campo obrigatório");
             }if (txt_codigo_seguranca == null || txt_codigo_seguranca.equals("")) {
                 codigo.setError("Campo obrigatório");
-            }if (txt_proprietario == null || txt_proprietario.equals("")) {
-                 proprietario.setError("Campo obrigatório");
+            /*}if (txt_proprietario == null || txt_proprietario.equals("")) {
+                 proprietario.setError("Campo obrigatório");*/
             }
                 break;
 
@@ -152,7 +167,7 @@ public class CadastroCartao extends Fragment  {
         EditText numeroCartao = (EditText) view.findViewById(R.id.txt_numero_cartao);
         MaskEditTextChangedListener maskNum = new MaskEditTextChangedListener("#### #### #### ####", numeroCartao);
         EditText dataV = (EditText) view.findViewById(R.id.txt_data_validade);
-        MaskEditTextChangedListener maskdataV = new MaskEditTextChangedListener("##/##/####", dataV);
+        MaskEditTextChangedListener maskdataV = new MaskEditTextChangedListener("##/##", dataV);
         EditText codigoS = (EditText) view.findViewById(R.id.txt_codigo_seguranca);
         MaskEditTextChangedListener maskCod = new MaskEditTextChangedListener("###", codigoS);
 
@@ -189,7 +204,6 @@ public class CadastroCartao extends Fragment  {
 
     private void registerAttemptWithRetrofit( String nome,
                                               String numero,
-                                              String senha,
                                               String dataVencimento,
                                               int codigoSeguranca,
                                               String bandeira){
@@ -251,5 +265,31 @@ public class CadastroCartao extends Fragment  {
                 Toast.makeText(activity, "Não foi possível encontrar conexão com a internet", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    public ArrayList<String> getBandeiras(String jsonFile) {
+        JSONArray jsonBandeiras = null;
+        ArrayList<String> bandeiraList = new ArrayList<String>();
+        try{
+            InputStream is = getResources().getAssets().open(jsonFile);
+            int size=is.available();
+            byte[] data=new byte[size];
+            is.read(data);
+            is.close();
+            String json = new String(data, "UTF-8");
+
+            JSONObject object = new JSONObject(json);
+            jsonBandeiras  = object.getJSONArray("bandeiras");
+
+            for (int i = 0; i < jsonBandeiras.length(); i++)
+            {
+                bandeiraList.add(jsonBandeiras.getString(i));
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }catch (JSONException je){
+            je.printStackTrace();
+        }
+        return bandeiraList;
     }
 }
